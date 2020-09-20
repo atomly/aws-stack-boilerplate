@@ -1,0 +1,59 @@
+{
+  "name": "atomly",
+  "version": "1.0.0",
+  "description": "SurveyShark API.",
+  "homepage": "https://github.com/atomly/surveyshark/tree/master",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atomly/surveyshark.git"
+  },
+  "license": "ISC",
+  "author": "Robert Molina <rmolinamir@gmail.com>",
+  "main": "index.js",
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "scripts": {
+    "bootstrap": "npm run bootstrap:hoist",
+    "bootstrap:local": "lerna bootstrap --ignore-scripts --force-local",
+    "bootstrap:hoist": "lerna bootstrap --ignore-scripts --hoist",
+    "build": "lerna run build",
+    "clean": "npm run clean-deps && npm run clean-dist",
+    "clean-deps": "rm -fr node_modules && rm -fr packages/*/node_modules && rm -f package-lock.json && rm -fr */**/package-lock.json && rm -f package-lock.json && rm -fr */**/package-lock.json",
+    "clean-dist": "rm -fr packages/*/*.tsbuildinfo && rm -fr packages/*/dist",
+    "clean-tmp": "rm -fr tmp && rm -fr */**/tmp",
+    "clean-logs": "rm -f *.log && rm -fr */**/*.log",
+    "clean-output": "rm -fr output && rm -fr */**/output",
+    "commit": "npx git-cz",
+    "test": "lerna run test",
+    "readme": "ts-node ./utils/table-of-contents/index.ts",
+    "watch": "lerna run watch --parallel",
+    "update:package": "npx lerna-update-wizard",
+    "start": "docker-compose -f ./setup/docker-compose.yml --env-file ./setup/.env up -d",
+    "start:attached": "docker-compose -f ./setup/docker-compose.yml --env-file ./setup/.env up",
+    "stop": "docker-compose -f ./setup/docker-compose.yml --env-file ./setup/.env down"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "@types/shelljs": "^0.8.7",
+    "cz-conventional-changelog": "^3.1.0",
+    "doctoc": "^1.4.0",
+    "husky": "^4.2.3",
+    "lerna": "^3.20.2",
+    "shelljs": "^0.8.3"
+  },
+  "huskys": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/atomly/atomly/issues"
+  }
+}
