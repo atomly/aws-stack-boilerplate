@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 // import { Users, Members, Profiles, transaction } from '@atomly/atomly-entities';
 
 // Types
-import { IUsersResolverMap } from './types';
+import { IUsersResolverMap, AuthenticationProviders } from './types';
 import { IThrowError } from '../../../utils';
 
 // Utils
@@ -11,10 +11,11 @@ import {
   addUserSession,
   removeAllUserSessions,
   throwError,
-  validateNewEntities,
+  // validateNewEntities,
 } from '../../../utils';
 
 const resolvers: IUsersResolverMap = {
+  AuthenticationProviders,
   Query: {
     async user(_, { input }, { database }): Promise<Users | undefined> {
       const user = await database.connection.getRepository(Users).findOne({

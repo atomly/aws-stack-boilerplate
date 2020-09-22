@@ -6,9 +6,9 @@ import path from 'path';
 // Dependencies
 import { objectTypesDefinitions } from './definitions';
 
-const OUTPUT_LOCATION = path.resolve(__dirname, '..', 'schema.graphql');
+const GRAPHQL_SCHEMA_OUTPUT_LOCATION = path.resolve(__dirname, '..', 'schema.graphql');
 
 (async function(): Promise<void> {
-  unlinkSync(OUTPUT_LOCATION);
-  writeFileSync(OUTPUT_LOCATION, objectTypesDefinitions, { flag : 'w' });
+  unlinkSync(GRAPHQL_SCHEMA_OUTPUT_LOCATION);
+  writeFileSync(GRAPHQL_SCHEMA_OUTPUT_LOCATION, objectTypesDefinitions, { flag : 'w' });
 })();

@@ -16,8 +16,8 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "graphql-codegen": "graphql-codegen --config codegen.yml",
-    "graphql-schema": "ts-node ./src/schema/generateSchema.ts",
+    "graphql:codegen": "npm run graphql:schema && graphql-codegen --config codegen.yml",
+    "graphql:schema": "ts-node --transpile-only ./src/schema/generateSchema.ts",
     "start": "ts-node-dev --respawn ./src/index.ts",
     "start:prod": "ts-node --files ./src/prod.ts",
     "test": "npx jest --runInBand",
@@ -25,6 +25,7 @@
     "watch": "tsc -b -w"
   },
   "dependencies": {
+    "@atomly/surveyshark-collections-sdk": "^1.0.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "connect-redis": "^5.0.0",

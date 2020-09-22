@@ -27,7 +27,7 @@ export interface ISubscriptionResolvers {
   }
 }
 
-export interface IResolvers extends Record<string, IBasicResolvers | ISubscriptionResolvers | undefined> {
+export interface IResolvers {
   Query?: IBasicResolvers
   Mutation?: IBasicResolvers
   Subscription?: ISubscriptionResolvers

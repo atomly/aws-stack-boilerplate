@@ -11,6 +11,11 @@ import {
   IResolvers,
 } from '../../../types';
 
+// Enums
+export enum AuthenticationProviders {
+  GOOGLE = 'google-auth',
+}
+
 // User resolvers
 type TQueryUser = Resolver<null, GQL.QueryUserArgs, Promise<Users | undefined>>
 type TQueryUsers = Resolver<null, null, Promise<Users[]>>
@@ -21,6 +26,7 @@ type TMutationAuthenticate = Resolver<null, GQL.MutationAuthenticateArgs, Promis
 type TMutationLogout = Resolver<null, null, Promise<boolean | IThrowError>>
 
 export interface IUsersResolverMap extends IResolvers {
+  AuthenticationProviders: typeof AuthenticationProviders,
   Query: {
     user: TQueryUser
     users: TQueryUsers

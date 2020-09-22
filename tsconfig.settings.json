@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./packages",
+    "baseUrl": "./node_modules",
     "composite": true,
     "target": "ES2019",
     "module": "commonjs",

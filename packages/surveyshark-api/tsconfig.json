@@ -3,12 +3,14 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "baseUrl": "./",
     "skipLibCheck": true
   },
   "include": ["src"],
   "exclude": [
     "node_modules",
     "dist",
+  ],
+  "references": [
+    { "path": "../surveyshark-collections-sdk" }
   ]
 }
