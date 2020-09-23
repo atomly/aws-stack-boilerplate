@@ -35,16 +35,16 @@ input ProviderAuthenticationInput {
 # union AuthInput = DefaultAuthenticationInput | ProviderAuthenticationInput
 
 type Query {
-  # users: [User]
   user(input: FindUserInput!): User
+  # users: [User]
   me: User
   # defaultAuthentication(input: DefaultAuthenticationInput!): User
   providerAuthentication(input: ProviderAuthenticationInput!): User
+  deauthentication: Boolean!
 }
 
 type Mutation {
   # defaultAuthentication(input: DefaultAuthenticationInput!): User
   providerAuthentication(input: ProviderAuthenticationInput!): User
-  deauthentication: Boolean!
 }
 `;

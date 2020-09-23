@@ -1,9 +1,11 @@
 import { SurveyTypes } from '../../types';
-import { BaseDocument } from '../base';
-import { SurveyDocument } from '../surveys';
+import { Base, BaseDocument } from '../base';
+import { Survey } from '../surveys';
 
-export interface ClosureDocument extends BaseDocument {
-  surveyId: SurveyDocument['id'];
+export interface Closure extends Base {
+  surveyId: Survey['uuid'];
   type: SurveyTypes.CLOSURE;
   displayText: string;
 }
+
+export type ClosureDocument = Closure & BaseDocument;

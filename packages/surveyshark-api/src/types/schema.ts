@@ -19,6 +19,7 @@ export type Query = {
   user?: Maybe<User>;
   me?: Maybe<User>;
   providerAuthentication?: Maybe<User>;
+  deauthentication: Scalars['Boolean'];
 };
 
 
@@ -71,7 +72,6 @@ export type ProviderAuthenticationInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   providerAuthentication?: Maybe<User>;
-  deauthentication: Scalars['Boolean'];
 };
 
 
@@ -159,6 +159,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   Subscription: ResolverTypeWrapper<{}>;
   User: ResolverTypeWrapper<User>;
@@ -167,13 +168,13 @@ export type ResolversTypes = {
   AuthenticationProviders: AuthenticationProviders;
   ProviderAuthenticationInput: ProviderAuthenticationInput;
   Mutation: ResolverTypeWrapper<{}>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Query: {};
   String: Scalars['String'];
+  Boolean: Scalars['Boolean'];
   Date: Scalars['Date'];
   Subscription: {};
   User: User;
@@ -181,7 +182,6 @@ export type ResolversParentTypes = {
   FindUserInput: FindUserInput;
   ProviderAuthenticationInput: ProviderAuthenticationInput;
   Mutation: {};
-  Boolean: Scalars['Boolean'];
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -190,6 +190,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'input'>>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   providerAuthentication?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryProviderAuthenticationArgs, 'input'>>;
+  deauthentication?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
 };
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
@@ -215,7 +216,6 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   providerAuthentication?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationProviderAuthenticationArgs, 'input'>>;
-  deauthentication?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {

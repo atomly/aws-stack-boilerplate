@@ -1,8 +1,9 @@
 import { Document } from 'mongoose';
 
-export interface BaseDocument extends Document {
-  _id: string;
+export interface Base {
   uuid: string;
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type BaseDocument = Base & Document;

@@ -1,11 +1,13 @@
 import { SurveyTypes, QuestionTypes } from '../../types';
-import { BaseDocument } from '../base';
-import { SurveyDocument } from '../surveys';
+import { Base, BaseDocument } from '../base';
+import { Survey } from '../surveys';
 
-export interface QuestionDocument<T = unknown> extends BaseDocument {
-  surveyId: SurveyDocument['id'];
+export interface Question<T = unknown> extends Base {
+  surveyId: Survey['uuid'];
   type: SurveyTypes.QUESTION;
   subType: QuestionTypes;
   displayText: string;
   data: T;
 }
+
+export type QuestionDocument<T = unknown> = Question<T> & BaseDocument;

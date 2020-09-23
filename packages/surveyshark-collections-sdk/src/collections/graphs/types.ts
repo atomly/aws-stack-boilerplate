@@ -1,8 +1,13 @@
-import { BaseDocument } from '../base';
-import { GraphVertexDocument } from '../graph_vertices';
-import { GraphEdgeDocument } from '../graph_edges';
+import { Base, BaseDocument } from '../base';
+import { GraphVertex, GraphVertexDocument } from '../graph_vertices';
+import { GraphEdge, GraphEdgeDocument } from '../graph_edges';
 
-export interface GraphDocument extends BaseDocument {
-  vertices: GraphVertexDocument[];
+export interface Graph<T = unknown> extends Base {
+  vertices: GraphVertex<T>[];
+  edges: GraphEdge[];
+}
+
+export interface GraphDocument<T = unknown> extends BaseDocument {
+  vertices: GraphVertexDocument<T>[];
   edges: GraphEdgeDocument[];
 }

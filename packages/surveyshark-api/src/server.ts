@@ -7,7 +7,6 @@ import session from 'express-session';
 import connectRedisStore from 'connect-redis';
 import { makeExecutableSchema, IResolvers } from 'graphql-tools';
 import { applyMiddleware } from 'graphql-middleware';
-// import { Database } from '@atomly/atomly-entities';
 
 // Types
 import { IContext } from './types';
@@ -17,22 +16,11 @@ import { middlewares } from './middlewares';
 import { resolvers, objectTypesDefinitions } from './schema';
 import { redisSessionPrefix } from './constants';
 import { redis } from './redis';
+import { dbContext } from './db';
 
 //
 // SERVER DEPENDENCIES
 //
-
-// TODO: MongoDB
-// MongoDB context & connection handler.
-const database = new Database({
-  type: process.env.DB_CONNECTION! as 'postgres',
-  host: process.env.DB_HOST!,
-  port: Number(process.env.DB_PORT!),
-  username: process.env.DB_USERNAME!,
-  password: process.env.DB_PASSWORD!,
-  database: process.env.DB_DATABASE!,
-  logging: process.env.NODE_ENV !== 'production',
-});
 
 // Redis store for user sessions.
 const RedisStore = connectRedisStore(session);
@@ -58,7 +46,7 @@ const app = express();
 export async function startServer(): Promise<void> {
   try {
     // Setting up a database connection:
-    await database.getConnection();
+    await dbContext.open();
 
     // Setting up sessions stored in Redis for user authentication on login:
     app.use(
@@ -83,18 +71,17 @@ export async function startServer(): Promise<void> {
     app.use(
       '/graphql',
       bodyParser.json(),
-      graphqlHTTP({
+      (request, response) => graphqlHTTP({
         // A GraphQLSchema instance from GraphQL.js. A schema must
         // be provided.
         schema: schemaWithMiddleware,
-        // TODO: Disable in production.
         // If true, presents GraphiQL when the GraphQL endpoint is
         // loaded in a browser. We recommend that you set graphiql
         // to true when your app is in development, because it's
         // quite useful. You may or may not want it in production.
         // Alternatively, instead of true you can pass in an options
         // object:
-        graphiql: true,
+        graphiql: true, // TODO: Disable in production.
         // During development, it's useful to get more information
         // from errors, such as stack traces. Providing a function
         // to customFormatErrorFn//enables this:
@@ -104,25 +91,26 @@ export async function startServer(): Promise<void> {
           stack: error.stack ? error.stack.split('\n') : [],
           path: error.path,
         }),
-        context(context: IContext): IContext {
-          return {
-            ...context,
-            redis,
-            // pubsub,
-            // database,
-            // loaders, // TODO: Loaders
-          }
+        context(context: Partial<IContext> = {}): IContext {
+          context.request = request;
+          context.response = response;
+          context.redis = redis;
+          context.dbContext = dbContext;
+          // TODO: pubsub,
+          // TODO: loaders,
+          return context as IContext;
         },
       }),
       // middlewares,
     );
 
-    // TODO: Disable in production.
-    app.get(
+    app.get( // TODO: Disable in production.
       '/playground',
       expressPlayground({ endpoint: '/graphql' }),
     );
   } catch (error) {
-    console.error('ERROR: ', error);
+    await dbContext.close();
+  } finally {
+    await dbContext.close();
   }
 }

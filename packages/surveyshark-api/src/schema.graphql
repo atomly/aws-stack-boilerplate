@@ -4,6 +4,7 @@ type Query {
   user(input: FindUserInput!): User
   me: User
   providerAuthentication(input: ProviderAuthenticationInput!): User
+  deauthentication: Boolean!
 }
 
 scalar Date
@@ -39,7 +40,6 @@ input ProviderAuthenticationInput {
 
 type Mutation {
   providerAuthentication(input: ProviderAuthenticationInput!): User
-  deauthentication: Boolean!
 }
 
 schema {

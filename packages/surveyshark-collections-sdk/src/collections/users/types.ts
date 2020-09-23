@@ -1,6 +1,6 @@
-import { BaseDocument } from '../base';
+import { Base, BaseDocument } from '../base';
 
-export interface UserDocument extends BaseDocument {
+export interface User extends Base {
   provider: string;
   providerId: string;
   firstName: string;
@@ -9,3 +9,5 @@ export interface UserDocument extends BaseDocument {
   email: string;
   password: string | null;
 }
+
+export type UserDocument = User & BaseDocument;

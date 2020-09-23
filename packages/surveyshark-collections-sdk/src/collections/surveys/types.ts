@@ -1,13 +1,23 @@
 import { SurveyStatuses } from '../../types';
-import { BaseDocument } from '../base';
-import { UserDocument } from '../users';
-import { GraphVertexDocument } from '../graph_vertices';
-import { GraphDocument } from '../graphs';
+import { Answer, AnswerDocument } from '../answers';
+import { Base, BaseDocument } from '../base';
+import { GraphVertex, GraphVertexDocument } from '../graph_vertices';
+import { Graph, GraphDocument } from '../graphs';
+import { Question, QuestionDocument } from '../questions';
+import { Closure, ClosureDocument } from '../closures';
+import { User, UserDocument } from '../users';
 
-export interface SurveyDocument extends BaseDocument {
+export interface Survey<T = Question, K = Closure, R = Question | Answer | Closure> extends Base {
   status: SurveyStatuses,
+  user: User;
+  graph: Graph<R>;
+  startingVertex: GraphVertex<T>;
+  closingVertex: GraphVertex<K>;
+}
+
+export interface SurveyDocument<T = QuestionDocument, K = ClosureDocument, R = QuestionDocument | AnswerDocument | ClosureDocument> extends Survey<T, K, R>, BaseDocument {
   user: UserDocument;
-  graph: GraphDocument;
-  startingVertex: GraphVertexDocument;
-  closingVertex: GraphVertexDocument;
+  graph: GraphDocument<R>;
+  startingVertex: GraphVertexDocument<T>;
+  closingVertex: GraphVertexDocument<K>;
 }
