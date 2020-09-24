@@ -1,9 +1,9 @@
 type Query {
   test: String!
   ping: String!
-  user(input: FindUserInput!): User
+  user(input: QueryUserInput!): User
   me: User
-  providerAuthentication(input: ProviderAuthenticationInput!): User
+  defaultAuthentication(input: QueryDefaultAuthenticationInput!): User
   deauthentication: Boolean!
 }
 
@@ -25,21 +25,28 @@ type User {
   email: ID!
 }
 
-input FindUserInput {
+input QueryUserInput {
   uuid: ID!
 }
 
-enum AuthenticationProviders {
-  GOOGLE
+input QueryDefaultAuthenticationInput {
+  email: String!
+  password: String!
+  firstName: String
+  lastName: String
+  displayName: String
 }
 
-input ProviderAuthenticationInput {
+input MutationDefaultAuthenticationInput {
   email: String!
-  provider: AuthenticationProviders!
+  password: String!
+  firstName: String
+  lastName: String
+  displayName: String
 }
 
 type Mutation {
-  providerAuthentication(input: ProviderAuthenticationInput!): User
+  defaultAuthentication(input: MutationDefaultAuthenticationInput!): User
 }
 
 schema {

@@ -38,7 +38,9 @@
     "express": "^4.17.1",
     "express-graphql": "^0.11.0",
     "ioredis": "^4.17.3",
-    "merge-graphql-schemas": "^1.7.6"
+    "merge-graphql-schemas": "^1.7.6",
+    "passport": "^0.4.1",
+    "passport-oauth2": "^1.5.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "1.17.8",
@@ -51,6 +53,8 @@
     "@types/ioredis": "^4.17.4",
     "@types/jest": "^26.0.13",
     "@types/jest-dev-server": "^4.2.0",
+    "@types/passport": "^1.0.4",
+    "@types/passport-oauth2": "^1.4.9",
     "@types/node": "^14.10.1",
     "@types/ws": "^7.2.6",
     "@typescript-eslint/eslint-plugin": "^4.1.0",

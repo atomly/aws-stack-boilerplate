@@ -1,5 +1,9 @@
-// Dependencies
+// NOTE: Set up the ENV configuration before importing anything.
 import { setupConfig } from './config';
+
+setupConfig();
+
+// Dependencies
 import { startServer } from './server';
 
 /**
@@ -7,6 +11,5 @@ import { startServer } from './server';
  * then starting up the server.
  */
 (async function(): Promise<void> {
-  setupConfig(setupConfig.ENodeEnvConfig.DEVELOPMENT);
   await startServer();
 })();

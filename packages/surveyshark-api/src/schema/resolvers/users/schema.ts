@@ -14,37 +14,53 @@ type User {
   # password: String
 }
 
-input FindUserInput {
+input QueryUserInput {
   uuid: ID!
 }
 
-# input DefaultAuthenticationInput {
+input QueryDefaultAuthenticationInput {
+  email: String!
+  password: String!
+  firstName: String
+  lastName: String
+  displayName: String
+}
+
+# input QueryProviderAuthenticationInput {
 #   email: String!
-#   password: String!
+#   provider: AuthenticationProviders!
 # }
 
-enum AuthenticationProviders {
-  GOOGLE
-}
-
-input ProviderAuthenticationInput {
-  email: String!
-  provider: AuthenticationProviders!
-}
-
-# union AuthInput = DefaultAuthenticationInput | ProviderAuthenticationInput
-
 type Query {
-  user(input: FindUserInput!): User
+  user(input: QueryUserInput!): User
   # users: [User]
   me: User
-  # defaultAuthentication(input: DefaultAuthenticationInput!): User
-  providerAuthentication(input: ProviderAuthenticationInput!): User
+  defaultAuthentication(input: QueryDefaultAuthenticationInput!): User
+  # providerAuthentication(input: QueryProviderAuthenticationInput!): User
   deauthentication: Boolean!
 }
 
+input MutationDefaultAuthenticationInput {
+  email: String!
+  password: String!
+  firstName: String
+  lastName: String
+  displayName: String
+}
+
+# enum AuthenticationProviders {
+#   GOOGLE
+# }
+
+# input MutationProviderAuthenticationInput {
+#   email: String!
+#   provider: AuthenticationProviders!
+# }
+
+# union AuthInput = MutationDefaultAuthenticationInput | MutationProviderAuthenticationInput
+
 type Mutation {
-  # defaultAuthentication(input: DefaultAuthenticationInput!): User
-  providerAuthentication(input: ProviderAuthenticationInput!): User
+  defaultAuthentication(input: MutationDefaultAuthenticationInput!): User
+  # providerAuthentication(input: MutationProviderAuthenticationInput!): User
 }
 `;

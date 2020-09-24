@@ -67,6 +67,7 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
     '@typescript-eslint/explicit-function-return-type': 'error',
     '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-throw-literal': 'off',
     '@typescript-eslint/no-use-before-define': 'off',

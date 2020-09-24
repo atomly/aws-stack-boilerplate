@@ -11,33 +11,17 @@ import {
   IResolvers,
 } from '../../../types';
 
-// Enums
-export enum AuthenticationProviders {
-  GOOGLE = 'google-auth',
-}
-
-type TQueryUser = Resolver<null, GQL.QueryUserArgs, Promise<User | null>>;
-// type TQueryUsers = Resolver<null, null, Promise<User[]>>;
-type TQueryMe = Resolver<null, null, Promise<User | null>>;
-// type TQueryDefaultAuthentication = Resolver<null, GQL.QueryDefaultAuthenticationArgs, Promise<User | null>>;
-type TQueryProviderAuthentication = Resolver<null, GQL.QueryProviderAuthenticationArgs, Promise<User | IThrowError>>;
-type TQueryDeauthentication = Resolver<null, null, Promise<boolean | IThrowError>>;
-
-// type TMutationDefaultAuthentication = Resolver<null, GQL.MutationDefaultAuthenticationArgs, Promise<User | IThrowError>>;
-type TMutationProviderAuthentication = Resolver<null, GQL.MutationProviderAuthenticationArgs, Promise<User | IThrowError>>;
-
 export interface IUsersResolverMap extends IResolvers {
-  AuthenticationProviders: typeof AuthenticationProviders,
   Query: {
-    user: TQueryUser;
-    // users: TQueryUsers;
-    me: TQueryMe;
-    // defaultAuthentication: TQueryDefaultAuthentication;
-    providerAuthentication: TQueryProviderAuthentication;
-    deauthentication: TQueryDeauthentication;
+    user: Resolver<null, GQL.QueryUserArgs, Promise<User | null>>;
+    // users: Resolver<null, null, Promise<User[]>>;
+    me: Resolver<null, null, Promise<User | null>>;
+    defaultAuthentication: Resolver<null, GQL.QueryDefaultAuthenticationArgs, Promise<User | IThrowError>>;
+    // providerAuthentication: Resolver<null, GQL.QueryProviderAuthenticationArgs, Promise<User | IThrowError>>;
+    deauthentication: Resolver<null, null, Promise<boolean | IThrowError>>;
   }
   Mutation: {
-    // defaultAuthentication: TMutationDefaultAuthentication;
-    providerAuthentication: TMutationProviderAuthentication;
+    defaultAuthentication: Resolver<null, GQL.MutationDefaultAuthenticationArgs, Promise<User | IThrowError>>;
+    // providerAuthentication: Resolver<null, GQL.MutationProviderAuthenticationArgs, Promise<User | IThrowError>>;
   }
 }

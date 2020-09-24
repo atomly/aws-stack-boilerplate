@@ -55,9 +55,10 @@ export class DepthLimitMiddleware implements IDepthLimitMiddleware {
   }
 
   private getQueryId(context: IContext, info: GraphQLResolveInfo): string {
-    const rawQueryId = context.connection ?
-      `${info.fieldName}_${context.connection.query}` :
-      `${info.fieldName}_${context.request.body.query}`;
+    // const rawQueryId = context.connection ?
+    //   `${info.fieldName}_${context.connection.query}` :
+    //   `${info.fieldName}_${context.request.body.query}`;
+    const rawQueryId = `${info.fieldName}_${context.request.body.query}`;
     if (process.env.NODE_ENV === 'production') {
       return DepthLimitMiddleware.hashFnv32a(
         rawQueryId,

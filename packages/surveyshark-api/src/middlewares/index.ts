@@ -5,9 +5,9 @@ import { IMiddleware } from 'graphql-middleware';
 import { depthLimits } from './depthLimits';
 
 /**
- * Add resolver middlewares here.
+ * TODO: Add authentication resolver middlewares here.
+ *
  * Example: 
- * 
  *    Mutation: {
  *        createListing: isAuthenticated,
  *        deleteListing: isAuthenticated,

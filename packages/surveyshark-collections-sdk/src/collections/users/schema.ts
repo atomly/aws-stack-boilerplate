@@ -11,23 +11,23 @@ import { UserDocument } from './types';
 export const userSchema = new BaseSchema<UserDocument>({
   provider:  {
     type: Schema.Types.String,
-    required: true,
+    // required: true,
   },
   providerId:  {
     type: Schema.Types.String,
-    required: true,
+    // required: true,
   },
   firstName:  {
     type: Schema.Types.String,
-    required: true,
+    // required: true,
   },
   lastName:  {
     type: Schema.Types.String,
-    required: true,
+    // required: true,
   },
   displayName:  {
     type: Schema.Types.String,
-    required: true,
+    // required: true,
   },
   email:  {
     type: Schema.Types.String,

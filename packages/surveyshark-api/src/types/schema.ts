@@ -18,18 +18,18 @@ export type Query = {
   ping: Scalars['String'];
   user?: Maybe<User>;
   me?: Maybe<User>;
-  providerAuthentication?: Maybe<User>;
+  defaultAuthentication?: Maybe<User>;
   deauthentication: Scalars['Boolean'];
 };
 
 
 export type QueryUserArgs = {
-  input: FindUserInput;
+  input: QueryUserInput;
 };
 
 
-export type QueryProviderAuthenticationArgs = {
-  input: ProviderAuthenticationInput;
+export type QueryDefaultAuthenticationArgs = {
+  input: QueryDefaultAuthenticationInput;
 };
 
 
@@ -56,27 +56,34 @@ export type User = {
   email: Scalars['ID'];
 };
 
-export type FindUserInput = {
+export type QueryUserInput = {
   uuid: Scalars['ID'];
 };
 
-export enum AuthenticationProviders {
-  Google = 'GOOGLE'
-}
-
-export type ProviderAuthenticationInput = {
+export type QueryDefaultAuthenticationInput = {
   email: Scalars['String'];
-  provider: AuthenticationProviders;
+  password: Scalars['String'];
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
+};
+
+export type MutationDefaultAuthenticationInput = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  providerAuthentication?: Maybe<User>;
+  defaultAuthentication?: Maybe<User>;
 };
 
 
-export type MutationProviderAuthenticationArgs = {
-  input: ProviderAuthenticationInput;
+export type MutationDefaultAuthenticationArgs = {
+  input: MutationDefaultAuthenticationInput;
 };
 
 
@@ -164,9 +171,9 @@ export type ResolversTypes = {
   Subscription: ResolverTypeWrapper<{}>;
   User: ResolverTypeWrapper<User>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
-  FindUserInput: FindUserInput;
-  AuthenticationProviders: AuthenticationProviders;
-  ProviderAuthenticationInput: ProviderAuthenticationInput;
+  QueryUserInput: QueryUserInput;
+  QueryDefaultAuthenticationInput: QueryDefaultAuthenticationInput;
+  MutationDefaultAuthenticationInput: MutationDefaultAuthenticationInput;
   Mutation: ResolverTypeWrapper<{}>;
 };
 
@@ -179,8 +186,9 @@ export type ResolversParentTypes = {
   Subscription: {};
   User: User;
   ID: Scalars['ID'];
-  FindUserInput: FindUserInput;
-  ProviderAuthenticationInput: ProviderAuthenticationInput;
+  QueryUserInput: QueryUserInput;
+  QueryDefaultAuthenticationInput: QueryDefaultAuthenticationInput;
+  MutationDefaultAuthenticationInput: MutationDefaultAuthenticationInput;
   Mutation: {};
 };
 
@@ -189,7 +197,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   ping?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'input'>>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-  providerAuthentication?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryProviderAuthenticationArgs, 'input'>>;
+  defaultAuthentication?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryDefaultAuthenticationArgs, 'input'>>;
   deauthentication?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
 };
 
@@ -215,7 +223,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  providerAuthentication?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationProviderAuthenticationArgs, 'input'>>;
+  defaultAuthentication?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationDefaultAuthenticationArgs, 'input'>>;
 };
 
 export type Resolvers<ContextType = any> = {

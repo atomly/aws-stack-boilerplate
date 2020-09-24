@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Types
-import { Request, Response } from 'express';
+import { Request, Response } from'express';
 import { Redis } from 'ioredis';
 import { SurveySharkDBContext } from '@atomly/surveyshark-collections-sdk';
 import { GraphQLResolveInfo } from 'graphql';
@@ -12,6 +12,7 @@ export interface IContext {
   response: Response;
   redis: Redis;
   dbContext: SurveySharkDBContext;
+  // connection: WebSocketConnection;
   // pubsub: PubSub;
 }
 

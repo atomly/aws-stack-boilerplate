@@ -4,6 +4,6 @@ import { Redis } from 'ioredis';
 // Dependencies
 import { userSessionIdPrefix } from '../../constants';
 
-export async function addUserSession(redis: Redis, userId: number, sessionID: string): Promise<number> {
+export async function addUserSession(redis: Redis, userId: string, sessionID: string): Promise<number> {
   return redis.lpush(`${userSessionIdPrefix}${userId}`, sessionID);
 }

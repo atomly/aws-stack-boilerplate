@@ -1,12 +1,13 @@
 // Libraries
 import bodyParser from 'body-parser';
-import express from 'express';
+import express, { Response, Request } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import expressPlayground from 'graphql-playground-middleware-express';
 import session from 'express-session';
 import connectRedisStore from 'connect-redis';
 import { makeExecutableSchema, IResolvers } from 'graphql-tools';
 import { applyMiddleware } from 'graphql-middleware';
+import { GraphQLFormattedError } from 'graphql';
 
 // Types
 import { IContext } from './types';
@@ -17,10 +18,15 @@ import { resolvers, objectTypesDefinitions } from './schema';
 import { redisSessionPrefix } from './constants';
 import { redis } from './redis';
 import { dbContext } from './db';
+import { safeJsonParse } from './utils';
 
 //
 // SERVER DEPENDENCIES
 //
+
+const EXPRESS_APP_PORT = 4000;
+const GRAPHQL_ENDPOINT = '/graphql';
+const PLAYGROUND_ENDPOINT = '/playground';
 
 // Redis store for user sessions.
 const RedisStore = connectRedisStore(session);
@@ -67,50 +73,64 @@ export async function startServer(): Promise<void> {
       }),
     );
 
+    // middleware that only parses json and only looks at requests where the
+    // Content-Type header matches the type option.
+    app.use(bodyParser.json());
+
     // Setting up GraphQL HTTP server:
     app.use(
-      '/graphql',
-      bodyParser.json(),
-      (request, response) => graphqlHTTP({
-        // A GraphQLSchema instance from GraphQL.js. A schema must
-        // be provided.
-        schema: schemaWithMiddleware,
-        // If true, presents GraphiQL when the GraphQL endpoint is
-        // loaded in a browser. We recommend that you set graphiql
-        // to true when your app is in development, because it's
-        // quite useful. You may or may not want it in production.
-        // Alternatively, instead of true you can pass in an options
-        // object:
-        graphiql: true, // TODO: Disable in production.
-        // During development, it's useful to get more information
-        // from errors, such as stack traces. Providing a function
-        // to customFormatErrorFn//enables this:
-        customFormatErrorFn: (error) => ({
-          message: error.message,
-          locations: error.locations,
-          stack: error.stack ? error.stack.split('\n') : [],
-          path: error.path,
-        }),
-        context(context: Partial<IContext> = {}): IContext {
-          context.request = request;
-          context.response = response;
-          context.redis = redis;
-          context.dbContext = dbContext;
-          // TODO: pubsub,
-          // TODO: loaders,
-          return context as IContext;
-        },
+      GRAPHQL_ENDPOINT,
+      graphqlHTTP((request, response) => {
+        const context: IContext = {
+          request: request as Request,
+          response: response as Response,
+          redis,
+          dbContext,
+        };
+        return {
+          // A GraphQLSchema instance from GraphQL.js. A schema must
+          // be provided.
+          schema: schemaWithMiddleware,
+          // If true, presents GraphiQL when the GraphQL endpoint is
+          // loaded in a browser. We recommend that you set graphiql
+          // to true when your app is in development, because it's
+          // quite useful. You may or may not want it in production.
+          // Alternatively, instead of true you can pass in an options
+          // object:
+          graphiql: true, // TODO: Disable in production.
+          // Any JSON response will be pretty-printed.
+          pretty: true,
+          // During development, it's useful to get more information
+          // from errors, such as stack traces. Providing a function
+          // to customFormatErrorFn//enables this:
+          customFormatErrorFn: (error): GraphQLFormattedError => {
+            const errorMessage = safeJsonParse(error.message).value ?? error.message;
+            return {
+              message: errorMessage,
+              locations: error.locations,
+              stack: error.stack ? error.stack.split('\n') : [],
+              path: error.path,
+            } as GraphQLFormattedError;
+          },
+          context,
+        };
       }),
       // middlewares,
     );
 
     app.get( // TODO: Disable in production.
-      '/playground',
-      expressPlayground({ endpoint: '/graphql' }),
+      PLAYGROUND_ENDPOINT,
+      expressPlayground({ endpoint: GRAPHQL_ENDPOINT }),
+    );
+
+    app.listen(
+      EXPRESS_APP_PORT,
+      () => {
+        // eslint-disable-next-line no-console
+        console.log(`DEBUG: App listening on port 4000!`);
+      },
     );
   } catch (error) {
-    await dbContext.close();
-  } finally {
     await dbContext.close();
   }
 }
