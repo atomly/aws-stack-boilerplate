@@ -132,6 +132,7 @@ export function generateResultDocument(
 export function generateSurveyDocument(user: UserDocument): Partial<SurveyDocument> {
   return {
     user,
+    name: faker.random.words(),
     // startingVertex: GraphVertexDocument;
     // surveyStartingQuestion: GraphVertexDocument;
     // surveyClosure: GraphVertexDocument;
@@ -228,8 +229,8 @@ export async function createSimpleSurveyGraph(
   await dbContext.collections.Surveys.model.updateOne(
     { uuid: survey.uuid },
     {
-      startingVertex: firstQuestionVertex,
-      closingVertex: closureVertex!,
+      startingVertex: firstQuestionVertex as GraphVertexDocument<QuestionDocument>,
+      closingVertex: closureVertex! as GraphVertexDocument<ClosureDocument>,
     },
   );
   const updatedSurvey = await dbContext.collections.Surveys.model
@@ -252,7 +253,7 @@ export async function createSimpleSurveyGraph(
           },
           {
             path: 'edges',
-            populate: 'value',
+            populate: ['from', 'to'],
           },
         ],
       },

@@ -1,6 +1,6 @@
 /**
- * Checks if string is parsable. Returns an object with the parsed value if possible,
- * otherwise return an object containing the error.
+ * Safely parses strings that may not be parsable. Returns an object with the parsed
+ * value if possible, otherwise return an object containing the error.
  * @param str - JSON string.
  */
 export function safeJsonParse(str: string): { error: Error | null, value: unknown } {

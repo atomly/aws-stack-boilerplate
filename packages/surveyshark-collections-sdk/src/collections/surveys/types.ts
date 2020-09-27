@@ -10,6 +10,7 @@ import { User, UserDocument } from '../users';
 export interface Survey<T = Question, K = Closure, R = Question | Answer | Closure> extends Base {
   status: SurveyStatuses,
   user: User;
+  name: string;
   graph: Graph<R>;
   startingVertex: GraphVertex<T>;
   closingVertex: GraphVertex<K>;

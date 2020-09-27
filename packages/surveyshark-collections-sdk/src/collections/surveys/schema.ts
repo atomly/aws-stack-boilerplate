@@ -22,6 +22,10 @@ export const surveySchema = new BaseSchema<SurveyDocument>({
     ref: usersCollection.collectionName,
     required: true,
   },
+  name: {
+    type: Schema.Types.String,
+    required: true,
+  },
   // collaborators: [{
   //   type: Schema.Types.ObjectId,
   //   ref: usersCollection.collectionName,

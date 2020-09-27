@@ -6,6 +6,10 @@ import {
 } from './types';
 
 export enum EStatuses {
+  // CLIENT ERROR RESPONSES
+  BAD_REQUEST = 400,
+  UNATHORIZED = 401,
+  // SERVER ERROR RESPONSES
   INTERNAL_SERVER_ERROR = 500,
   NOT_IMPLEMENTED = 501,
   BAD_GATEWAY = 502,
@@ -17,6 +21,7 @@ export enum EStatuses {
   LOOP_DETECTED_WEBDAV = 508,
   NOT_EXTENDED = 510,
   NETWORK_AUTHENTICATION_REQUIRED = 511,
+  // CUSTOM ERRORS
   QUERY = 512,
   AUTHENTICATION = 513,
   LOGOUT = 514,
@@ -25,7 +30,18 @@ export enum EStatuses {
   GRAPHQL_MAX_QUERY_DEPTH_REACHED = 517,
 }
 
+/**
+ * Sourced from [MDN article 'HTTP response status codes'](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status).
+ */
 const errorsByStatus: ErrorMap = {
+  [EStatuses.BAD_REQUEST]: {
+    name: 'Bad Request',
+    description: 'The server could not understand the request due to invalid syntax.',
+  },
+  [EStatuses.UNATHORIZED]: {
+    name: 'Bad Request',
+    description: 'The client must authenticate itself to get the requested response. Although the HTTP standard specifies "unauthorized", semantically this response means "unauthenticated".',
+  },
   500: {
     name: 'Internal Server Error',
     description: 'The server has encountered a situation it doesn\'t know how to handle.',
@@ -120,7 +136,6 @@ export function throwError({
       message: shouldDisplayMessageInProduction ? message : undefined,
       details,
       cause,
-      // eslint-disable-next-line @typescript-eslint/camelcase
       downtime_end_date: downtimeEndDate,
     },
   };

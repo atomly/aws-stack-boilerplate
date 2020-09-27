@@ -1,7 +1,7 @@
 import { DepthLimitMiddleware } from './helpers';
 
 const depthLimitMiddleware = new DepthLimitMiddleware({
-  maxDepth: 4,
+  maxDepth: 5,
   hashConfig: {
     asString: true,
     maxStrLength: 100,

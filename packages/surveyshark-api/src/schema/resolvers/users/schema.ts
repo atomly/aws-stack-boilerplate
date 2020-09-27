@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 export default gql`
 type User {
   uuid: ID!
-  createdAt: Date
-  updatedAt: Date
+  createdAt: Date!
+  updatedAt: Date!
   provider: String
   providerId: String
   firstName: String
