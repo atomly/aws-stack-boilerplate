@@ -24,6 +24,13 @@ import { SimpleSurveyData } from '../types';
 //
 
 const simpleSurveyData: SimpleSurveyData = [
+  // Welcome Screen:
+  {
+    welcomeScreen: {
+      displayText: 'Welcome!',
+      value: faker.random.words(),
+    },
+  },
   // First question and its answers:
   {
     question: {
@@ -78,7 +85,8 @@ const simpleSurveyData: SimpleSurveyData = [
 const amountOfQuestions = simpleSurveyData.reduce((acc, data) => data.question ? 1 + acc : acc, 0);
 const amountOfAnswers = simpleSurveyData.reduce((acc, data) => data.answers ? data.answers!.length + acc : acc, 0);
 const amountOfClosures = simpleSurveyData.reduce((acc, data) => data.closure ? 1 + acc : acc, 0);
-const amountOfVertices = amountOfQuestions + amountOfAnswers + amountOfClosures;
+const amountOfWelcomeScreens = simpleSurveyData.reduce((acc, data) => data.welcomeScreen ? 1 + acc : acc, 0);
+const amountOfVertices = amountOfQuestions + amountOfAnswers + amountOfClosures + amountOfWelcomeScreens;
 const amountOfEdges = amountOfAnswers * 2;
 
 let user: UserDocument;
@@ -139,8 +147,10 @@ describe('survey graphs collection works correctly', () => {
       expect(amountOfQuestionDocs).toBe(amountOfQuestions);
       const amountOfAnswerDocs = await dbContext.collections.Answers.model.find({ surveyId: survey.uuid });
       expect(amountOfAnswerDocs).toHaveLength(amountOfAnswers);
-      const amountofClosures = await dbContext.collections.Closures.model.find({ surveyId: survey.uuid });
-      expect(amountofClosures).toHaveLength(amountOfClosures);
+      const amountofClosureDocs = await dbContext.collections.Closures.model.find({ surveyId: survey.uuid });
+      expect(amountofClosureDocs).toHaveLength(amountOfClosures);
+      const amountOfWelcomeScreenDocs = await dbContext.collections.WelcomeScreens.model.find({ surveyId: survey.uuid });
+      expect(amountOfWelcomeScreenDocs).toHaveLength(amountOfWelcomeScreens);
     });
 
     it('successfully created the survey vertices respective to the questions, answers, and closures', async () => {
@@ -178,6 +188,10 @@ describe('survey graphs collection works correctly', () => {
       expect(answerDocsCount).toBe(0);
       const resultsDocsCount = await dbContext.collections.Results.model.countDocuments({ surveyId: survey.uuid });
       expect(resultsDocsCount).toBe(0);
+      const closuresDocsCount = await dbContext.collections.Closures.model.countDocuments({ surveyId: survey.uuid });
+      expect(closuresDocsCount).toBe(0);
+      const welcomeScreensDocCount = await dbContext.collections.WelcomeScreens.model.countDocuments({ surveyId: survey.uuid });
+      expect(welcomeScreensDocCount).toBe(0);
     });
   
     it('should deletes all of the related graph, closure, question, and answer documents when deleting the survey (through query)', async () => {
@@ -196,6 +210,10 @@ describe('survey graphs collection works correctly', () => {
       expect(answerDocsCount).toBe(0);
       const resultsDocsCount = await dbContext.collections.Results.model.countDocuments({ surveyId: survey.uuid });
       expect(resultsDocsCount).toBe(0);
+      const closuresDocsCount = await dbContext.collections.Closures.model.countDocuments({ surveyId: survey.uuid });
+      expect(closuresDocsCount).toBe(0);
+      const welcomeScreensDocCount = await dbContext.collections.WelcomeScreens.model.countDocuments({ surveyId: survey.uuid });
+      expect(welcomeScreensDocCount).toBe(0);
     });
   });
 

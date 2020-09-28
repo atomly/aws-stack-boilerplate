@@ -42,6 +42,7 @@ export type Query = {
   readAnswers: Array<Answer>;
   readClosure?: Maybe<Closure>;
   readClosures: Array<Closure>;
+  avatar?: Maybe<Scalars['String']>;
   test: Scalars['String'];
   ping: Scalars['String'];
   readQuestion?: Maybe<Question>;
@@ -52,6 +53,8 @@ export type Query = {
   me?: Maybe<User>;
   defaultAuthentication?: Maybe<User>;
   deauthentication: Scalars['Boolean'];
+  readWelcomeScreen?: Maybe<WelcomeScreen>;
+  readWelcomeScreens: Array<WelcomeScreen>;
 };
 
 
@@ -74,6 +77,11 @@ export type QueryReadClosureArgs = {
 export type QueryReadClosuresArgs = {
   input: QueryReadClosuresInput;
   withAnswers?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type QueryAvatarArgs = {
+  borderColor?: Maybe<SurveyTypes>;
 };
 
 
@@ -108,6 +116,18 @@ export type QueryDefaultAuthenticationArgs = {
   input: QueryDefaultAuthenticationInput;
 };
 
+
+export type QueryReadWelcomeScreenArgs = {
+  input: QueryReadWelcomeScreenInput;
+  withAnswers?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type QueryReadWelcomeScreensArgs = {
+  input: QueryReadWelcomeScreensInput;
+  withAnswers?: Maybe<Scalars['Boolean']>;
+};
+
 export type MutationCreateAnswerInput = {
   surveyId: Scalars['ID'];
   parentQuestionId: Scalars['ID'];
@@ -140,6 +160,9 @@ export type Mutation = {
   updateSurvey?: Maybe<Survey>;
   deleteSurvey?: Maybe<Survey>;
   defaultAuthentication?: Maybe<User>;
+  createWelcomeScreen?: Maybe<WelcomeScreen>;
+  updateWelcomeScreen?: Maybe<WelcomeScreen>;
+  deleteWelcomeScreen?: Maybe<WelcomeScreen>;
 };
 
 
@@ -207,6 +230,21 @@ export type MutationDefaultAuthenticationArgs = {
   input: MutationDefaultAuthenticationInput;
 };
 
+
+export type MutationCreateWelcomeScreenArgs = {
+  input: MutationCreateWelcomeScreenInput;
+};
+
+
+export type MutationUpdateWelcomeScreenArgs = {
+  input: MutationUpdateWelcomeScreenInput;
+};
+
+
+export type MutationDeleteWelcomeScreenArgs = {
+  input: MutationDeleteWelcomeScreenInput;
+};
+
 export type Closure = {
   __typename?: 'Closure';
   uuid: Scalars['ID'];
@@ -251,7 +289,8 @@ export enum SurveyStatuses {
 export enum SurveyTypes {
   Question = 'QUESTION',
   Answer = 'ANSWER',
-  Closure = 'CLOSURE'
+  Closure = 'CLOSURE',
+  WelcomeScreen = 'WELCOME_SCREEN'
 }
 
 export enum QuestionTypes {
@@ -273,7 +312,7 @@ export type Question = {
   createdAt: Scalars['Date'];
   updatedAt: Scalars['Date'];
   surveyId: Scalars['ID'];
-  type: SurveyTypes;
+  type: Scalars['String'];
   subType: QuestionTypes;
   displayText: Scalars['String'];
   data?: Maybe<Scalars['JSON']>;
@@ -414,6 +453,41 @@ export type MutationDefaultAuthenticationInput = {
   displayName?: Maybe<Scalars['String']>;
 };
 
+export type WelcomeScreen = {
+  __typename?: 'WelcomeScreen';
+  uuid: Scalars['ID'];
+  createdAt: Scalars['Date'];
+  updatedAt: Scalars['Date'];
+  surveyId: Scalars['ID'];
+  type: SurveyTypes;
+  displayText: Scalars['String'];
+};
+
+export type QueryReadWelcomeScreenInput = {
+  uuid: Scalars['ID'];
+};
+
+export type QueryReadWelcomeScreensInput = {
+  surveyId: Scalars['ID'];
+};
+
+export type MutationCreateWelcomeScreenInput = {
+  surveyId: Scalars['ID'];
+  parentWelcomeScreenId: Scalars['ID'];
+  type: SurveyTypes;
+  displayText: Scalars['String'];
+};
+
+export type MutationUpdateWelcomeScreenInput = {
+  uuid: Scalars['ID'];
+  displayText: Scalars['String'];
+  data?: Maybe<Scalars['JSON']>;
+};
+
+export type MutationDeleteWelcomeScreenInput = {
+  uuid: Scalars['ID'];
+};
+
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -535,6 +609,12 @@ export type ResolversTypes = {
   QueryUserInput: QueryUserInput;
   QueryDefaultAuthenticationInput: QueryDefaultAuthenticationInput;
   MutationDefaultAuthenticationInput: MutationDefaultAuthenticationInput;
+  WelcomeScreen: ResolverTypeWrapper<WelcomeScreen>;
+  QueryReadWelcomeScreenInput: QueryReadWelcomeScreenInput;
+  QueryReadWelcomeScreensInput: QueryReadWelcomeScreensInput;
+  MutationCreateWelcomeScreenInput: MutationCreateWelcomeScreenInput;
+  MutationUpdateWelcomeScreenInput: MutationUpdateWelcomeScreenInput;
+  MutationDeleteWelcomeScreenInput: MutationDeleteWelcomeScreenInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -579,6 +659,12 @@ export type ResolversParentTypes = {
   QueryUserInput: QueryUserInput;
   QueryDefaultAuthenticationInput: QueryDefaultAuthenticationInput;
   MutationDefaultAuthenticationInput: MutationDefaultAuthenticationInput;
+  WelcomeScreen: WelcomeScreen;
+  QueryReadWelcomeScreenInput: QueryReadWelcomeScreenInput;
+  QueryReadWelcomeScreensInput: QueryReadWelcomeScreensInput;
+  MutationCreateWelcomeScreenInput: MutationCreateWelcomeScreenInput;
+  MutationUpdateWelcomeScreenInput: MutationUpdateWelcomeScreenInput;
+  MutationDeleteWelcomeScreenInput: MutationDeleteWelcomeScreenInput;
 };
 
 export type AnswerResolvers<ContextType = any, ParentType extends ResolversParentTypes['Answer'] = ResolversParentTypes['Answer']> = {
@@ -599,6 +685,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   readAnswers?: Resolver<Array<ResolversTypes['Answer']>, ParentType, ContextType, RequireFields<QueryReadAnswersArgs, 'input'>>;
   readClosure?: Resolver<Maybe<ResolversTypes['Closure']>, ParentType, ContextType, RequireFields<QueryReadClosureArgs, 'input'>>;
   readClosures?: Resolver<Array<ResolversTypes['Closure']>, ParentType, ContextType, RequireFields<QueryReadClosuresArgs, 'input'>>;
+  avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryAvatarArgs, never>>;
   test?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   ping?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   readQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<QueryReadQuestionArgs, 'input'>>;
@@ -609,6 +696,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   defaultAuthentication?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryDefaultAuthenticationArgs, 'input'>>;
   deauthentication?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  readWelcomeScreen?: Resolver<Maybe<ResolversTypes['WelcomeScreen']>, ParentType, ContextType, RequireFields<QueryReadWelcomeScreenArgs, 'input'>>;
+  readWelcomeScreens?: Resolver<Array<ResolversTypes['WelcomeScreen']>, ParentType, ContextType, RequireFields<QueryReadWelcomeScreensArgs, 'input'>>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -625,6 +714,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateSurvey?: Resolver<Maybe<ResolversTypes['Survey']>, ParentType, ContextType, RequireFields<MutationUpdateSurveyArgs, 'input'>>;
   deleteSurvey?: Resolver<Maybe<ResolversTypes['Survey']>, ParentType, ContextType, RequireFields<MutationDeleteSurveyArgs, 'input'>>;
   defaultAuthentication?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationDefaultAuthenticationArgs, 'input'>>;
+  createWelcomeScreen?: Resolver<Maybe<ResolversTypes['WelcomeScreen']>, ParentType, ContextType, RequireFields<MutationCreateWelcomeScreenArgs, 'input'>>;
+  updateWelcomeScreen?: Resolver<Maybe<ResolversTypes['WelcomeScreen']>, ParentType, ContextType, RequireFields<MutationUpdateWelcomeScreenArgs, 'input'>>;
+  deleteWelcomeScreen?: Resolver<Maybe<ResolversTypes['WelcomeScreen']>, ParentType, ContextType, RequireFields<MutationDeleteWelcomeScreenArgs, 'input'>>;
 };
 
 export type ClosureResolvers<ContextType = any, ParentType extends ResolversParentTypes['Closure'] = ResolversParentTypes['Closure']> = {
@@ -642,7 +734,7 @@ export type QuestionResolvers<ContextType = any, ParentType extends ResolversPar
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   surveyId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  type?: Resolver<ResolversTypes['SurveyTypes'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   subType?: Resolver<ResolversTypes['QuestionTypes'], ParentType, ContextType>;
   displayText?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   data?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
@@ -722,6 +814,16 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
+export type WelcomeScreenResolvers<ContextType = any, ParentType extends ResolversParentTypes['WelcomeScreen'] = ResolversParentTypes['WelcomeScreen']> = {
+  uuid?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  surveyId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['SurveyTypes'], ParentType, ContextType>;
+  displayText?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Answer?: AnswerResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
@@ -737,6 +839,7 @@ export type Resolvers<ContextType = any> = {
   GraphEdge?: GraphEdgeResolvers<ContextType>;
   Survey?: SurveyResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  WelcomeScreen?: WelcomeScreenResolvers<ContextType>;
 };
 
 

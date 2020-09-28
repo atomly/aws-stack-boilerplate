@@ -1,14 +1,19 @@
 // Libraries
-import { Answer } from '@atomly/surveyshark-collections-sdk';
+import { Answer, SurveyTypes } from '@atomly/surveyshark-collections-sdk';
 
 // Types
 import { IAnswersResolverMap } from './types';
-import { IThrowError } from '../../../utils';
+import { IThrowError, safeJsonParse } from '../../../utils';
 
 // Utils
 import { throwError } from '../../../utils';
 
 const resolvers: IAnswersResolverMap = {
+  Answer: {
+    data(parent): SurveyTypes {
+      return safeJsonParse(parent.data).value || parent.data;
+    },
+  },
   Query: {
     async readAnswer(_, { input }, { dbContext }): Promise<Answer | null> {
       const answer = await dbContext.collections.Answers.model.findOne({

@@ -8,3 +8,4 @@ export * from './questions';
 export * from './results';
 export * from './surveys';
 export * from './users';
+export * from './welcome_screens';

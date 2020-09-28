@@ -8,6 +8,7 @@ export enum SurveyTypes {
   QUESTION = 'question',
   ANSWER = 'answer',
   CLOSURE = 'closure',
+  WELCOME_SCREEN = 'welcome_screen',
 }
 
 export enum QuestionTypes {

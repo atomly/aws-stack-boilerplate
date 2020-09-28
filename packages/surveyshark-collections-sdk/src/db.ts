@@ -15,6 +15,7 @@ import {
   resultsCollection,
   surveysCollection,
   usersCollection,
+  welcomeScreensCollection,
   AnswerDocument,
   ClosureDocument,
   GraphDocument,
@@ -23,6 +24,7 @@ import {
   QuestionDocument,
   SurveyDocument,
   UserDocument,
+  WelcomeScreenDocument,
 } from './collections';
 import { sanitizeDuplicateVertices, sanitizeDuplicateEdges } from './collections/graphs/utils';
 
@@ -36,6 +38,7 @@ export const collections = {
   Results: resultsCollection,
   Surveys: surveysCollection,
   Users: usersCollection,
+  WelcomeScreens: welcomeScreensCollection,
 };
 
 export class SurveySharkDBContext<T extends typeof collections = typeof collections> extends DefaultDBContext<T> {
@@ -80,7 +83,7 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
      * Pre-save hook that creates a Graph document and relates it to the Survey document.
      */
     this.collections.Surveys.schema.pre<SurveyDocument>('save', async function(next) {
-      const graph = await new self.collections.Graphs.model().save() as GraphDocument<AnswerDocument<unknown> | ClosureDocument | QuestionDocument<unknown>>;
+      const graph = await new self.collections.Graphs.model().save() as GraphDocument<AnswerDocument<unknown> | ClosureDocument | QuestionDocument<unknown> | WelcomeScreenDocument>;
       this.graph = graph;
       next();
     });
@@ -93,6 +96,8 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
         this.collections.Graphs.model.deleteOne({ uuid: doc.graph.uuid }),
         this.collections.Questions.model.deleteMany({ surveyId: doc.uuid }),
         this.collections.Answers.model.deleteMany({ surveyId: doc.uuid }),
+        this.collections.Closures.model.deleteMany({ surveyId: doc.uuid }),
+        this.collections.WelcomeScreens.model.deleteMany({ surveyId: doc.uuid }),
         this.collections.Results.model.deleteMany({ surveyId: doc.uuid }),
       ]);
     });
@@ -108,6 +113,8 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
           self.collections.Graphs.model.deleteOne({ uuid: doc.graph.uuid }),
           self.collections.Questions.model.deleteMany({ surveyId: doc.uuid }),
           self.collections.Answers.model.deleteMany({ surveyId: doc.uuid }),
+          self.collections.Closures.model.deleteMany({ surveyId: doc.uuid }),
+          self.collections.WelcomeScreens.model.deleteMany({ surveyId: doc.uuid }),
           self.collections.Results.model.deleteMany({ surveyId: doc.uuid }),
         ]);
       }

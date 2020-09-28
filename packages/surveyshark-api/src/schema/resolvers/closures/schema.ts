@@ -6,7 +6,7 @@ type Closure {
   createdAt: Date!
   updatedAt: Date!
   surveyId: ID!
-  type: SurveyTypes!
+  type: String!
   displayText: String!
 }
 

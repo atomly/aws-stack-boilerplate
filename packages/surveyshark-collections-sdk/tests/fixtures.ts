@@ -16,6 +16,7 @@ import {
   QuestionTypes,
   SurveySharkDBContext,
   ResultDocument,
+  WelcomeScreenDocument,
 } from '../src';
 import { SimpleSurveyData } from './types';
 
@@ -42,6 +43,17 @@ export function generateClosureDocument(
   return {
     surveyId,
     type: SurveyTypes.CLOSURE,
+    displayText,
+  };
+}
+
+export function generateWelcomeScreenDocument(
+  surveyId: string = faker.random.uuid(),
+  displayText: string = faker.random.word(),
+): Partial<WelcomeScreenDocument> {
+  return {
+    surveyId,
+    type: SurveyTypes.WELCOME_SCREEN,
     displayText,
   };
 }
@@ -102,7 +114,7 @@ export function generateResultDocument(
   const data: ResultDocument['data'] = questionVertices.map(questionVertex => {
     const answerVertices = survey.graph.edges.reduce(
       (acc, edge) => {
-        if (edge.from.toString() === questionVertex._id.toString()) {
+        if (edge.from.uuid === questionVertex.uuid) {
           const answer = survey.graph.vertices.find((
             vertex => vertex._id.toString() === edge.to._id.toString()
           )) as GraphVertexDocument<AnswerDocument>;
@@ -162,15 +174,17 @@ export async function createSimpleSurveyGraph(
   survey: SurveyDocument,
   surveyData: SimpleSurveyData,
 ): Promise<SurveyDocument> {
-  let firstQuestionVertex: GraphVertexDocument | undefined;
+  let firstVertex: GraphVertexDocument | undefined;
   let closureVertex: GraphVertexDocument;
   let previousAnswersVertices: GraphVertexDocument[] = [];
   for await (const data of surveyData) {
     let currentMainVertex: GraphVertexDocument;
     let currentAnswerVertices: GraphVertexDocument[] = [];
     if (data.closure) {
-      // Creating question and the vertex of the question:
-      const closure = await new dbContext.collections.Closures.model(generateClosureDocument(survey.uuid)).save();
+      const closure = await new dbContext.collections.Closures.model(generateClosureDocument(
+        survey.uuid,
+        data.closure.displayText,
+      )).save();
       currentMainVertex = await new dbContext.collections.GraphVertices
         .model(generateGraphVertexDocument(
           survey.graph.uuid,
@@ -178,8 +192,19 @@ export async function createSimpleSurveyGraph(
         ))
         .save();
       closureVertex = currentMainVertex;
+    } else if (data.welcomeScreen) {
+      const welcomeScreen = await new dbContext.collections.WelcomeScreens.model(generateWelcomeScreenDocument(
+        survey.uuid,
+        data.welcomeScreen.displayText,
+      )).save();
+      currentMainVertex = await new dbContext.collections.GraphVertices
+        .model(generateGraphVertexDocument(
+          survey.graph.uuid,
+          welcomeScreen,
+        ))
+        .save();
+        firstVertex = currentMainVertex;
     } else {
-      // Creating question and the vertex of the question:
       const question = await new dbContext.collections.Questions.model(generateQuestionDocument(
         survey.uuid,
         data.question.displayText,
@@ -222,14 +247,14 @@ export async function createSimpleSurveyGraph(
         )));
     }
     // Saving the first question vertex:
-    if (!firstQuestionVertex) { firstQuestionVertex = currentMainVertex; }
+    if (!firstVertex) { firstVertex = currentMainVertex; }
     // Saving the current answers for the next loop:
     previousAnswersVertices = currentAnswerVertices;
   }
   await dbContext.collections.Surveys.model.updateOne(
     { uuid: survey.uuid },
     {
-      startingVertex: firstQuestionVertex as GraphVertexDocument<QuestionDocument>,
+      startingVertex: firstVertex as GraphVertexDocument<QuestionDocument>,
       closingVertex: closureVertex! as GraphVertexDocument<ClosureDocument>,
     },
   );

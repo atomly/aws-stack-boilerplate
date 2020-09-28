@@ -6,7 +6,7 @@
   "author": "Robert Molina <rmolinamir@gmail.com>",
   "homepage": "https://github.com/atomly/surveyshark#readme",
   "license": "ISC",
-  "main": "dist/index",
+  "main": "dist/src/index",
   "files": [
     "src"
   ],

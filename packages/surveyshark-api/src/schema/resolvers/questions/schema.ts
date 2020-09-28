@@ -6,8 +6,8 @@ type Question {
   createdAt: Date!
   updatedAt: Date!
   surveyId: ID!
-  type: SurveyTypes!
-  subType: QuestionTypes!
+  type: String!
+  subType: String!
   displayText: String!
   data: JSON
   answers: [Answer!]

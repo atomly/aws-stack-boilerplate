@@ -9,6 +9,7 @@ import queryResolvers, { IQueryResolverMap } from './query';
 import questionsResolvers, { IQuestionsResolverMap } from './questions';
 import surveyResolvers, { ISurveysResolverMap } from './survey';
 import usersResolvers, { IUsersResolverMap } from './users';
+import welcomeScreensResolvers, { IWelcomeScreensResolverMap } from './welcome_screens';
 
 export type IResolverMap = (
   IAnswersResolverMap &
@@ -17,7 +18,8 @@ export type IResolverMap = (
   IQueryResolverMap &
   IQuestionsResolverMap &
   ISurveysResolverMap &
-  IUsersResolverMap
+  IUsersResolverMap &
+  IWelcomeScreensResolverMap
 );
 
 export const resolvers: IResolverMap = composeResolvers<IResolverMap>(
@@ -28,4 +30,5 @@ export const resolvers: IResolverMap = composeResolvers<IResolverMap>(
   questionsResolvers,
   surveyResolvers,
   usersResolvers,
+  welcomeScreensResolvers,
 );

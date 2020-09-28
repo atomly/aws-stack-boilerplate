@@ -11,6 +11,7 @@ enum SurveyTypes {
   QUESTION
   ANSWER
   CLOSURE
+  WELCOME_SCREEN
 }
 
 enum QuestionTypes {

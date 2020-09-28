@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./node_modules",
+    "baseUrl": "./packages",
     "composite": true,
     "target": "ES2019",
     "module": "commonjs",
@@ -9,9 +9,7 @@
       "es6"
     ],
     "paths": {
-      "@atomly/*": [
-        "*/src"
-      ]
+      "@atomly/*": ["./*/src"]
     },
     "typeRoots": [
       "./node_modules/@types"

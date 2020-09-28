@@ -24,6 +24,7 @@ type Query {
   readAnswers(input: QueryReadAnswersInput!): [Answer!]!
   readClosure(input: QueryReadClosureInput!, withAnswers: Boolean): Closure
   readClosures(input: QueryReadClosuresInput!, withAnswers: Boolean): [Closure!]!
+  avatar(borderColor: SurveyTypes): String
   test: String!
   ping: String!
   readQuestion(input: QueryReadQuestionInput!, withAnswers: Boolean): Question
@@ -34,6 +35,8 @@ type Query {
   me: User
   defaultAuthentication(input: QueryDefaultAuthenticationInput!): User
   deauthentication: Boolean!
+  readWelcomeScreen(input: QueryReadWelcomeScreenInput!, withAnswers: Boolean): WelcomeScreen
+  readWelcomeScreens(input: QueryReadWelcomeScreensInput!, withAnswers: Boolean): [WelcomeScreen!]!
 }
 
 input MutationCreateAnswerInput {
@@ -67,6 +70,9 @@ type Mutation {
   updateSurvey(input: MutationUpdateSurveyInput!): Survey
   deleteSurvey(input: MutationDeleteSurveyInput!): Survey
   defaultAuthentication(input: MutationDefaultAuthenticationInput!): User
+  createWelcomeScreen(input: MutationCreateWelcomeScreenInput!): WelcomeScreen
+  updateWelcomeScreen(input: MutationUpdateWelcomeScreenInput!): WelcomeScreen
+  deleteWelcomeScreen(input: MutationDeleteWelcomeScreenInput!): WelcomeScreen
 }
 
 type Closure {
@@ -113,6 +119,7 @@ enum SurveyTypes {
   QUESTION
   ANSWER
   CLOSURE
+  WELCOME_SCREEN
 }
 
 enum QuestionTypes {
@@ -133,7 +140,7 @@ type Question {
   createdAt: Date!
   updatedAt: Date!
   surveyId: ID!
-  type: SurveyTypes!
+  type: String!
   subType: QuestionTypes!
   displayText: String!
   data: JSON
@@ -263,6 +270,40 @@ input MutationDefaultAuthenticationInput {
   firstName: String
   lastName: String
   displayName: String
+}
+
+type WelcomeScreen {
+  uuid: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  surveyId: ID!
+  type: SurveyTypes!
+  displayText: String!
+}
+
+input QueryReadWelcomeScreenInput {
+  uuid: ID!
+}
+
+input QueryReadWelcomeScreensInput {
+  surveyId: ID!
+}
+
+input MutationCreateWelcomeScreenInput {
+  surveyId: ID!
+  parentWelcomeScreenId: ID!
+  type: SurveyTypes!
+  displayText: String!
+}
+
+input MutationUpdateWelcomeScreenInput {
+  uuid: ID!
+  displayText: String!
+  data: JSON
+}
+
+input MutationDeleteWelcomeScreenInput {
+  uuid: ID!
 }
 
 schema {

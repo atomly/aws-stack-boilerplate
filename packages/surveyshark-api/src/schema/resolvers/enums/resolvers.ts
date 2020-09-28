@@ -5,11 +5,7 @@ import { SurveyStatuses, SurveyTypes, QuestionTypes } from '@atomly/surveyshark-
 import { IEnumsResolverMap } from './types';
 
 const resolvers: IEnumsResolverMap = {
-  SurveyStatuses: {
-    UNPUBLISHED: SurveyStatuses.UNPUBLISHED,
-    PUBLISHED: SurveyStatuses.PUBLISHED,
-    MAINTENANCE: SurveyStatuses.MAINTENANCE,
-  },
+  SurveyStatuses: SurveyStatuses,
   SurveyTypes: SurveyTypes,
   QuestionTypes: QuestionTypes,
 }
