@@ -42,7 +42,7 @@ describe('answers collection works correctly', () => {
     expect(answer.type).toBe(doc.type);
     expect(answer.subType).toBe(doc.subType);
     expect(answer.parentQuestionId).toBe(doc.parentQuestionId);
-    expect(answer.displayText).toBe(doc.displayText);
+    expect(answer.name).toBe(doc.name);
     expect(answer.data).toBe(doc.data);
   });
 
@@ -56,16 +56,16 @@ describe('answers collection works correctly', () => {
 
   it('updating an answer also updates the reference attached to a vertex', async () => {
     const newDisplayText = faker.random.words();
-    await dbContext.collections.Answers.model.updateOne(
+    await dbContext.collections.Answers.model.findOneAndUpdate(
       { uuid: answer.uuid },
-      { displayText: newDisplayText },
+      { name: newDisplayText },
     );
     const updatedQuestion = await dbContext
       .collections
       .Answers
       .model.findOne({ uuid: answer.uuid }).lean() as AnswerDocument<string>;
-    expect(updatedQuestion!.displayText).not.toBe(answer.displayText);
-    expect(updatedQuestion!.displayText).toBe(newDisplayText);
+    expect(updatedQuestion!.name).not.toBe(answer.name);
+    expect(updatedQuestion!.name).toBe(newDisplayText);
     const updatedVertex = await dbContext
       .collections
       .GraphVertices

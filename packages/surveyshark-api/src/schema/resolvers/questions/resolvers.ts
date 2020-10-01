@@ -1,5 +1,5 @@
 // Libraries
-import { Question, SurveyTypes } from '@atomly/surveyshark-collections-sdk';
+import { Question, SurveyTypes, QuestionTypes, GraphVertexDocument } from '@atomly/surveyshark-collections-sdk';
 
 // Types
 import { IQuestionsResolverMap } from './types';
@@ -72,11 +72,55 @@ const resolvers: IQuestionsResolverMap = {
     },
     async updateQuestion(_, { input }, { dbContext }): Promise<Question | null | IThrowError> {
       try {
-        // const changes: Partial<Omit<GQL.MutationUpdateQuestionInput, 'uuid'>> = {};
-        const question = await dbContext.collections.Questions.model.updateOne(
-          { uuid: input.uuid },
-          input,
-        ).lean() as Question | null;
+        let question: Question | null = null;
+        const session = await dbContext.connection.startSession();
+        /**
+         * When the subtype of the question changes, also update its answers.
+         * If the subtype changes from SINGLE_CHOICE to MULTI_CHOICES, simply update the
+         * answers subtype and reset the `data` object.
+         * Otherwise, delete the answers, their graph vertices, and edges, essentially resetting the question.
+         */
+        await session.withTransaction(async () => {
+          question = await dbContext.collections.Questions.model.findOneAndUpdate(
+            { uuid: input.uuid },
+            input as Partial<Question>,
+            { new: true },
+          ).lean() as Question | null;
+          if (question && input.subType) {
+            const subType = input.subType as unknown as QuestionTypes;
+            switch(subType) {
+              case QuestionTypes.SINGLE_CHOICE:
+              case QuestionTypes.MULTI_CHOICES:
+                await dbContext.collections.Answers.model.updateMany(
+                  { parentQuestionId: question.uuid },
+                  { subType, data: {} },
+                );
+                break;
+              default: {
+                const questionGraphVertex = await dbContext.collections.GraphVertices.model.findOne({ key: question.uuid }).lean<GraphVertexDocument>();
+                if (questionGraphVertex) {
+                  const graphEdgesQuery = {
+                    from: questionGraphVertex,
+                  };
+                  const graphEdges = await dbContext.collections.GraphEdges.model.find(graphEdgesQuery);
+                  await Promise.all([
+                    dbContext.collections.GraphEdges.model.deleteMany(graphEdgesQuery),
+                    dbContext.collections.GraphVertices.model.deleteMany({
+                      _id: graphEdges.map(graphEdge => graphEdge.to),
+                    }),
+                    dbContext.collections.Answers.model.deleteMany({
+                      surveyId: question.surveyId,
+                      parentQuestionId: question.uuid,
+                    }),
+                  ]);
+                }
+                break;
+              }
+            }
+          }
+        });
+        await session.commitTransaction();
+        session.endSession();
         return question;
       } catch (err) {
         return throwError({
@@ -88,8 +132,16 @@ const resolvers: IQuestionsResolverMap = {
     },
     async deleteQuestion(_, { input }, { dbContext }): Promise<Question | null | IThrowError> {
       try {
-        // const changes: Partial<Omit<GQL.MutationUpdateQuestionInput, 'uuid'>> = {};
-        const question = await dbContext.collections.Questions.model.deleteOne({ uuid: input.uuid }).lean() as Question | null;
+        let question: Question | null = null;
+        const session = await dbContext.connection.startSession();
+        await session.withTransaction(async () => {
+          question = await dbContext.collections.Questions.model.findOneAndDelete({ uuid: input.uuid }).lean<Question>();
+          if (question) {
+            await dbContext.collections.GraphVertices.model.deleteOne({ key: question.uuid });
+          }
+        });
+        await session.commitTransaction();
+        session.endSession();
         return question;
       } catch (err) {
         return throwError({

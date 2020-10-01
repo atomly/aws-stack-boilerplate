@@ -87,6 +87,7 @@ const resolvers: ISurveysResolverMap = {
         const graph = await new dbContext.collections.Graphs.model().save();
         const survey = await new dbContext.collections.Surveys.model({
           name: input.name,
+          description: input.description,
           user,
           graph,
         }).save();
@@ -102,10 +103,10 @@ const resolvers: ISurveysResolverMap = {
     },
     async updateSurvey(_, { input }, { dbContext }): Promise<Survey | null | IThrowError> {
       try {
-        // const changes: Partial<Omit<GQL.MutationUpdateSurveyInput, 'uuid'>> = {};
-        const survey = await dbContext.collections.Surveys.model.updateOne(
+        const survey = await dbContext.collections.Surveys.model.findOneAndUpdate(
           { uuid: input.uuid },
           input as Partial<SurveyDocument>,
+          { new: true },
         ).lean() as Survey | null;
         return survey;
       } catch (err) {
@@ -118,8 +119,7 @@ const resolvers: ISurveysResolverMap = {
     },
     async deleteSurvey(_, { input }, { dbContext }): Promise<Survey | null | IThrowError> {
       try {
-        // const changes: Partial<Omit<GQL.MutationUpdateSurveyInput, 'uuid'>> = {};
-        const survey = await dbContext.collections.Surveys.model.deleteOne({ uuid: input.uuid }).lean() as Survey | null;
+        const survey = await dbContext.collections.Surveys.model.findOneAndDelete({ uuid: input.uuid });
         return survey;
       } catch (err) {
         return throwError({

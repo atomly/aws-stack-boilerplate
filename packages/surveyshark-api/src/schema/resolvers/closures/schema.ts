@@ -7,7 +7,8 @@ type Closure {
   updatedAt: Date!
   surveyId: ID!
   type: String!
-  displayText: String!
+  name: String!
+  description: String
 }
 
 input QueryReadClosureInput {
@@ -27,12 +28,14 @@ input MutationCreateClosureInput {
   surveyId: ID!
   parentClosureId: ID!
   type: SurveyTypes!
-  displayText: String!
+  name: String!
+  description: String
 }
 
 input MutationUpdateClosureInput {
   uuid: ID!
-  displayText: String!
+  name: String
+  description: String
   data: JSON
 }
 

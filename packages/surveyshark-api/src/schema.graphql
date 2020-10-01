@@ -4,9 +4,9 @@ type Answer {
   updatedAt: Date!
   surveyId: ID!
   parentQuestionId: ID!
-  type: SurveyTypes!
-  subType: QuestionTypes!
-  displayText: String!
+  type: String!
+  subType: String!
+  name: String!
   data: JSON
 }
 
@@ -24,7 +24,6 @@ type Query {
   readAnswers(input: QueryReadAnswersInput!): [Answer!]!
   readClosure(input: QueryReadClosureInput!, withAnswers: Boolean): Closure
   readClosures(input: QueryReadClosuresInput!, withAnswers: Boolean): [Closure!]!
-  avatar(borderColor: SurveyTypes): String
   test: String!
   ping: String!
   readQuestion(input: QueryReadQuestionInput!, withAnswers: Boolean): Question
@@ -42,13 +41,14 @@ type Query {
 input MutationCreateAnswerInput {
   surveyId: ID!
   parentQuestionId: ID!
-  displayText: String!
+  name: String!
+  subType: QuestionTypes!
   data: JSON
 }
 
 input MutationUpdateAnswerInput {
   uuid: ID!
-  displayText: String!
+  name: String
   data: JSON
 }
 
@@ -80,8 +80,9 @@ type Closure {
   createdAt: Date!
   updatedAt: Date!
   surveyId: ID!
-  type: SurveyTypes!
-  displayText: String!
+  type: String!
+  name: String!
+  description: String
 }
 
 input QueryReadClosureInput {
@@ -96,12 +97,14 @@ input MutationCreateClosureInput {
   surveyId: ID!
   parentClosureId: ID!
   type: SurveyTypes!
-  displayText: String!
+  name: String!
+  description: String
 }
 
 input MutationUpdateClosureInput {
   uuid: ID!
-  displayText: String!
+  name: String
+  description: String
   data: JSON
 }
 
@@ -141,8 +144,9 @@ type Question {
   updatedAt: Date!
   surveyId: ID!
   type: String!
-  subType: QuestionTypes!
-  displayText: String!
+  subType: String!
+  name: String!
+  description: String
   data: JSON
   answers: [Answer!]
 }
@@ -157,13 +161,17 @@ input QueryReadQuestionsInput {
 
 input MutationCreateQuestionInput {
   surveyId: ID!
-  displayText: String!
+  name: String!
+  subType: QuestionTypes!
+  description: String
   data: JSON
 }
 
 input MutationUpdateQuestionInput {
   uuid: ID!
-  displayText: String!
+  name: String
+  subType: QuestionTypes
+  description: String
   data: JSON
 }
 
@@ -208,6 +216,10 @@ type GraphEdge {
   weight: Int
 }
 
+type SurveyCustomization {
+  color: String!
+}
+
 type Survey {
   uuid: ID!
   createdAt: Date!
@@ -215,25 +227,34 @@ type Survey {
   status: SurveyStatuses!
   user: User!
   name: String!
+  description: String
   graph: Graph!
   startingVertex: GraphVertex
   closingVertex: GraphVertex
+  customization: SurveyCustomization!
 }
 
 input QueryReadSurveyInput {
   uuid: ID!
 }
 
+input SurveyCustomizationInput {
+  color: String!
+}
+
 input MutationCreateSurveyInput {
   name: String!
+  description: String
+  customization: SurveyCustomizationInput
 }
 
 input MutationUpdateSurveyInput {
   uuid: ID!
   status: SurveyStatuses
-  name: String!
-  displayText: String
+  name: String
+  description: String
   data: JSON
+  customization: SurveyCustomizationInput
 }
 
 input MutationDeleteSurveyInput {
@@ -277,8 +298,9 @@ type WelcomeScreen {
   createdAt: Date!
   updatedAt: Date!
   surveyId: ID!
-  type: SurveyTypes!
-  displayText: String!
+  type: String!
+  name: String!
+  description: String
 }
 
 input QueryReadWelcomeScreenInput {
@@ -293,12 +315,14 @@ input MutationCreateWelcomeScreenInput {
   surveyId: ID!
   parentWelcomeScreenId: ID!
   type: SurveyTypes!
-  displayText: String!
+  name: String!
+  description: String
 }
 
 input MutationUpdateWelcomeScreenInput {
   uuid: ID!
-  displayText: String!
+  name: String
+  description: String
   data: JSON
 }
 

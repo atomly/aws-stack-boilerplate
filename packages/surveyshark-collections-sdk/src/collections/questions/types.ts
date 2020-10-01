@@ -6,7 +6,8 @@ export interface Question<T = unknown> extends Base {
   surveyId: Survey['uuid'];
   type: SurveyTypes.QUESTION;
   subType: QuestionTypes;
-  displayText: string;
+  name: string;
+  description?: string;
   data: T;
 }
 

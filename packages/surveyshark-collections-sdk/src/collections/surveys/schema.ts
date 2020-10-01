@@ -7,15 +7,26 @@ import { BaseSchema } from '../base';
 import { usersCollection } from '../users';
 import { graphsCollection } from '../graphs';
 import { graphVerticesCollection } from '../graph_vertices';
+import { RGB_RGBA_REGEXP } from '../../regexps';
+import { getRandomColor } from '../../utils';
 
 // Type
 import { SurveyDocument } from './types';
+
+const surveyCustomizationSchema = new Schema({
+  color: {
+    type: Schema.Types.String,
+    match: [RGB_RGBA_REGEXP, 'Invalid RGB/RGBA pattern.'],
+    default: getRandomColor(5, 0.5),
+  },
+});
 
 export const surveySchema = new BaseSchema<SurveyDocument>({
   status: {
     type: Schema.Types.String,
     enum: Object.values(SurveyStatuses),
     default: SurveyStatuses.UNPUBLISHED,
+    required: true,
   },
   user: {
     type: Schema.Types.ObjectId,
@@ -25,6 +36,10 @@ export const surveySchema = new BaseSchema<SurveyDocument>({
   name: {
     type: Schema.Types.String,
     required: true,
+  },
+  description: {
+    type: Schema.Types.String,
+    default: undefined,
   },
   // collaborators: [{
   //   type: Schema.Types.ObjectId,
@@ -50,5 +65,10 @@ export const surveySchema = new BaseSchema<SurveyDocument>({
       const survey = this as SurveyDocument;
       return Boolean(survey.graph?.vertices.length);
     },
+  },
+  customization: {
+    type: surveyCustomizationSchema,
+    required: true,
+    default: (): Record<never, never> => ({}),
   },
 });

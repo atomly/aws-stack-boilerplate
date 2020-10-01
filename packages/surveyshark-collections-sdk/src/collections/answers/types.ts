@@ -8,7 +8,7 @@ export interface Answer<T = unknown> extends Base {
   parentQuestionId: Question['uuid'];
   type: SurveyTypes.ANSWER;
   subType: QuestionTypes;
-  displayText: string;
+  name: string;
   data: T;
 }
 

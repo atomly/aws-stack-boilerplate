@@ -27,27 +27,27 @@ const simpleSurveyData: SimpleSurveyData = [
   // Welcome Screen:
   {
     welcomeScreen: {
-      displayText: 'Welcome!',
+      name: 'Welcome!',
       value: faker.random.words(),
     },
   },
   // First question and its answers:
   {
     question: {
-      displayText: 'Foo.A',
+      name: 'Foo.A',
       value: faker.random.words(),
     },
     answers: [
       {
-        displayText: '1.A',
+        name: '1.A',
         value: faker.random.words(),
       },
       {
-        displayText: '2.A',
+        name: '2.A',
         value: faker.random.words(),
       },
       {
-        displayText: '3.A',
+        name: '3.A',
         value: faker.random.words(),
       },
     ],
@@ -55,20 +55,20 @@ const simpleSurveyData: SimpleSurveyData = [
   // Second question and its answers:
   {
     question: {
-      displayText: 'Foo.E',
+      name: 'Foo.E',
       value: faker.random.words(),
     },
     answers: [
       {
-        displayText: '1.E',
+        name: '1.E',
         value: faker.random.words(),
       },
       {
-        displayText: '2.E',
+        name: '2.E',
         value: faker.random.words(),
       },
       {
-        displayText: '3.E',
+        name: '3.E',
         value: faker.random.words(),
       },
     ],
@@ -76,7 +76,7 @@ const simpleSurveyData: SimpleSurveyData = [
   // Closure:
   {
     closure: {
-      displayText: 'Bar',
+      name: 'Bar',
       value: faker.random.words(),
     },
   },

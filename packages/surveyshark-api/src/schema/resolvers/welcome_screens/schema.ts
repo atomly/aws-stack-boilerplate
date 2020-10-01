@@ -7,7 +7,8 @@ type WelcomeScreen {
   updatedAt: Date!
   surveyId: ID!
   type: String!
-  displayText: String!
+  name: String!
+  description: String
 }
 
 input QueryReadWelcomeScreenInput {
@@ -27,12 +28,14 @@ input MutationCreateWelcomeScreenInput {
   surveyId: ID!
   parentWelcomeScreenId: ID!
   type: SurveyTypes!
-  displayText: String!
+  name: String!
+  description: String
 }
 
 input MutationUpdateWelcomeScreenInput {
   uuid: ID!
-  displayText: String!
+  name: String
+  description: String
   data: JSON
 }
 

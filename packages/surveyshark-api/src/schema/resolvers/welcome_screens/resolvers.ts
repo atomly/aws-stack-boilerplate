@@ -54,10 +54,10 @@ const resolvers: IWelcomeScreensResolverMap = {
     },
     async updateWelcomeScreen(_, { input }, { dbContext }): Promise<WelcomeScreen | null | IThrowError> {
       try {
-        // const changes: Partial<Omit<GQL.MutationUpdateWelcomeScreenInput, 'uuid'>> = {};
-        const welcomeScreen = await dbContext.collections.WelcomeScreens.model.updateOne(
+        const welcomeScreen = await dbContext.collections.WelcomeScreens.model.findOneAndUpdate(
           { uuid: input.uuid },
-          input,
+          input as Partial<WelcomeScreen>,
+          { new: true },
         ).lean() as WelcomeScreen | null;
         return welcomeScreen;
       } catch (err) {
@@ -70,8 +70,16 @@ const resolvers: IWelcomeScreensResolverMap = {
     },
     async deleteWelcomeScreen(_, { input }, { dbContext }): Promise<WelcomeScreen | null | IThrowError> {
       try {
-        // const changes: Partial<Omit<GQL.MutationUpdateWelcomeScreenInput, 'uuid'>> = {};
-        const welcomeScreen = await dbContext.collections.WelcomeScreens.model.deleteOne({ uuid: input.uuid }).lean() as WelcomeScreen | null;
+        let welcomeScreen: WelcomeScreen | null = null;
+        const session = await dbContext.connection.startSession();
+        await session.withTransaction(async () => {
+          welcomeScreen = await dbContext.collections.WelcomeScreens.model.findOneAndDelete({ uuid: input.uuid }).lean<WelcomeScreen>();
+          if (welcomeScreen) {
+            await dbContext.collections.GraphVertices.model.deleteOne({ key: welcomeScreen.uuid });
+          }
+        });
+        await session.commitTransaction();
+        session.endSession();
         return welcomeScreen;
       } catch (err) {
         return throwError({

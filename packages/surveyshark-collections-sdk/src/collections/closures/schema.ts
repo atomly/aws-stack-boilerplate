@@ -19,10 +19,15 @@ export const closureSchema = new BaseSchema<ClosureDocument>({
     type: Schema.Types.String,
     default: SurveyTypes.CLOSURE,
     match: [new RegExp(`^${SurveyTypes.CLOSURE}$`), `Question documents must be of [${SurveyTypes.CLOSURE}] type.`],
+    required: true,
   },
-  displayText: {
+  name: {
     type: Schema.Types.String,
     required: true,
     default: '',
+  },
+  description: {
+    type: Schema.Types.String,
+    default: undefined,
   },
 });

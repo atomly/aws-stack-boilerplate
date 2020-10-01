@@ -23,38 +23,42 @@ import { SimpleSurveyData } from './types';
 export function generateAnswerDocument<T = string>(
   surveyId: string = faker.random.uuid(),
   parentQuestionId: string = faker.random.uuid(),
-  displayText: string = faker.random.word(),
+  name: string = faker.random.word(),
   data: T = faker.random.words() as unknown as T,
-): Partial<AnswerDocument<T>> {
+  ): Partial<AnswerDocument<T>> {
   return {
     surveyId,
     parentQuestionId,
     type: SurveyTypes.ANSWER,
     subType: QuestionTypes.MULTI_CHOICES,
-    displayText,
+    name,
     data,
   };
 }
 
 export function generateClosureDocument(
   surveyId: string = faker.random.uuid(),
-  displayText: string = faker.random.word(),
-): Partial<ClosureDocument> {
+  name: string = faker.random.word(),
+  description?: string,
+  ): Partial<ClosureDocument> {
   return {
     surveyId,
     type: SurveyTypes.CLOSURE,
-    displayText,
+    name,
+    description,
   };
 }
 
 export function generateWelcomeScreenDocument(
   surveyId: string = faker.random.uuid(),
-  displayText: string = faker.random.word(),
-): Partial<WelcomeScreenDocument> {
+  name: string = faker.random.word(),
+  description?: string,
+  ): Partial<WelcomeScreenDocument> {
   return {
     surveyId,
     type: SurveyTypes.WELCOME_SCREEN,
-    displayText,
+    name,
+    description,
   };
 }
 
@@ -92,15 +96,17 @@ export function generateGraphVertexDocument<T extends Document>(
 
 export function generateQuestionDocument<T = string>(
   surveyId: string = faker.random.uuid(),
-  displayText: string = faker.random.word(),
+  name: string = faker.random.word(),
   data: T = faker.random.words() as unknown as T,
-): Partial<QuestionDocument> {
+  description?: string,
+  ): Partial<QuestionDocument> {
   return {
     surveyId,
     type: SurveyTypes.QUESTION,
     subType: QuestionTypes.MULTI_CHOICES,
-    displayText,
+    name,
     data,
+    description,
   };
 }
 
@@ -130,7 +136,7 @@ export function generateResultDocument(
       question: questionVertex.value!,
       answer: {
         answerId: randomAnswer.id,
-        displayText: randomAnswer.displayText,
+        name: randomAnswer.name,
       },
     }
   });
@@ -145,6 +151,7 @@ export function generateSurveyDocument(user: UserDocument): Partial<SurveyDocume
   return {
     user,
     name: faker.random.words(),
+    description: `${faker.random.words()}, ${faker.random.words()}.`,
     // startingVertex: GraphVertexDocument;
     // surveyStartingQuestion: GraphVertexDocument;
     // surveyClosure: GraphVertexDocument;
@@ -183,7 +190,7 @@ export async function createSimpleSurveyGraph(
     if (data.closure) {
       const closure = await new dbContext.collections.Closures.model(generateClosureDocument(
         survey.uuid,
-        data.closure.displayText,
+        data.closure.name,
       )).save();
       currentMainVertex = await new dbContext.collections.GraphVertices
         .model(generateGraphVertexDocument(
@@ -195,7 +202,7 @@ export async function createSimpleSurveyGraph(
     } else if (data.welcomeScreen) {
       const welcomeScreen = await new dbContext.collections.WelcomeScreens.model(generateWelcomeScreenDocument(
         survey.uuid,
-        data.welcomeScreen.displayText,
+        data.welcomeScreen.name,
       )).save();
       currentMainVertex = await new dbContext.collections.GraphVertices
         .model(generateGraphVertexDocument(
@@ -207,7 +214,7 @@ export async function createSimpleSurveyGraph(
     } else {
       const question = await new dbContext.collections.Questions.model(generateQuestionDocument(
         survey.uuid,
-        data.question.displayText,
+        data.question.name,
         data.question.value,
       )).save();
       currentMainVertex = await new dbContext.collections.GraphVertices
@@ -217,7 +224,7 @@ export async function createSimpleSurveyGraph(
         ))
         .save();
       // Create the current question's answers and their respective vertices:
-      const answersData = data.answers.map(answer => generateAnswerDocument(survey.uuid, question.uuid, answer.displayText, answer.value))
+      const answersData = data.answers.map(answer => generateAnswerDocument(survey.uuid, question.uuid, answer.name, answer.value))
       const answers = await dbContext.collections.Answers
         .model
         .insertMany(answersData);
@@ -251,7 +258,7 @@ export async function createSimpleSurveyGraph(
     // Saving the current answers for the next loop:
     previousAnswersVertices = currentAnswerVertices;
   }
-  await dbContext.collections.Surveys.model.updateOne(
+  await dbContext.collections.Surveys.model.findOneAndUpdate(
     { uuid: survey.uuid },
     {
       startingVertex: firstVertex as GraphVertexDocument<QuestionDocument>,

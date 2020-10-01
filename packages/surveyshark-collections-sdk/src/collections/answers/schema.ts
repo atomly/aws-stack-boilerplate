@@ -24,12 +24,14 @@ export const answerSchema = new BaseSchema<AnswerDocument>({
     type: Schema.Types.String,
     default: SurveyTypes.ANSWER,
     match: [new RegExp(`^${SurveyTypes.ANSWER}$`), `Question documents must be of [${SurveyTypes.ANSWER}] type.`],
+    required: true,
   },
   subType: {
     type: Schema.Types.String,
     enum: Object.values(QuestionTypes),
+    required: true,
   },
-  displayText: {
+  name: {
     type: Schema.Types.String,
     required: true,
     default: '',

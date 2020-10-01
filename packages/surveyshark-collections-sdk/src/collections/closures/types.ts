@@ -5,7 +5,8 @@ import { Survey } from '../surveys';
 export interface Closure extends Base {
   surveyId: Survey['uuid'];
   type: SurveyTypes.CLOSURE;
-  displayText: string;
+  name: string;
+  description?: string;
 }
 
 export type ClosureDocument = Closure & BaseDocument;

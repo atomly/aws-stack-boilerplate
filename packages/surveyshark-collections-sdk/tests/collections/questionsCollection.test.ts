@@ -42,7 +42,7 @@ describe('questions collection works correctly', () => {
     expect(question.surveyId).toBe(doc.surveyId);
     expect(question.type).toBe(doc.type);
     expect(question.subType).toBe(doc.subType);
-    expect(question.displayText).toBe(doc.displayText);
+    expect(question.name).toBe(doc.name);
     expect(question.data).toBe(doc.data);
   });
 
@@ -58,14 +58,14 @@ describe('questions collection works correctly', () => {
     const newDisplayText = faker.random.words();
     await dbContext.collections.Questions.model.updateOne(
       { uuid: question.uuid },
-      { displayText: newDisplayText },
+      { name: newDisplayText },
     );
     const updatedQuestion = await dbContext
       .collections
       .Questions
       .model.findOne({ uuid: question.uuid }).lean() as QuestionDocument<string>;
-    expect(updatedQuestion!.displayText).not.toBe(question.displayText);
-    expect(updatedQuestion!.displayText).toBe(newDisplayText);
+    expect(updatedQuestion!.name).not.toBe(question.name);
+    expect(updatedQuestion!.name).toBe(newDisplayText);
     const updatedVertex = await dbContext
       .collections
       .GraphVertices

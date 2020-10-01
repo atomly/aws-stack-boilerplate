@@ -12,9 +12,13 @@ export interface Survey<T = Question, K = Closure, R = Question | Answer | Closu
   status: SurveyStatuses,
   user: User;
   name: string;
+  description?: string;
   graph: Graph<R>;
   startingVertex: GraphVertex<T>;
   closingVertex: GraphVertex<K>;
+  customization: {
+    color: string;
+  };
 }
 
 export interface SurveyDocument<T = QuestionDocument, K = ClosureDocument, R = QuestionDocument | AnswerDocument | ClosureDocument | WelcomeScreenDocument> extends Survey<T, K, R>, BaseDocument {

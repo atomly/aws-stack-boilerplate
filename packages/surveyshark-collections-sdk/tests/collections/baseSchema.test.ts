@@ -48,12 +48,12 @@ describe('base schema works correctly', () => {
     expect(user.createdAt.getTime()).toBe(user.updatedAt.getTime());
   });
 
-  it('it should correctly execute pre update hook on document that extends base schema', async () => {
+  it('it should correctly execute post update hook on document that extends base schema', async () => {
     const users = await dbContext.collections.Users.model.find({}).lean<UserDocument>();
     const user = users[0];
     await dbContext.collections.Users.model.updateOne(
       { uuid: user.uuid },
-      { email: faker.internet.email() }
+      { email: faker.internet.email() },
     );
     const updatedUser = await dbContext
       .collections

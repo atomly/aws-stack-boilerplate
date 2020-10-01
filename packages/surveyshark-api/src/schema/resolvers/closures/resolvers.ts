@@ -54,10 +54,10 @@ const resolvers: IClosuresResolverMap = {
     },
     async updateClosure(_, { input }, { dbContext }): Promise<Closure | null | IThrowError> {
       try {
-        // const changes: Partial<Omit<GQL.MutationUpdateClosureInput, 'uuid'>> = {};
-        const closure = await dbContext.collections.Closures.model.updateOne(
+        const closure = await dbContext.collections.Closures.model.findOneAndUpdate(
           { uuid: input.uuid },
-          input,
+          input as Partial<Closure>,
+          { new: true },
         ).lean() as Closure | null;
         return closure;
       } catch (err) {
@@ -70,8 +70,16 @@ const resolvers: IClosuresResolverMap = {
     },
     async deleteClosure(_, { input }, { dbContext }): Promise<Closure | null | IThrowError> {
       try {
-        // const changes: Partial<Omit<GQL.MutationUpdateClosureInput, 'uuid'>> = {};
-        const closure = await dbContext.collections.Closures.model.deleteOne({ uuid: input.uuid }).lean() as Closure | null;
+        let closure: Closure | null = null;
+        const session = await dbContext.connection.startSession();
+        await session.withTransaction(async () => {
+          closure = await dbContext.collections.Closures.model.findOneAndDelete({ uuid: input.uuid }).lean<Closure>();
+          if (closure) {
+            await dbContext.collections.GraphVertices.model.deleteOne({ key: closure.uuid });
+          }
+        });
+        await session.commitTransaction();
+        session.endSession();
         return closure;
       } catch (err) {
         return throwError({

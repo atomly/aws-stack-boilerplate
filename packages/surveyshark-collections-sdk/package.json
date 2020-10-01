@@ -1,5 +1,6 @@
 {
   "name": "@atomly/surveyshark-collections-sdk",
+  "private": "true",
   "version": "1.0.0",
   "description": "SurveyShark MongoDB collections.",
   "keywords": [],

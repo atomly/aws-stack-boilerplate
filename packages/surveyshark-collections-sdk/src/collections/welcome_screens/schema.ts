@@ -19,10 +19,15 @@ export const welcomeScreenSchema = new BaseSchema<WelcomeScreenDocument>({
     type: Schema.Types.String,
     default: SurveyTypes.WELCOME_SCREEN,
     match: [new RegExp(`^${SurveyTypes.WELCOME_SCREEN}$`), `Question documents must be of [${SurveyTypes.WELCOME_SCREEN}] type.`],
+    required: true,
   },
-  displayText: {
+  name: {
     type: Schema.Types.String,
     required: true,
     default: '',
+  },
+  description: {
+    type: Schema.Types.String,
+    default: undefined,
   },
 });

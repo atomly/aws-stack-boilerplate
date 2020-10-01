@@ -1,11 +1,11 @@
 export type SimpleSurveyData = (
   {
     question: {
-        displayText: string;
+        name: string;
         value: string;
     };
     answers: {
-        displayText: string;
+        name: string;
         value: string;
     }[];
     closure?: undefined;
@@ -13,7 +13,7 @@ export type SimpleSurveyData = (
   } |
   {
     closure: {
-        displayText: string;
+        name: string;
         value: string;
     };
     question?: undefined;
@@ -22,7 +22,7 @@ export type SimpleSurveyData = (
   } |
   {
     welcomeScreen: {
-        displayText: string;
+        name: string;
         value: string;
     };
     closure?: undefined;

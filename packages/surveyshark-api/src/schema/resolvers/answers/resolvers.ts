@@ -68,10 +68,10 @@ const resolvers: IAnswersResolverMap = {
     },
     async updateAnswer(_, { input }, { dbContext }): Promise<Answer | null | IThrowError> {
       try {
-        // const changes: Partial<Omit<GQL.MutationUpdateAnswerInput, 'uuid'>> = {};
-        const answer = await dbContext.collections.Answers.model.updateOne(
+        const answer = await dbContext.collections.Answers.model.findOneAndUpdate(
           { uuid: input.uuid },
-          input,
+          input as Partial<Answer>,
+          { new: true },
         ).lean() as Answer | null;
         return answer;
       } catch (err) {
@@ -84,8 +84,16 @@ const resolvers: IAnswersResolverMap = {
     },
     async deleteAnswer(_, { input }, { dbContext }): Promise<Answer | null | IThrowError> {
       try {
-        // const changes: Partial<Omit<GQL.MutationUpdateAnswerInput, 'uuid'>> = {};
-        const answer = await dbContext.collections.Answers.model.deleteOne({ uuid: input.uuid }).lean() as Answer | null;
+        let answer: Answer | null = null;
+        const session = await dbContext.connection.startSession();
+        await session.withTransaction(async () => {
+          answer = await dbContext.collections.Answers.model.findOneAndDelete({ uuid: input.uuid }).lean<Answer>();
+          if (answer) {
+            await dbContext.collections.GraphVertices.model.deleteOne({ key: answer.uuid });
+          }
+        });
+        await session.commitTransaction();
+        session.endSession();
         return answer;
       } catch (err) {
         return throwError({

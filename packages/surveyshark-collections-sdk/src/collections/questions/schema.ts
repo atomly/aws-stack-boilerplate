@@ -19,15 +19,21 @@ export const questionSchema = new BaseSchema<QuestionDocument>({
     type: Schema.Types.String,
     default: SurveyTypes.QUESTION,
     match: [new RegExp(`^${SurveyTypes.QUESTION}$`), `Question documents must be of [${SurveyTypes.QUESTION}] type.`],
+    required: true,
   },
   subType: {
     type: Schema.Types.String,
     enum: Object.values(QuestionTypes),
+    required: true,
   },
-  displayText: {
+  name: {
     type: Schema.Types.String,
     required: true,
     default: '',
+  },
+  description: {
+    type: Schema.Types.String,
+    default: undefined,
   },
   data: {
     type: Schema.Types.Mixed,

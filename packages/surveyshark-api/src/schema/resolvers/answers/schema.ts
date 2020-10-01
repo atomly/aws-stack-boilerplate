@@ -9,7 +9,7 @@ type Answer {
   parentQuestionId: ID!
   type: String!
   subType: String!
-  displayText: String!
+  name: String!
   data: JSON
 }
 
@@ -30,13 +30,14 @@ type Query {
 input MutationCreateAnswerInput {
   surveyId: ID!
   parentQuestionId: ID!
-  displayText: String!
+  name: String!
+  subType: QuestionTypes!
   data: JSON
 }
 
 input MutationUpdateAnswerInput {
   uuid: ID!
-  displayText: String!
+  name: String
   data: JSON
 }
 

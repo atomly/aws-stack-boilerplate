@@ -30,6 +30,10 @@ type GraphEdge {
   weight: Int
 }
 
+type SurveyCustomization {
+  color: String!
+}
+
 type Survey {
   uuid: ID!
   createdAt: Date!
@@ -37,9 +41,11 @@ type Survey {
   status: SurveyStatuses!
   user: User!
   name: String!
+  description: String
   graph: Graph!
   startingVertex: GraphVertex
   closingVertex: GraphVertex
+  customization: SurveyCustomization!
 }
 
 input QueryReadSurveyInput {
@@ -51,16 +57,23 @@ type Query {
   readSurveys(withData: Boolean): [Survey!]!
 }
 
+input SurveyCustomizationInput {
+  color: String!
+}
+
 input MutationCreateSurveyInput {
   name: String!
+  description: String
+  customization: SurveyCustomizationInput
 }
 
 input MutationUpdateSurveyInput {
   uuid: ID!
   status: SurveyStatuses
-  name: String!
-  displayText: String
+  name: String
+  description: String
   data: JSON
+  customization: SurveyCustomizationInput
 }
 
 input  MutationDeleteSurveyInput {
