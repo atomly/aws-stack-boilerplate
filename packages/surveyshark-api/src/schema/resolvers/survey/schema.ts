@@ -1,35 +1,6 @@
 import gql from 'graphql-tag';
 
 export default gql`
-union GraphVertexValue = Question | Closure | Answer
-
-type Graph {
-  uuid: ID!
-  createdAt: Date!
-  updatedAt: Date!
-  vertices: [GraphVertex!]!
-  edges: [GraphEdge!]!
-}
-
-type GraphVertex {
-  uuid: ID!
-  createdAt: Date!
-  updatedAt: Date!
-  graphId: ID!
-  key: String!
-  value: GraphVertexValue!
-}
-
-type GraphEdge {
-  uuid: ID!
-  createdAt: Date!
-  updatedAt: Date!
-  graphId: ID!
-  from: GraphVertex!
-  to: GraphVertex!
-  weight: Int
-}
-
 type SurveyCustomization {
   color: String!
 }

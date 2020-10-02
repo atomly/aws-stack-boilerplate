@@ -24,6 +24,8 @@ type Query {
   readAnswers(input: QueryReadAnswersInput!): [Answer!]!
   readClosure(input: QueryReadClosureInput!, withAnswers: Boolean): Closure
   readClosures(input: QueryReadClosuresInput!, withAnswers: Boolean): [Closure!]!
+  readGraphEdge(input: QueryReadGraphEdgeInput!): GraphEdge
+  readGraphEdges(input: QueryReadGraphEdgesInput!): [GraphEdge!]!
   test: String!
   ping: String!
   readQuestion(input: QueryReadQuestionInput!, withAnswers: Boolean): Question
@@ -63,6 +65,9 @@ type Mutation {
   createClosure(input: MutationCreateClosureInput!): Closure
   updateClosure(input: MutationUpdateClosureInput!): Closure
   deleteClosure(input: MutationDeleteClosureInput!): Closure
+  createGraphEdge(input: MutationCreateGraphEdgeInput!): GraphEdge
+  updateGraphEdge(input: MutationUpdateGraphEdgeInput!): GraphEdge
+  deleteGraphEdge(input: MutationDeleteGraphEdgeInput!): GraphEdge
   createQuestion(input: MutationCreateQuestionInput!): Question
   updateQuestion(input: MutationUpdateQuestionInput!): Question
   deleteQuestion(input: MutationDeleteQuestionInput!): Question
@@ -138,6 +143,61 @@ enum QuestionTypes {
   MULTI_CHOICES
 }
 
+union GraphVertexValue = Question | Closure | Answer
+
+type Graph {
+  uuid: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  vertices: [GraphVertex!]!
+  edges: [GraphEdge!]!
+}
+
+type GraphVertex {
+  uuid: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  graphId: ID!
+  key: String!
+  value: GraphVertexValue
+}
+
+type GraphEdge {
+  uuid: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  graphId: ID!
+  from: GraphVertex!
+  to: GraphVertex!
+  weight: Int
+}
+
+input QueryReadGraphEdgeInput {
+  fromVertexKey: ID!
+  toVertexKey: ID!
+}
+
+input QueryReadGraphEdgesInput {
+  fromVertexKey: ID
+  toVertexKey: ID
+}
+
+input MutationCreateGraphEdgeInput {
+  fromVertexKey: ID!
+  toVertexKey: ID!
+}
+
+input MutationUpdateGraphEdgeInput {
+  fromVertexKey: ID!
+  toVertexKey: ID!
+  weight: Int
+}
+
+input MutationDeleteGraphEdgeInput {
+  fromVertexKey: ID!
+  toVertexKey: ID!
+}
+
 type Question {
   uuid: ID!
   createdAt: Date!
@@ -185,35 +245,6 @@ scalar JSON
 
 type Subscription {
   hello(name: String!): String!
-}
-
-union GraphVertexValue = Question | Closure | Answer
-
-type Graph {
-  uuid: ID!
-  createdAt: Date!
-  updatedAt: Date!
-  vertices: [GraphVertex!]!
-  edges: [GraphEdge!]!
-}
-
-type GraphVertex {
-  uuid: ID!
-  createdAt: Date!
-  updatedAt: Date!
-  graphId: ID!
-  key: String!
-  value: GraphVertexValue!
-}
-
-type GraphEdge {
-  uuid: ID!
-  createdAt: Date!
-  updatedAt: Date!
-  graphId: ID!
-  from: GraphVertex!
-  to: GraphVertex!
-  weight: Int
 }
 
 type SurveyCustomization {

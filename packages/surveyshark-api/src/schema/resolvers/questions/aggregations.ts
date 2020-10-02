@@ -25,7 +25,6 @@ export function questionsWithAnswersPipeline(questionId: string): unknown[] {
   ];
 }
 
-
 export const questionWithAnswersPipeline = [
   {
     $lookup: {

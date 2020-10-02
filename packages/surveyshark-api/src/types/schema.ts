@@ -42,6 +42,8 @@ export type Query = {
   readAnswers: Array<Answer>;
   readClosure?: Maybe<Closure>;
   readClosures: Array<Closure>;
+  readGraphEdge?: Maybe<GraphEdge>;
+  readGraphEdges: Array<GraphEdge>;
   test: Scalars['String'];
   ping: Scalars['String'];
   readQuestion?: Maybe<Question>;
@@ -76,6 +78,16 @@ export type QueryReadClosureArgs = {
 export type QueryReadClosuresArgs = {
   input: QueryReadClosuresInput;
   withAnswers?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type QueryReadGraphEdgeArgs = {
+  input: QueryReadGraphEdgeInput;
+};
+
+
+export type QueryReadGraphEdgesArgs = {
+  input: QueryReadGraphEdgesInput;
 };
 
 
@@ -148,6 +160,9 @@ export type Mutation = {
   createClosure?: Maybe<Closure>;
   updateClosure?: Maybe<Closure>;
   deleteClosure?: Maybe<Closure>;
+  createGraphEdge?: Maybe<GraphEdge>;
+  updateGraphEdge?: Maybe<GraphEdge>;
+  deleteGraphEdge?: Maybe<GraphEdge>;
   createQuestion?: Maybe<Question>;
   updateQuestion?: Maybe<Question>;
   deleteQuestion?: Maybe<Question>;
@@ -188,6 +203,21 @@ export type MutationUpdateClosureArgs = {
 
 export type MutationDeleteClosureArgs = {
   input: MutationDeleteClosureInput;
+};
+
+
+export type MutationCreateGraphEdgeArgs = {
+  input: MutationCreateGraphEdgeInput;
+};
+
+
+export type MutationUpdateGraphEdgeArgs = {
+  input: MutationUpdateGraphEdgeInput;
+};
+
+
+export type MutationDeleteGraphEdgeArgs = {
+  input: MutationDeleteGraphEdgeInput;
 };
 
 
@@ -304,6 +334,64 @@ export enum QuestionTypes {
   MultiChoices = 'MULTI_CHOICES'
 }
 
+export type GraphVertexValue = Question | Closure | Answer;
+
+export type Graph = {
+  __typename?: 'Graph';
+  uuid: Scalars['ID'];
+  createdAt: Scalars['Date'];
+  updatedAt: Scalars['Date'];
+  vertices: Array<GraphVertex>;
+  edges: Array<GraphEdge>;
+};
+
+export type GraphVertex = {
+  __typename?: 'GraphVertex';
+  uuid: Scalars['ID'];
+  createdAt: Scalars['Date'];
+  updatedAt: Scalars['Date'];
+  graphId: Scalars['ID'];
+  key: Scalars['String'];
+  value?: Maybe<GraphVertexValue>;
+};
+
+export type GraphEdge = {
+  __typename?: 'GraphEdge';
+  uuid: Scalars['ID'];
+  createdAt: Scalars['Date'];
+  updatedAt: Scalars['Date'];
+  graphId: Scalars['ID'];
+  from: GraphVertex;
+  to: GraphVertex;
+  weight?: Maybe<Scalars['Int']>;
+};
+
+export type QueryReadGraphEdgeInput = {
+  fromVertexKey: Scalars['ID'];
+  toVertexKey: Scalars['ID'];
+};
+
+export type QueryReadGraphEdgesInput = {
+  fromVertexKey?: Maybe<Scalars['ID']>;
+  toVertexKey?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCreateGraphEdgeInput = {
+  fromVertexKey: Scalars['ID'];
+  toVertexKey: Scalars['ID'];
+};
+
+export type MutationUpdateGraphEdgeInput = {
+  fromVertexKey: Scalars['ID'];
+  toVertexKey: Scalars['ID'];
+  weight?: Maybe<Scalars['Int']>;
+};
+
+export type MutationDeleteGraphEdgeInput = {
+  fromVertexKey: Scalars['ID'];
+  toVertexKey: Scalars['ID'];
+};
+
 export type Question = {
   __typename?: 'Question';
   uuid: Scalars['ID'];
@@ -356,38 +444,6 @@ export type Subscription = {
 
 export type SubscriptionHelloArgs = {
   name: Scalars['String'];
-};
-
-export type GraphVertexValue = Question | Closure | Answer;
-
-export type Graph = {
-  __typename?: 'Graph';
-  uuid: Scalars['ID'];
-  createdAt: Scalars['Date'];
-  updatedAt: Scalars['Date'];
-  vertices: Array<GraphVertex>;
-  edges: Array<GraphEdge>;
-};
-
-export type GraphVertex = {
-  __typename?: 'GraphVertex';
-  uuid: Scalars['ID'];
-  createdAt: Scalars['Date'];
-  updatedAt: Scalars['Date'];
-  graphId: Scalars['ID'];
-  key: Scalars['String'];
-  value: GraphVertexValue;
-};
-
-export type GraphEdge = {
-  __typename?: 'GraphEdge';
-  uuid: Scalars['ID'];
-  createdAt: Scalars['Date'];
-  updatedAt: Scalars['Date'];
-  graphId: Scalars['ID'];
-  from: GraphVertex;
-  to: GraphVertex;
-  weight?: Maybe<Scalars['Int']>;
 };
 
 export type SurveyCustomization = {
@@ -606,6 +662,16 @@ export type ResolversTypes = {
   SurveyStatuses: SurveyStatuses;
   SurveyTypes: SurveyTypes;
   QuestionTypes: QuestionTypes;
+  GraphVertexValue: ResolversTypes['Question'] | ResolversTypes['Closure'] | ResolversTypes['Answer'];
+  Graph: ResolverTypeWrapper<Graph>;
+  GraphVertex: ResolverTypeWrapper<Omit<GraphVertex, 'value'> & { value?: Maybe<ResolversTypes['GraphVertexValue']> }>;
+  GraphEdge: ResolverTypeWrapper<GraphEdge>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
+  QueryReadGraphEdgeInput: QueryReadGraphEdgeInput;
+  QueryReadGraphEdgesInput: QueryReadGraphEdgesInput;
+  MutationCreateGraphEdgeInput: MutationCreateGraphEdgeInput;
+  MutationUpdateGraphEdgeInput: MutationUpdateGraphEdgeInput;
+  MutationDeleteGraphEdgeInput: MutationDeleteGraphEdgeInput;
   Question: ResolverTypeWrapper<Question>;
   QueryReadQuestionInput: QueryReadQuestionInput;
   QueryReadQuestionsInput: QueryReadQuestionsInput;
@@ -615,11 +681,6 @@ export type ResolversTypes = {
   Date: ResolverTypeWrapper<Scalars['Date']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
   Subscription: ResolverTypeWrapper<{}>;
-  GraphVertexValue: ResolversTypes['Question'] | ResolversTypes['Closure'] | ResolversTypes['Answer'];
-  Graph: ResolverTypeWrapper<Graph>;
-  GraphVertex: ResolverTypeWrapper<Omit<GraphVertex, 'value'> & { value: ResolversTypes['GraphVertexValue'] }>;
-  GraphEdge: ResolverTypeWrapper<GraphEdge>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
   SurveyCustomization: ResolverTypeWrapper<SurveyCustomization>;
   Survey: ResolverTypeWrapper<Survey>;
   QueryReadSurveyInput: QueryReadSurveyInput;
@@ -658,6 +719,16 @@ export type ResolversParentTypes = {
   MutationCreateClosureInput: MutationCreateClosureInput;
   MutationUpdateClosureInput: MutationUpdateClosureInput;
   MutationDeleteClosureInput: MutationDeleteClosureInput;
+  GraphVertexValue: ResolversParentTypes['Question'] | ResolversParentTypes['Closure'] | ResolversParentTypes['Answer'];
+  Graph: Graph;
+  GraphVertex: Omit<GraphVertex, 'value'> & { value?: Maybe<ResolversParentTypes['GraphVertexValue']> };
+  GraphEdge: GraphEdge;
+  Int: Scalars['Int'];
+  QueryReadGraphEdgeInput: QueryReadGraphEdgeInput;
+  QueryReadGraphEdgesInput: QueryReadGraphEdgesInput;
+  MutationCreateGraphEdgeInput: MutationCreateGraphEdgeInput;
+  MutationUpdateGraphEdgeInput: MutationUpdateGraphEdgeInput;
+  MutationDeleteGraphEdgeInput: MutationDeleteGraphEdgeInput;
   Question: Question;
   QueryReadQuestionInput: QueryReadQuestionInput;
   QueryReadQuestionsInput: QueryReadQuestionsInput;
@@ -667,11 +738,6 @@ export type ResolversParentTypes = {
   Date: Scalars['Date'];
   JSON: Scalars['JSON'];
   Subscription: {};
-  GraphVertexValue: ResolversParentTypes['Question'] | ResolversParentTypes['Closure'] | ResolversParentTypes['Answer'];
-  Graph: Graph;
-  GraphVertex: Omit<GraphVertex, 'value'> & { value: ResolversParentTypes['GraphVertexValue'] };
-  GraphEdge: GraphEdge;
-  Int: Scalars['Int'];
   SurveyCustomization: SurveyCustomization;
   Survey: Survey;
   QueryReadSurveyInput: QueryReadSurveyInput;
@@ -709,6 +775,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   readAnswers?: Resolver<Array<ResolversTypes['Answer']>, ParentType, ContextType, RequireFields<QueryReadAnswersArgs, 'input'>>;
   readClosure?: Resolver<Maybe<ResolversTypes['Closure']>, ParentType, ContextType, RequireFields<QueryReadClosureArgs, 'input'>>;
   readClosures?: Resolver<Array<ResolversTypes['Closure']>, ParentType, ContextType, RequireFields<QueryReadClosuresArgs, 'input'>>;
+  readGraphEdge?: Resolver<Maybe<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<QueryReadGraphEdgeArgs, 'input'>>;
+  readGraphEdges?: Resolver<Array<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<QueryReadGraphEdgesArgs, 'input'>>;
   test?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   ping?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   readQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<QueryReadQuestionArgs, 'input'>>;
@@ -730,6 +798,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createClosure?: Resolver<Maybe<ResolversTypes['Closure']>, ParentType, ContextType, RequireFields<MutationCreateClosureArgs, 'input'>>;
   updateClosure?: Resolver<Maybe<ResolversTypes['Closure']>, ParentType, ContextType, RequireFields<MutationUpdateClosureArgs, 'input'>>;
   deleteClosure?: Resolver<Maybe<ResolversTypes['Closure']>, ParentType, ContextType, RequireFields<MutationDeleteClosureArgs, 'input'>>;
+  createGraphEdge?: Resolver<Maybe<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<MutationCreateGraphEdgeArgs, 'input'>>;
+  updateGraphEdge?: Resolver<Maybe<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<MutationUpdateGraphEdgeArgs, 'input'>>;
+  deleteGraphEdge?: Resolver<Maybe<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<MutationDeleteGraphEdgeArgs, 'input'>>;
   createQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<MutationCreateQuestionArgs, 'input'>>;
   updateQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<MutationUpdateQuestionArgs, 'input'>>;
   deleteQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<MutationDeleteQuestionArgs, 'input'>>;
@@ -750,6 +821,40 @@ export type ClosureResolvers<ContextType = any, ParentType extends ResolversPare
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
+export type GraphVertexValueResolvers<ContextType = any, ParentType extends ResolversParentTypes['GraphVertexValue'] = ResolversParentTypes['GraphVertexValue']> = {
+  __resolveType: TypeResolveFn<'Question' | 'Closure' | 'Answer', ParentType, ContextType>;
+};
+
+export type GraphResolvers<ContextType = any, ParentType extends ResolversParentTypes['Graph'] = ResolversParentTypes['Graph']> = {
+  uuid?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  vertices?: Resolver<Array<ResolversTypes['GraphVertex']>, ParentType, ContextType>;
+  edges?: Resolver<Array<ResolversTypes['GraphEdge']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
+export type GraphVertexResolvers<ContextType = any, ParentType extends ResolversParentTypes['GraphVertex'] = ResolversParentTypes['GraphVertex']> = {
+  uuid?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  graphId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  value?: Resolver<Maybe<ResolversTypes['GraphVertexValue']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
+export type GraphEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['GraphEdge'] = ResolversParentTypes['GraphEdge']> = {
+  uuid?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  graphId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  from?: Resolver<ResolversTypes['GraphVertex'], ParentType, ContextType>;
+  to?: Resolver<ResolversTypes['GraphVertex'], ParentType, ContextType>;
+  weight?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
@@ -777,40 +882,6 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   hello?: SubscriptionResolver<ResolversTypes['String'], "hello", ParentType, ContextType, RequireFields<SubscriptionHelloArgs, 'name'>>;
-};
-
-export type GraphVertexValueResolvers<ContextType = any, ParentType extends ResolversParentTypes['GraphVertexValue'] = ResolversParentTypes['GraphVertexValue']> = {
-  __resolveType: TypeResolveFn<'Question' | 'Closure' | 'Answer', ParentType, ContextType>;
-};
-
-export type GraphResolvers<ContextType = any, ParentType extends ResolversParentTypes['Graph'] = ResolversParentTypes['Graph']> = {
-  uuid?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
-  vertices?: Resolver<Array<ResolversTypes['GraphVertex']>, ParentType, ContextType>;
-  edges?: Resolver<Array<ResolversTypes['GraphEdge']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-};
-
-export type GraphVertexResolvers<ContextType = any, ParentType extends ResolversParentTypes['GraphVertex'] = ResolversParentTypes['GraphVertex']> = {
-  uuid?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
-  graphId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  value?: Resolver<ResolversTypes['GraphVertexValue'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-};
-
-export type GraphEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['GraphEdge'] = ResolversParentTypes['GraphEdge']> = {
-  uuid?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
-  graphId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  from?: Resolver<ResolversTypes['GraphVertex'], ParentType, ContextType>;
-  to?: Resolver<ResolversTypes['GraphVertex'], ParentType, ContextType>;
-  weight?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
 export type SurveyCustomizationResolvers<ContextType = any, ParentType extends ResolversParentTypes['SurveyCustomization'] = ResolversParentTypes['SurveyCustomization']> = {
@@ -862,14 +933,14 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Closure?: ClosureResolvers<ContextType>;
-  Question?: QuestionResolvers<ContextType>;
-  Date?: GraphQLScalarType;
-  JSON?: GraphQLScalarType;
-  Subscription?: SubscriptionResolvers<ContextType>;
   GraphVertexValue?: GraphVertexValueResolvers<ContextType>;
   Graph?: GraphResolvers<ContextType>;
   GraphVertex?: GraphVertexResolvers<ContextType>;
   GraphEdge?: GraphEdgeResolvers<ContextType>;
+  Question?: QuestionResolvers<ContextType>;
+  Date?: GraphQLScalarType;
+  JSON?: GraphQLScalarType;
+  Subscription?: SubscriptionResolvers<ContextType>;
   SurveyCustomization?: SurveyCustomizationResolvers<ContextType>;
   Survey?: SurveyResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
