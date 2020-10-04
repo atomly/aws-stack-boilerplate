@@ -58,11 +58,12 @@ export async function startServer(): Promise<void> {
     // Setting up CORS:
     app.use(cors({
       // Configures the Access-Control-Allow-Origin CORS header.
-      origin: [
-        // RegExp that matches the URIs found in this post:
-        // https://stackoverflow.com/questions/8426171/what-regex-will-match-all-loopback-addresses
-        /^localhost$|^127(?:\.[0-9]+){0,2}\.[0-9]+$|^(?:0*\\:)*?:?0*1$/,
-      ],
+      // origin: [
+      //   // RegExp that matches the URIs found in this post:
+      //   // https://stackoverflow.com/questions/8426171/what-regex-will-match-all-loopback-addresses
+      //   /^localhost$|^127(?:\.[0-9]+){0,2}\.[0-9]+$|^(?:0*\\:)*?:?0*1$/,
+      // ],
+      origin: 'http://localhost:3000',
       // Configures the Access-Control-Allow-Methods CORS header.
       // Only accept POST requests for GraphQL, and GET requests for the playground.
       methods: [
