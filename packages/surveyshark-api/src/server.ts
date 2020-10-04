@@ -1,5 +1,6 @@
 // Libraries
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import express, { Response, Request } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import expressPlayground from 'graphql-playground-middleware-express';
@@ -54,8 +55,38 @@ export async function startServer(): Promise<void> {
     // Setting up a database connection:
     await dbContext.open();
 
+    // Setting up CORS:
+    app.use(cors({
+      // Configures the Access-Control-Allow-Origin CORS header.
+      origin: [
+        // RegExp that matches the URIs found in this post:
+        // https://stackoverflow.com/questions/8426171/what-regex-will-match-all-loopback-addresses
+        /^localhost$|^127(?:\.[0-9]+){0,2}\.[0-9]+$|^(?:0*\\:)*?:?0*1$/,
+      ],
+      // Configures the Access-Control-Allow-Methods CORS header.
+      // Only accept POST requests for GraphQL, and GET requests for the playground.
+      methods: [
+        'GET',
+        // 'HEAD',
+        // 'PUT',
+        // 'PATCH',
+        'POST',
+        // 'DELETE',
+      ],
+      // Pass the CORS preflight response to the next handler.
+      preflightContinue: false,
+      // Provides a status code to use for successful OPTIONS requests, since some
+      // legacy browsers (IE11, various SmartTVs) choke on 204.
+      optionsSuccessStatus: 200,
+      // // Configures the Access-Control-Allow-Headers CORS header.
+      // allowedHeaders: ['Content-Type', 'Authorization'],
+      // // Configures the Access-Control-Max-Age CORS header.
+      // maxAge: 1000, // 1000 seconds.
+    }));
+
     // Setting up sessions stored in Redis for user authentication on login:
     app.use(
+      // TODO: Set up cookie authentication and reduce max age of cookies later.
       session({
         store: new RedisStore({
           client: redis,

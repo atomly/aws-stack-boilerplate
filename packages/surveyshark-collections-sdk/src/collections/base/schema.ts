@@ -54,7 +54,7 @@ export class BaseSchema<T> extends Schema<T> {
     });
 
     /**
-     * Hook that writes the updatedAt` property before updating.
+     * Hook that "refreshes" the `updatedAt` property before updating.
      */
     this.pre<BaseDocument>(/update/g, function(next) {
       this.update({}, { updatedAt: BaseSchema.now() });

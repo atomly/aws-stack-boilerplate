@@ -66,6 +66,11 @@ export function graphEdgeQueryPipeline(fromVertexKey: string, toVertexKey: strin
         as: 'from',
       },
     }, {
+      $unwind: {
+        path: '$from',
+        preserveNullAndEmptyArrays: true,
+      },
+    }, {
       $lookup: {
         from: 'graph_vertices', 
         localField: 'to', 
@@ -74,11 +79,8 @@ export function graphEdgeQueryPipeline(fromVertexKey: string, toVertexKey: strin
       },
     }, {
       $unwind: {
-        path: '$from',
-      },
-    }, {
-      $unwind: {
         path: '$to',
+        preserveNullAndEmptyArrays: true,
       },
     }, {
       $match: {
