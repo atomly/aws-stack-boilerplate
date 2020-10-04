@@ -82,6 +82,8 @@ export async function startServer(): Promise<void> {
       // allowedHeaders: ['Content-Type', 'Authorization'],
       // // Configures the Access-Control-Max-Age CORS header.
       // maxAge: 1000, // 1000 seconds.
+      // Configures the Access-Control-Allow-Credentials CORS header. Set to true to pass the header.
+      credentials: true,
     }));
 
     // Setting up sessions stored in Redis for user authentication on login:
