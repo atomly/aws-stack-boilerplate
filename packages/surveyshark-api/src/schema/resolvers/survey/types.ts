@@ -1,5 +1,5 @@
 // Libraries
-import { Survey, Question, Answer, Closure } from '@atomly/surveyshark-collections-sdk';
+import { Survey, Question, Answer, Closure } from '@atomly/surveyshark-collections-lib';
 
 // Dependencies
 import { IThrowError } from '../../../utils';
@@ -14,11 +14,12 @@ import {
 
 export interface ISurveysResolverMap extends IResolvers {
   GraphVertexValue: {
-    __resolveType(object: Question | Answer | Closure, info: IContext): 'Question' | 'Answer' | 'Closure' | null;
+    __resolveType(object: Question | Answer | Closure, info: IContext): 'Question' | 'Answer' | 'Closure' | 'WelcomeScreen' | null;
   }
   Query: {
     readSurvey: Resolver<null, GQL.QueryReadSurveyArgs, Promise<Survey | null>>;
     readSurveys: Resolver<null, GQL.QueryReadSurveysArgs, Promise<Survey[] | IThrowError>>;
+    validateSurvey: Resolver<null, GQL.QueryValidateSurveyArgs, Promise<GQL.SurveyValidationError[] | null>>;
   },
   Mutation: {
     createSurvey: Resolver<null, GQL.MutationCreateSurveyArgs, Promise<Survey | IThrowError>>;

@@ -1,19 +1,21 @@
 // Libraries
-import { Survey, User, SurveyDocument, Question, Answer, Closure, SurveyTypes } from '@atomly/surveyshark-collections-sdk';
+import { Survey, User, SurveyDocument, Question, Answer, Closure, SurveyTypes, SurveyStatuses, WelcomeScreen } from '@atomly/surveyshark-collections-lib';
 
 // Types
 import { ISurveysResolverMap } from './types';
 import { IThrowError } from '../../../utils';
+import { GQL } from '../../../types';
 
 // Utils
 import { throwError } from '../../../utils';
+import { validateSurvey } from './utils';
 
 // Dependencies
 import { surveysWithDataPopulatePipeline } from './aggregations';
 
 const resolvers: ISurveysResolverMap = {
   GraphVertexValue: {
-    __resolveType(object: Question | Answer | Closure): 'Question' | 'Answer' | 'Closure' | null {
+    __resolveType(object: Question | Answer | Closure | WelcomeScreen): 'Question' | 'Answer' | 'Closure' | 'WelcomeScreen' | null {
       switch(object.type) {
         case SurveyTypes.QUESTION:
           return 'Question';
@@ -21,6 +23,8 @@ const resolvers: ISurveysResolverMap = {
           return 'Answer';
         case SurveyTypes.CLOSURE:
           return 'Closure';
+        case SurveyTypes.WELCOME_SCREEN:
+          return 'WelcomeScreen';
         default:
           return null;
       }
@@ -66,6 +70,23 @@ const resolvers: ISurveysResolverMap = {
         }).lean();
         return surveys;
       }
+    },
+    async validateSurvey(_, { input }, { dbContext }): Promise<GQL.SurveyValidationError[] | null> {
+      const survey = await dbContext.collections.Surveys.model
+        .findOne({
+          uuid: input.uuid,
+          status: SurveyStatuses.UNPUBLISHED,
+        })
+        .populate(surveysWithDataPopulatePipeline)
+        .lean<Survey>();
+      if (survey) {
+        const unconnectedVertices = validateSurvey(survey);
+        return unconnectedVertices.map(vertex => ({
+          vertexKey: vertex.key,
+          error: 'Vertex has no edges.',
+        }));
+      }
+      return null;
     },
   },
   Mutation: {

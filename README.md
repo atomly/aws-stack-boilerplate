@@ -24,7 +24,8 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN `npm run doc` TO UPDATE -->
 
 - [@atomly/surveyshark-api](https://github.com/atomly/surveyshark/tree/master/packages/surveyshark-api "@atomly/surveyshark-api package homepage")
-- [@atomly/surveyshark-collections-sdk](https://github.com/atomly/surveyshark/tree/master/packages/surveyshark-collections-sdk "@atomly/surveyshark-collections-sdk package homepage")
+- [@atomly/surveyshark-collections-lib](https://github.com/atomly/surveyshark/tree/master/packages/surveyshark-collections-lib "@atomly/surveyshark-collections-lib package homepage")
+- [@atomly/surveyshark-services](https://github.com/atomly/surveyshark/tree/master/packages/surveyshark-services "@atomly/surveyshark-services package homepage")
 
 <!-- END custom generated Lerna Packages please keep comment here to allow auto update -->
 

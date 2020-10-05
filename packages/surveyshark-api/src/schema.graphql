@@ -30,8 +30,11 @@ type Query {
   ping: String!
   readQuestion(input: QueryReadQuestionInput!, withAnswers: Boolean): Question
   readQuestions(input: QueryReadQuestionsInput!, withAnswers: Boolean): [Question!]!
+  readResult(input: QueryReadResultInput!): Result
+  readResults(input: QueryReadResultsInput!): [Result!]!
   readSurvey(input: QueryReadSurveyInput!): Survey
   readSurveys(withData: Boolean): [Survey!]!
+  validateSurvey(input: QueryValidateSurveyInput!): [SurveyValidationError]
   user(input: QueryUserInput!): User
   me: User
   defaultAuthentication(input: QueryDefaultAuthenticationInput!): User
@@ -71,6 +74,9 @@ type Mutation {
   createQuestion(input: MutationCreateQuestionInput!): Question
   updateQuestion(input: MutationUpdateQuestionInput!): Question
   deleteQuestion(input: MutationDeleteQuestionInput!): Question
+  createResult(input: MutationCreateResultInput!): Result
+  updateResult(input: MutationUpdateResultInput!): Result
+  deleteResult(input: MutationDeleteResultInput!): Result
   createSurvey(input: MutationCreateSurveyInput!): Survey
   updateSurvey(input: MutationUpdateSurveyInput!): Survey
   deleteSurvey(input: MutationDeleteSurveyInput!): Survey
@@ -143,7 +149,7 @@ enum QuestionTypes {
   MULTI_CHOICES
 }
 
-union GraphVertexValue = Question | Closure | Answer
+union GraphVertexValue = Question | Closure | Answer | WelcomeScreen
 
 type Graph {
   uuid: ID!
@@ -239,6 +245,54 @@ input MutationDeleteQuestionInput {
   uuid: ID!
 }
 
+type ResultData {
+  uuid: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  question: Question!
+  answer: JSON!
+}
+
+type Result {
+  uuid: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  surveyId: ID!
+  data: [ResultData!]!
+  identifier: String
+}
+
+input ResultDataInput {
+  uuid: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  questionId: ID!
+  answer: JSON!
+}
+
+input QueryReadResultInput {
+  uuid: ID!
+}
+
+input QueryReadResultsInput {
+  surveyId: ID!
+}
+
+input MutationCreateResultInput {
+  surveyId: ID!
+  data: [ResultDataInput!]!
+  identifier: String
+}
+
+input MutationUpdateResultInput {
+  uuid: ID!
+  identifier: String
+}
+
+input MutationDeleteResultInput {
+  uuid: ID!
+}
+
 scalar Date
 
 scalar JSON
@@ -265,7 +319,16 @@ type Survey {
   customization: SurveyCustomization!
 }
 
+type SurveyValidationError {
+  vertexKey: ID!
+  error: String!
+}
+
 input QueryReadSurveyInput {
+  uuid: ID!
+}
+
+input QueryValidateSurveyInput {
   uuid: ID!
 }
 

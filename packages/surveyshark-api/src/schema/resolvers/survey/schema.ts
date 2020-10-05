@@ -19,13 +19,23 @@ type Survey {
   customization: SurveyCustomization!
 }
 
+type SurveyValidationError {
+  vertexKey: ID!
+  error: String!
+}
+
 input QueryReadSurveyInput {
+  uuid: ID!
+}
+
+input QueryValidateSurveyInput {
   uuid: ID!
 }
 
 type Query {
   readSurvey(input: QueryReadSurveyInput!): Survey
   readSurveys(withData: Boolean): [Survey!]!
+  validateSurvey(input: QueryValidateSurveyInput!): [SurveyValidationError]
 }
 
 input SurveyCustomizationInput {

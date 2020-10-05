@@ -1,5 +1,5 @@
 // Libraries
-import { Question, SurveyTypes, QuestionTypes, GraphVertexDocument } from '@atomly/surveyshark-collections-sdk';
+import { Question, QuestionTypes, GraphVertexDocument } from '@atomly/surveyshark-collections-lib';
 
 // Types
 import { IQuestionsResolverMap } from './types';
@@ -13,7 +13,7 @@ import { questionsWithAnswersPipeline, questionWithAnswersPipeline } from './agg
 
 const resolvers: IQuestionsResolverMap = {
   Question: {
-    data(parent): SurveyTypes {
+    data(parent): Question['data'] {
       return safeJsonParse(parent.data).value || parent.data;
     },
   },

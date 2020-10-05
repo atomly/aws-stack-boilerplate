@@ -1,11 +1,11 @@
 {
-  "name": "@atomly/surveyshark-collections-sdk",
+  "name": "@atomly/surveyshark-collections-lib",
   "private": "true",
   "version": "1.0.0",
   "description": "SurveyShark MongoDB collections.",
   "keywords": [],
   "author": "Robert Molina <rmolinamir@gmail.com>",
-  "homepage": "https://github.com/atomly/surveyshark-collections-sdk#readme",
+  "homepage": "https://github.com/atomly/surveyshark-collections-lib#readme",
   "license": "ISC",
   "main": "dist/src/index",
   "files": [
@@ -13,7 +13,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/atomly/surveyshark-collections-sdk.git"
+    "url": "git+https://github.com/atomly/surveyshark-collections-lib.git"
   },
   "scripts": {
     "build": "tsc -b",
@@ -52,6 +52,6 @@
     "node": ">=8.10.0"
   },
   "bugs": {
-    "url": "https://github.com/atomly/surveyshark-collections-sdk/issues"
+    "url": "https://github.com/atomly/surveyshark-collections-lib/issues"
   }
 }

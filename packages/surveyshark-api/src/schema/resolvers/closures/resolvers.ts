@@ -1,5 +1,5 @@
 // Libraries
-import { Closure } from '@atomly/surveyshark-collections-sdk';
+import { Closure } from '@atomly/surveyshark-collections-lib';
 
 // Types
 import { IClosuresResolverMap } from './types';

@@ -1,5 +1,5 @@
 // Libraries
-import { SurveyStatuses, SurveyTypes, QuestionTypes } from '@atomly/surveyshark-collections-sdk';
+import { SurveyStatuses, SurveyTypes, QuestionTypes } from '@atomly/surveyshark-collections-lib';
 
 // Types
 import { IEnumsResolverMap } from './types';

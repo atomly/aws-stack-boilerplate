@@ -1,5 +1,5 @@
 // Libraries
-import { GraphEdge } from '@atomly/surveyshark-collections-sdk';
+import { GraphEdge } from '@atomly/surveyshark-collections-lib';
 
 // Types
 import { IGraphsResolverMap } from './types';

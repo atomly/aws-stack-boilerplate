@@ -1,5 +1,5 @@
 // Libraries
-import { WelcomeScreen } from '@atomly/surveyshark-collections-sdk';
+import { WelcomeScreen } from '@atomly/surveyshark-collections-lib';
 
 // Dependencies
 import { IThrowError } from '../../../utils';

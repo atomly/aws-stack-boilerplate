@@ -1,5 +1,5 @@
 // Libraries
-import { Question } from '@atomly/surveyshark-collections-sdk';
+import { Question } from '@atomly/surveyshark-collections-lib';
 
 // Dependencies
 import { IThrowError } from '../../../utils';

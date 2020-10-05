@@ -1,5 +1,5 @@
 // Libraries
-import { User } from '@atomly/surveyshark-collections-sdk';
+import { User } from '@atomly/surveyshark-collections-lib';
 import bcrypt from 'bcrypt';
 
 // Types

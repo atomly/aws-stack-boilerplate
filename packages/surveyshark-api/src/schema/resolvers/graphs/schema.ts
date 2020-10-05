@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export default gql`
-union GraphVertexValue = Question | Closure | Answer
+union GraphVertexValue = Question | Closure | Answer | WelcomeScreen
 
 type Graph {
   uuid: ID!

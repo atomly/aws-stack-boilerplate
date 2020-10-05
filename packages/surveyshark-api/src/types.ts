@@ -2,7 +2,7 @@
 // Types
 import { Request, Response } from'express';
 import { Redis } from 'ioredis';
-import { SurveySharkDBContext } from '@atomly/surveyshark-collections-sdk';
+import { SurveySharkDBContext } from '@atomly/surveyshark-collections-lib';
 import { GraphQLResolveInfo } from 'graphql';
 import { IResolvers as Resolvers } from 'graphql-tools';
 

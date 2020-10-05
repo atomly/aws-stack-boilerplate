@@ -1,5 +1,5 @@
 // Libraries
-import { Answer, SurveyTypes } from '@atomly/surveyshark-collections-sdk';
+import { Answer } from '@atomly/surveyshark-collections-lib';
 
 // Types
 import { IAnswersResolverMap } from './types';
@@ -10,7 +10,7 @@ import { throwError } from '../../../utils';
 
 const resolvers: IAnswersResolverMap = {
   Answer: {
-    data(parent): SurveyTypes {
+    data(parent): Answer['data'] {
       return safeJsonParse(parent.data).value || parent.data;
     },
   },
