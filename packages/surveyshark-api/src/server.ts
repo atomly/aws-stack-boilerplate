@@ -59,9 +59,9 @@ export async function startServer(): Promise<void> {
     app.use(cors({
       // Configures the Access-Control-Allow-Origin CORS header.
       origin: [
-        // RegExp that matches the URIs found in this post:
+        // RegExp that matches local URIs found based in this post:
         // https://stackoverflow.com/questions/8426171/what-regex-will-match-all-loopback-addresses
-        /^localhost$|^127(?:\.[0-9]+){0,2}\.[0-9]+$|^(?:0*\\:)*?:?0*1$/,
+        /(https?)(:\/\/)(localhost|127(?:\.[0-9]+){0,2}\.[0-9]+|(?:0*\\:)*?:?0*1)/,
       ],
       // Configures the Access-Control-Allow-Methods CORS header.
       // Only accept POST requests for GraphQL, and GET requests for the playground.
@@ -82,6 +82,8 @@ export async function startServer(): Promise<void> {
       // allowedHeaders: ['Content-Type', 'Authorization'],
       // // Configures the Access-Control-Max-Age CORS header.
       // maxAge: 1000, // 1000 seconds.
+      // Configures the Access-Control-Allow-Credentials CORS header. Set to true to pass the header.
+      credentials: true,
     }));
 
     // Setting up sessions stored in Redis for user authentication on login:
