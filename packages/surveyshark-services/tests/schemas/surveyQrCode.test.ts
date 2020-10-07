@@ -1,5 +1,5 @@
 import AJV from 'ajv';
-import postSchema from '../../src/routers/survey_qr_code/schemas/post.json';
+import postSchema from '../../src/routers/survey_fill_url_qr_code/schemas/post.json';
 
 let ajv: AJV.Ajv;
 

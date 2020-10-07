@@ -3,21 +3,21 @@ import { Router } from 'express';
 
 // Dependenies
 import { jsonSchemaValidatorMiddleware } from '../../middlewares';
-import { controller } from './controllers';
+import { SurveyFillUrlQrCodeController } from './controller';
 
 // Schemas
 import postSchema from './schemas/post.json';
 
-export const baseUrl = 'survey_qr_code';
+export const baseUrl = 'survey_fill_url_qr_code';
 
-export function setRouter(): Router {
+export function setSurveyFillUrlQrCodeRouter(): Router {
   const router: Router = Router();
 
   router
     .route(`/${baseUrl}`)
     .post(
       jsonSchemaValidatorMiddleware(postSchema),
-      controller.post,
+      SurveyFillUrlQrCodeController.post,
     );
 
   return router;
