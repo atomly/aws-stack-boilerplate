@@ -7,7 +7,7 @@ import { BaseSchema } from '../base';
 import { usersCollection } from '../users';
 import { graphsCollection } from '../graphs';
 import { graphVerticesCollection } from '../graph_vertices';
-import { RGB_RGBA_REGEXP } from '../../regexps';
+import { DATA_IMAGE_PNG_BASE64_REGEXP, RGB_RGBA_REGEXP } from '../../regexps';
 import { getRandomColor } from '../../utils';
 
 // Type
@@ -40,6 +40,11 @@ export const surveySchema = new BaseSchema<SurveyDocument>({
   description: {
     type: Schema.Types.String,
     default: undefined,
+  },
+  fillUrlQrCode: {
+    type: Schema.Types.String,
+    default: undefined,
+    match: DATA_IMAGE_PNG_BASE64_REGEXP,
   },
   // collaborators: [{
   //   type: Schema.Types.ObjectId,

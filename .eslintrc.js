@@ -106,7 +106,7 @@ module.exports = {
       },
       rules: {
         // 'eslint-plugin/no-identical-tests': 'error',
-        'jest/no-test-callback': 'off',
+        // 'jest/no-test-callback': 'off',
         'jest/no-disabled-tests': 'warn',
         'jest/no-focused-tests': 'error',
         'jest/no-alias-methods': 'error',
@@ -114,7 +114,7 @@ module.exports = {
         'jest/no-jasmine-globals': 'error',
         'jest/no-jest-import': 'error',
         'jest/no-test-prefixes': 'error',
-        'jest/no-test-callback': 'error',
+        // 'jest/no-test-callback': 'error',
         'jest/no-test-return-statement': 'error',
         'jest/prefer-to-have-length': 'warn',
         'jest/prefer-spy-on': 'error',

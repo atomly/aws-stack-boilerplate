@@ -546,6 +546,7 @@ export type Survey = {
   user: User;
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
+  fillUrlQrCode?: Maybe<Scalars['String']>;
   graph: Graph;
   startingVertex?: Maybe<GraphVertex>;
   closingVertex?: Maybe<GraphVertex>;
@@ -883,7 +884,7 @@ export type AnswerResolvers<ContextType = any, ParentType extends ResolversParen
   subType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   data?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -943,7 +944,7 @@ export type ClosureResolvers<ContextType = any, ParentType extends ResolversPare
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type GraphVertexValueResolvers<ContextType = any, ParentType extends ResolversParentTypes['GraphVertexValue'] = ResolversParentTypes['GraphVertexValue']> = {
@@ -956,7 +957,7 @@ export type GraphResolvers<ContextType = any, ParentType extends ResolversParent
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   vertices?: Resolver<Array<ResolversTypes['GraphVertex']>, ParentType, ContextType>;
   edges?: Resolver<Array<ResolversTypes['GraphEdge']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type GraphVertexResolvers<ContextType = any, ParentType extends ResolversParentTypes['GraphVertex'] = ResolversParentTypes['GraphVertex']> = {
@@ -966,7 +967,7 @@ export type GraphVertexResolvers<ContextType = any, ParentType extends Resolvers
   graphId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   value?: Resolver<Maybe<ResolversTypes['GraphVertexValue']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type GraphEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['GraphEdge'] = ResolversParentTypes['GraphEdge']> = {
@@ -977,7 +978,7 @@ export type GraphEdgeResolvers<ContextType = any, ParentType extends ResolversPa
   from?: Resolver<ResolversTypes['GraphVertex'], ParentType, ContextType>;
   to?: Resolver<ResolversTypes['GraphVertex'], ParentType, ContextType>;
   weight?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QuestionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Question'] = ResolversParentTypes['Question']> = {
@@ -991,7 +992,7 @@ export type QuestionResolvers<ContextType = any, ParentType extends ResolversPar
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   data?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
   answers?: Resolver<Maybe<Array<ResolversTypes['Answer']>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ResultDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResultData'] = ResolversParentTypes['ResultData']> = {
@@ -1000,7 +1001,7 @@ export type ResultDataResolvers<ContextType = any, ParentType extends ResolversP
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   question?: Resolver<ResolversTypes['Question'], ParentType, ContextType>;
   answer?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['Result'] = ResolversParentTypes['Result']> = {
@@ -1010,7 +1011,7 @@ export type ResultResolvers<ContextType = any, ParentType extends ResolversParen
   surveyId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   data?: Resolver<Array<ResolversTypes['ResultData']>, ParentType, ContextType>;
   identifier?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
@@ -1027,7 +1028,7 @@ export type SubscriptionResolvers<ContextType = any, ParentType extends Resolver
 
 export type SurveyCustomizationResolvers<ContextType = any, ParentType extends ResolversParentTypes['SurveyCustomization'] = ResolversParentTypes['SurveyCustomization']> = {
   color?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type SurveyResolvers<ContextType = any, ParentType extends ResolversParentTypes['Survey'] = ResolversParentTypes['Survey']> = {
@@ -1038,17 +1039,18 @@ export type SurveyResolvers<ContextType = any, ParentType extends ResolversParen
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  fillUrlQrCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   graph?: Resolver<ResolversTypes['Graph'], ParentType, ContextType>;
   startingVertex?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType>;
   closingVertex?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType>;
   customization?: Resolver<ResolversTypes['SurveyCustomization'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type SurveyValidationErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['SurveyValidationError'] = ResolversParentTypes['SurveyValidationError']> = {
   vertexKey?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   error?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -1061,7 +1063,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type WelcomeScreenResolvers<ContextType = any, ParentType extends ResolversParentTypes['WelcomeScreen'] = ResolversParentTypes['WelcomeScreen']> = {
@@ -1072,7 +1074,7 @@ export type WelcomeScreenResolvers<ContextType = any, ParentType extends Resolve
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {

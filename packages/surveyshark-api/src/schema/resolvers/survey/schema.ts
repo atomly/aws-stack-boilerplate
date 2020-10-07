@@ -13,6 +13,7 @@ type Survey {
   user: User!
   name: String!
   description: String
+  fillUrlQrCode: String
   graph: Graph!
   startingVertex: GraphVertex
   closingVertex: GraphVertex

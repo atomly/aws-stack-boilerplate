@@ -120,3 +120,7 @@ tmp
 
 # AWS SSM Parameter Store Configuration
 aws.ssm.config.json
+
+# Environmental Variables file
+.env.dev
+.env.prod
