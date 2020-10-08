@@ -46,21 +46,21 @@ provider:
     STAGE: ${{self:custom.stage}}
 
 functions:
-  survey_fill_url_qr_code:
-    name: ${{self:custom.projectName}}-SurveyFillUrlQRCode-${{self:custom.stage}} # Deployed Lambda name
+  api:
+    name: ${{self:custom.projectName}}-API-${{self:custom.stage}} # Deployed Lambda name
     description: QR generator for the Fill Surveys URLs.
-    handler: dist/src/handlers/survey_fill_url_qr_code.handler
+    handler: dist/src/handlers/surveyshark_services.handler
     tags: ${{self:custom.tags}} 
     timeout: 30
     memorySize: 512
     events:
       - http:
           path: /
-          method: ANY
+          method: any
           private: true
           cors: true
       - http:
-          method: ANY
+          method: any
           path: /{proxy+}
           private: true
           cors: true

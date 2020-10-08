@@ -6,9 +6,11 @@ import awsServerlessExpress, { Response }  from 'aws-serverless-express';
 // Dependencies
 import { context as c } from '../context';
 import { buildExpressApp } from '../app';
-
-// Routes
-import { setSurveyFillUrlQrCodeRouter } from '../routers';
+import {
+  composeRouters,
+  setSurveyExportResultsRouter,
+  setSurveyFillUrlQrCodeRouter,
+} from '../routers';
 
 export async function handler(event: APIGatewayProxyEvent, context: Context): Promise<Response> {
   // // See https://www.mongodb.com/blog/post/serverless-development-with-nodejs-aws-lambda-mongodb-atlas
@@ -16,7 +18,10 @@ export async function handler(event: APIGatewayProxyEvent, context: Context): Pr
 
   await c.dbContext.open();
 
-  const app = buildExpressApp(setSurveyFillUrlQrCodeRouter());
+  const app = buildExpressApp(composeRouters(
+    setSurveyExportResultsRouter(),
+    setSurveyFillUrlQrCodeRouter(),
+  ));
 
   const server = awsServerlessExpress.createServer(app);
 

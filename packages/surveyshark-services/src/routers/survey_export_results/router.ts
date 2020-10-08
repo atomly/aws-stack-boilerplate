@@ -3,15 +3,15 @@ import { Router } from 'express';
 
 // Dependenies
 import { jsonSchemaValidatorMiddleware } from '../../middlewares';
-import { SurveyFillUrlQrCodeController } from './controller';
+import { SurveyExportResultsController } from './controller';
 
 // Schemas
 import postSchema from './schemas/post.json';
 
-export function setSurveyFillUrlQrCodeRouter(args: {
+export function setSurveyExportResultsRouter(args: {
   baseUrl: string;
 } = {
-  baseUrl: 'survey_fill_url_qr_code',
+  baseUrl: 'survey_export_results',
 }): Router {
   const router: Router = Router();
 
@@ -19,7 +19,7 @@ export function setSurveyFillUrlQrCodeRouter(args: {
     .route(`/${args.baseUrl}`)
     .post(
       jsonSchemaValidatorMiddleware(postSchema),
-      SurveyFillUrlQrCodeController.post,
+      SurveyExportResultsController.post,
     );
 
   return router;
