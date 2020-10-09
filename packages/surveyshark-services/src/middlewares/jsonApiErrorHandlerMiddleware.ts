@@ -2,9 +2,6 @@
 import { HttpError } from 'http-errors';
 import { Request, Response, NextFunction } from 'express';
 
-// Dependencies
-import { context } from '../context';
-
 const HttpErrorCodes = {
   400: 'BadRequest',
   401: 'Unauthorized',
@@ -69,8 +66,6 @@ export async function jsonApiErrorHandlerMiddleware(
   if (err) {
     // eslint-disable-next-line no-console
     console.error('ERROR: ', err);
-
-    await context?.dbContext.close();
 
     switch (true) {
       // Using http-error package

@@ -14,7 +14,7 @@ export function buildExpressApp(
   const app = express();
 
   //
-  // Express configuration.
+  // Middlewares
   //
 
   // Setting up CORS:
@@ -48,10 +48,6 @@ export function buildExpressApp(
     credentials: true,
   }));
 
-  //
-  // Middlewares
-  //
-
   // Parses json/text and only looks at requests where the Content-Type header matches the type option.
   app.use(bodyParser.json({ strict: false, limit: '10mb' }));
   app.use(bodyParser.text());
@@ -67,7 +63,11 @@ export function buildExpressApp(
 
   app.use(router);
 
-  // Middleware for error handling.
+  //
+  // Error Handling (must go last)
+  //
+
+  // Parses errors and sends them following the JSON API error specs:
   app.use(jsonApiErrorHandlerMiddleware);
 
   return app;
