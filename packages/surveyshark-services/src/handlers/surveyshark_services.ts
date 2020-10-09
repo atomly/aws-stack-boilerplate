@@ -2,6 +2,7 @@
 // Libraries
 import { APIGatewayProxyEvent, Context } from 'aws-lambda';
 import awsServerlessExpress, { Response }  from 'aws-serverless-express';
+import awsServerlessExpressMiddleware  from 'aws-serverless-express/middleware';
 
 // Dependencies
 import { context as c } from '../context';
@@ -18,10 +19,14 @@ export async function handler(event: APIGatewayProxyEvent, context: Context): Pr
 
   await c.dbContext.open();
 
-  const app = buildExpressApp(composeRouters(
-    setSurveyExportResultsRouter(),
-    setSurveyFillUrlQrCodeRouter(),
-  ));
+  const app = buildExpressApp(
+    composeRouters(
+      setSurveyExportResultsRouter(),
+      setSurveyFillUrlQrCodeRouter(),
+    ),
+    // Applying AWS SLS middleware to express to get the API Gateway event object:
+    awsServerlessExpressMiddleware.eventContext,
+  );
 
   const server = awsServerlessExpress.createServer(app);
 

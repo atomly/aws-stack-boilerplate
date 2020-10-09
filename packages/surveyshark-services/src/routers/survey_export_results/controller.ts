@@ -16,6 +16,7 @@ interface SurveyExportResultsPostRequestBody {
 
 export class SurveyExportResultsController {
   static streamTransformer(fileFormat: SurveyExportResultsFileFormat, doc: Result): string {
+    console.log('doc: ', doc);
     switch (fileFormat) {
       case SurveyExportResultsFileFormat.JSON:
         return JSON.stringify(doc);
@@ -38,7 +39,7 @@ export class SurveyExportResultsController {
         .model
         .find({ surveyId })
         .cursor({ transform: (doc: Result) => this.streamTransformer(fileFormat, doc) })
-        .pipe(res.type('application/json'))
+        .pipe(res.type('application/json'));
     } catch (err) {
       next(err);
     }

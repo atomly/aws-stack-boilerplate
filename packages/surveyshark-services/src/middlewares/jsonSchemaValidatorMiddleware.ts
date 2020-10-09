@@ -26,13 +26,13 @@ export function jsonSchemaValidatorMiddleware(
         // If there are any errors, parse them and throw them:
         if (Array.isArray(ajv.errors)) {
           ajv.errors.forEach(e => {
-            validationErrorMessages.push(`${e.dataPath} - ${e.message}`);
+            validationErrorMessages.push(e.dataPath ? `${e.dataPath} - ${e.message}` : e.message ?? '');
           });
         }
 
         throw HttpError(
-          HttpError.BadRequest,
-          validationErrorMessages.join(', '),
+          400,
+          'Sorry, the request body resulted in a validation arror. Please check that the request body matches the correct schema and try again.',
           { errorList: validationErrorMessages },
         );
       }

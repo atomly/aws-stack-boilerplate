@@ -106,7 +106,7 @@ export async function startServer(): Promise<void> {
       }),
     );
 
-    // middleware that only parses json and only looks at requests where the
+    // Middleware that only parses json and only looks at requests where the
     // Content-Type header matches the type option.
     app.use(bodyParser.json());
 
