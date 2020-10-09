@@ -107,8 +107,7 @@ const resolvers: ISurveysResolverMap = {
         }
         const graph = await new dbContext.collections.Graphs.model().save();
         const survey = await new dbContext.collections.Surveys.model({
-          name: input.name,
-          description: input.description,
+          ...input,
           user,
           graph,
         }).save();

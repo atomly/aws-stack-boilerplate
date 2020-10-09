@@ -144,6 +144,9 @@ describe('POST /survey_export_results', function() {
           res.on('data', function(doc: string) {
             docs.push(JSON.parse(doc));
           });
+          res.on('error', function(err) {
+            callback(err, []);
+          });
           res.on('end', function() {
             callback(null, docs);
           });
