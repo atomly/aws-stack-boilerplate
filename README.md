@@ -7,14 +7,17 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Packages](#packages)
-- [Installation](#installation)
-- [Commiting code changes](#commiting-code-changes)
-- [Versioning a package](#versioning-a-package)
-- [Creating a new package](#creating-a-new-package)
-- [Add a dependency](#add-a-dependency)
-- [Building](#building)
-- [EOL](#eol)
+- [atomly](#atomly)
+  - [Packages](#packages)
+  - [Installation](#installation)
+  - [Commiting code changes](#commiting-code-changes)
+  - [Versioning a package](#versioning-a-package)
+  - [Creating a new package](#creating-a-new-package)
+  - [Add a dependency](#add-a-dependency)
+  - [Building](#building)
+  - [EOL](#eol)
+  - [TODOs](#todos)
+  - [Non-MVP TODOs](#non-mvp-todos)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -74,3 +77,19 @@ See [`@lerna/run`](https://github.com/lerna/lerna/tree/master/commands/run) for 
 This monorepo uses `LF` line endings **only**. If your local copy of this repository is using `CRLF` line endings, follow this answer:
 
 [Force LF eol in git repo and working copy](https://stackoverflow.com/a/42135910/10246377).
+
+## TODOs
+
+- [x] Finish delete resolvers. The respective vertices and edges of the deleted documents should be deleted.
+- [x] Finish update resolvers. Use `findOneAndUpdate` and also mix the input argument with the found document.
+- [x] Implement graph edge mutation resolver to connect graph vertices.
+- [x] Implement validate resolver for the survey graphs.
+- [x] Implement result query resolvers.
+- [x] Implement QR codes generator lambda function to fetch survey submission pages.
+- [x] Implement export results lambda function.
+- [ ] Implement payments with Stripe API.
+
+## Non-MVP TODOs
+
+- [ ] Add transactions to all create mutation resolvers.
+- [ ] Use graph edges weight to measure how many times users go through certain parts of the graph.

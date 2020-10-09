@@ -93,7 +93,17 @@ describe('POST /survey_export_results', function() {
     await c.dbContext.close();
   });
 
-  it('invalid request body survey UUID responds with status 400 and error json', async () => {
+  it('empty request body responds with status 400 and error json', async () => {
+    const response = await request(app)
+      .post('/survey_export_results')
+      .set('Accept', 'application/json');
+
+    expect(response.status).toBe(400);
+    expect(response.headers['content-type']).toMatch(/json/);
+    expect(response.body.errors).toBeInstanceOf(Array);
+  });
+
+  it('fake request body survey UUID responds with status 200 and empty array', async () => {
     const response = await new Promise<request.Response>((resolve, reject) => {
       request(app)
         .post('/survey_export_results')
@@ -169,18 +179,5 @@ describe('POST /survey_export_results', function() {
     expect(response.body).toHaveLength(results.length);
     expect(JSON.stringify(response.body)).toBe(JSON.stringify(results));
     expect(response.headers['content-type']).toMatch(/json/);
-  });
-
-  it('empty request body responds with status 400 and error json', async () => {
-    const response = await request(app)
-      .post('/survey_export_results')
-      .set('Accept', 'application/json');
-
-    expect(response.status).toBe(400);
-    expect(response.headers['content-type']).toMatch(/json/);
-    expect(response.body.errors).toBeInstanceOf(Array);
-
-    // // Reopening connection after error:
-    // c.dbContext.connection = null; // TODO: Fix DBContext open/close connection handlers.
   });
 });

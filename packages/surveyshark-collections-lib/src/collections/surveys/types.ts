@@ -13,6 +13,7 @@ export interface Survey<T = Question, K = Closure, R = Question | Answer | Closu
   user: User;
   name: string;
   description?: string;
+  fillUrlQrCode?: string;
   graph: Graph<R>;
   startingVertex: GraphVertex<T>;
   closingVertex: GraphVertex<K>;

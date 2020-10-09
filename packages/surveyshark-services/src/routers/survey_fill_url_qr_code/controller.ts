@@ -12,7 +12,7 @@ interface SurveyFillUrlQrCodePostRequestBody {
 
 export class SurveyFillUrlQrCodeController {
   static async generateDataUrl(surveyId: string, baseUrl: string): Promise<string> {
-    const url = baseUrl[String.prototype.lastIndexOf(baseUrl)] === '/' ?
+    const url = baseUrl[baseUrl.length - 1] === '/' ?
       `${baseUrl}survey/${surveyId}/fill` :
       `${baseUrl}/survey/${surveyId}/fill`;
     const dataUrl = await QRCode.toDataURL(url);
@@ -29,6 +29,7 @@ export class SurveyFillUrlQrCodeController {
       const survey = await context.dbContext.collections.Surveys.model.findOneAndUpdate(
         { uuid: surveyId },
         { fillUrlQrCode: qrCodeDataUrl },
+        { new: true },
       );
 
       res.status(200).json(survey);
