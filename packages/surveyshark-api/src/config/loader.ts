@@ -21,7 +21,7 @@ enum FileExtension {
 export class Loader<T extends Validator[]> {
   static errorMessageTemplate = errorMessageTemplate;
 
-  public config: KeyedByName<T>;
+  public config: KeyedByName<T> = {} as unknown as KeyedByName<T>; // Init to an empty object.
 
   private validators: T;
 
@@ -37,7 +37,9 @@ export class Loader<T extends Validator[]> {
     const promises = this.validators.map(async validator => {
       const fileContents = await this.loadFile(validator.__fileLocationUri);
       Object.assign(validator, fileContents);
-      return validator.__validate();
+      await validator.__validate();
+      const key = validator.__name as keyof KeyedByName<T>;
+      this.config[key] = fileContents as KeyedByName<T>[keyof KeyedByName<T>];
     });
     await Promise.all(promises);
   }
@@ -70,8 +72,8 @@ export class Loader<T extends Validator[]> {
       // Throw error by default
       default: {
         throw new Error(Loader.errorMessageTemplate(
-          'the URI protocol is not supported',
-          `check that is equal to ${Object.values(FileProtocol).join(', ')} and try again`,
+          `the URI protocol is not supported, received ${parsedUri.protocol}`,
+          `check that is equal to one of these values and try again: ${Object.values(FileProtocol).join(', ')}`,
         ));
       }
     }

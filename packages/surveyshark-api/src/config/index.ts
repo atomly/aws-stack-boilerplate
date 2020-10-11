@@ -8,7 +8,7 @@ import { ExpressConfig } from './express';
 import { RedisConfig } from './redis';
 
 function resolveConfigFileLoation(fileLocation: string): { fileLocationUri: string } {
-  return { fileLocationUri: path.resolve(__dirname, fileLocation) };
+  return { fileLocationUri: `file://${path.resolve(__dirname, '..', '..', fileLocation).replace(/\\/g, '/')}` };
 }
 
 export const loader = new Loader(

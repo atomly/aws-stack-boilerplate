@@ -1,8 +1,8 @@
 // Setting up our configuration
-import { setupConfig } from '../src/config';
+import { setupEnv } from '../src/env';
 
-setupConfig(setupConfig.ENodeEnvConfig.TEST);
+setupEnv(setupEnv.ENodeEnvConfig.TEST);
 
 export default async (): Promise<void> => {
-  console.log('\nStarting tests, and setting up module aliases.\n');
+  console.log('\nStarting tests...\n');
 };

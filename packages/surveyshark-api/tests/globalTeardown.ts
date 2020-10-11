@@ -1,3 +1,3 @@
 export default async (): Promise<void> => {
-  console.log('Finishing tests');
+  console.log('Gracefully exiting tests...');
 };

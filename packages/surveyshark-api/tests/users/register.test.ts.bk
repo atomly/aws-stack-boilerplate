@@ -18,16 +18,14 @@ const newUserMutation = gql`
 
 let connection: Connection;
 
-beforeAll(async done => {
+beforeAll(async () => {
   connection = await testConnection(true);
   await connect();
-  done();
 });
 
-afterAll(async done => {
+afterAll(async () => {
   await connection.close();
   await disconnect();
-  done();
 });
 
 describe('register resolver', () => {

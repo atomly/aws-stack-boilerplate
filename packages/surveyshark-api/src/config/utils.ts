@@ -20,7 +20,7 @@ export function errorMessageTemplate(
   resolution: string,
   // TODO: Template, e.g. "Sorry, {{issue}}. Please {{resolution}}."
 ): string {
-  return `ERROR: Sorry, ${issue}. Please ${resolution}`
+  return `ERROR: Sorry, ${issue}. Please ${resolution}.`;
 }
 
 /**
