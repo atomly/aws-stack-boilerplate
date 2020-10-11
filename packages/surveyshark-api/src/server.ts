@@ -9,6 +9,8 @@ import connectRedisStore from 'connect-redis';
 import { makeExecutableSchema, IResolvers } from 'graphql-tools';
 import { applyMiddleware } from 'graphql-middleware';
 import { GraphQLFormattedError } from 'graphql';
+import { Redis } from 'ioredis';
+import { SurveySharkDBContext } from '@atomly/surveyshark-collections-lib';
 
 // Types
 import { IContext } from './types';
@@ -17,8 +19,6 @@ import { IContext } from './types';
 import { middlewares } from './middlewares';
 import { resolvers, objectTypesDefinitions } from './schema';
 import { redisSessionPrefix } from './constants';
-import { redis } from './redis';
-import { dbContext } from './db';
 import { safeJsonParse } from './utils';
 
 //
@@ -50,7 +50,7 @@ const app = express();
 /**
  * Starts the GraphQL server. Returns void.
  */
-export async function startServer(): Promise<void> {
+export async function startServer(redis: Redis, dbContext: SurveySharkDBContext): Promise<void> {
   try {
     // Setting up a database connection:
     await dbContext.open();
