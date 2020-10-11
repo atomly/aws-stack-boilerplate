@@ -17,7 +17,7 @@ const surveyCustomizationSchema = new Schema({
   color: {
     type: Schema.Types.String,
     match: [RGB_RGBA_REGEXP, 'Invalid RGB/RGBA pattern.'],
-    default: (): string => getRandomColor(5, 0.5),
+    default: (): string => getRandomColor(5),
   },
 });
 
