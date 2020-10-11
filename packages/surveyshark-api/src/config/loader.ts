@@ -39,7 +39,14 @@ export class Loader<T extends Validator[]> {
       Object.assign(validator, fileContents);
       await validator.__validate();
       const key = validator.__name as keyof KeyedByName<T>;
-      this.config[key] = fileContents as KeyedByName<T>[keyof KeyedByName<T>];
+      if (!this.config[key]) {
+        this.config[key] = fileContents as KeyedByName<T>[keyof KeyedByName<T>];
+      } else {
+        throw new Error(Loader.errorMessageTemplate(
+          `a duplicated config index key "${key}" was found`,
+          `check that your index keys are unique and try again`,
+        ));
+      }
     });
     await Promise.all(promises);
   }

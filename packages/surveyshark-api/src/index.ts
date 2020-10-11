@@ -1,7 +1,7 @@
 // NOTE: Set up the ENV configuration before importing anything.
 import { setupEnv } from './env';
 
-setupEnv();
+setupEnv(setupEnv.ENodeEnvConfig.DEVELOPMENT);
 
 // Libraries
 import Redis from 'ioredis';
