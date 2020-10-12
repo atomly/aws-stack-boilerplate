@@ -20,4 +20,8 @@ export const surveysWithDataPopulatePipeline = [
       },
     ],
   },
+  {
+    path: 'user',
+    populate: 'value',
+  },
 ];

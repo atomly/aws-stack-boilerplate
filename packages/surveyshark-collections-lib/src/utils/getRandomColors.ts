@@ -8,5 +8,8 @@ export function getRandomColor(pastelIndex = 5, transparency?: number): string {
   const rgb = [Math.random() * 256, Math.random() * 256, Math.random() * 256];
   const mix = [pastelIndex * 51, pastelIndex * 51, pastelIndex * 51]; // 51 => 255/5
   const mixedrgb = [rgb[0] + mix[0], rgb[1] + mix[1], rgb[2] + mix[2]].map(x => Math.round(x / 2.0));
-  return `rgb(${transparency ? `${mixedrgb.join(', ')}, ${transparency}` : mixedrgb.join(', ')})`;
+  if (transparency) {
+    return `rgba(${mixedrgb.join(', ')}, ${transparency})`;
+  }
+  return `rgb(${mixedrgb.join(', ')})`;
 }
