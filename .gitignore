@@ -9,8 +9,7 @@ lerna-debug.log*
 # Config files
 **.config.**
 
-# Exclude sample and test config files
-!packages/**/config/test/*
+# Exclude sample config files
 !packages/**/config/samples/*
 
 # Exclude Jest config files

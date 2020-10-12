@@ -7,7 +7,6 @@ import {
 // Dependencies
 import { errorMessageTemplate } from './utils';
 
-
 export class Validator<K extends string = string> {
   static errorMessageTemplate = errorMessageTemplate;
 

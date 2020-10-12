@@ -33,6 +33,6 @@ import { startServer } from './server';
       collections,
     });
 
-    await startServer(redis, dbContext);
+    await startServer(redis, dbContext, loader.config.express.sessionSecretKey);
   }
 )();

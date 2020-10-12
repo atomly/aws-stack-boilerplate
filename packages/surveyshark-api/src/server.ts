@@ -50,7 +50,11 @@ const app = express();
 /**
  * Starts the GraphQL server. Returns void.
  */
-export async function startServer(redis: Redis, dbContext: SurveySharkDBContext): Promise<void> {
+export async function startServer(
+  redis: Redis,
+  dbContext: SurveySharkDBContext,
+  sessionSecretKey: string,
+  ): Promise<void> {
   try {
     // Setting up a database connection:
     await dbContext.open();
@@ -95,7 +99,7 @@ export async function startServer(redis: Redis, dbContext: SurveySharkDBContext)
           prefix: redisSessionPrefix,
         }),
         name: 'qid',
-        secret: process.env.SESSION_SECRET_KEY as string,
+        secret: sessionSecretKey,
         resave: true,
         saveUninitialized: true,
         cookie: {
