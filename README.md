@@ -88,6 +88,7 @@ This monorepo uses `LF` line endings **only**. If your local copy of this reposi
 - [x] Implement QR codes generator lambda function to fetch survey submission pages.
 - [x] Implement export results lambda function.
 - [ ] Implement payments with Stripe API.
+- [ ] Add validation, authorization, and authentication of user session cookies.
 
 ## Non-MVP TODOs
 
