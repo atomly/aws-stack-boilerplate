@@ -1,0 +1,52 @@
+[
+  {
+    "__comment": "If the `id` property is NOT `null`, then the script will try to update an existing product/price plan.",
+    "id": null,
+    "name": "Premium Monthly Plan",
+    "description": "Premium plan with full access to all features, billed monthly.",
+    "isActive": true,
+    "product": {
+      "name": "Premium Monthly Plan",
+      "description": "Premium plan with full access to all features, billed monthly.",
+    },
+    "price": {
+      "__comment": "Prices are in cents.",
+      "name": "Premium Monthly Plan",
+      "description": "Premium plan with full access to all features, billed monthly.",
+      "currency": "usd",
+      "unitAmount": 500,
+      "recurring": {
+        "interval": "month",
+        "intervalCount": 1
+      }
+    },
+    "metadata": {
+      "createdBy": "Robert Molina"
+    }
+  },
+  {
+    "__comment": "If the `id` property is NOT `null`, then the script will try to update an existing product/price plan.",
+    "id": null,
+    "name": "Premium Yearly Plan",
+    "description": "Premium plan with full access to all features, billed yearly.",
+    "isActive": true,
+    "product": {
+      "name": "Premium Yearly Plan",
+      "description": "Premium plan with full access to all features, billed yearly.",
+    },
+    "price": {
+      "__comment": "Prices are in cents.",
+      "name": "Premium Yearly Plan",
+      "description": "Premium plan with full access to all features, billed yearly.",
+      "currency": "usd",
+      "unitAmount": 5400,
+      "recurring": {
+        "interval": "year",
+        "intervalCount": 1
+      }
+    },
+    "metadata": {
+      "createdBy": "Robert Molina"
+    }
+  }
+]
