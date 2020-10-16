@@ -85,7 +85,7 @@ const resolvers: IAnswersResolverMap = {
     async deleteAnswer(_, { input }, { dbContext }): Promise<Answer | null | IThrowError> {
       try {
         let answer: Answer | null = null;
-        const session = await dbContext.connection.startSession();
+        const session = await dbContext.connection!.startSession();
         await session.withTransaction(async () => {
           answer = await dbContext.collections.Answers.model.findOneAndDelete({ uuid: input.uuid }).lean<Answer>();
           if (answer) {

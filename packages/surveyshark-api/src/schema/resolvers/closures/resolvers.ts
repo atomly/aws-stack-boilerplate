@@ -71,7 +71,7 @@ const resolvers: IClosuresResolverMap = {
     async deleteClosure(_, { input }, { dbContext }): Promise<Closure | null | IThrowError> {
       try {
         let closure: Closure | null = null;
-        const session = await dbContext.connection.startSession();
+        const session = await dbContext.connection!.startSession();
         await session.withTransaction(async () => {
           closure = await dbContext.collections.Closures.model.findOneAndDelete({ uuid: input.uuid }).lean<Closure>();
           if (closure) {

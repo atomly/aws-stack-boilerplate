@@ -524,12 +524,7 @@ export type MutationDeleteResultInput = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  hello: Scalars['String'];
-};
-
-
-export type SubscriptionHelloArgs = {
-  name: Scalars['String'];
+  greetings?: Maybe<Scalars['String']>;
 };
 
 export type SurveyCustomization = {
@@ -725,7 +720,7 @@ export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, K = {}> = (obj: T, info: GraphQLResolveInfo, _context: K) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}> = (obj: T, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
@@ -1023,7 +1018,7 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
-  hello?: SubscriptionResolver<ResolversTypes['String'], "hello", ParentType, ContextType, RequireFields<SubscriptionHelloArgs, 'name'>>;
+  greetings?: SubscriptionResolver<Maybe<ResolversTypes['String']>, "greetings", ParentType, ContextType>;
 };
 
 export type SurveyCustomizationResolvers<ContextType = any, ParentType extends ResolversParentTypes['SurveyCustomization'] = ResolversParentTypes['SurveyCustomization']> = {

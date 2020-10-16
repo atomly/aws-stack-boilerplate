@@ -1,11 +1,12 @@
 // Libraries
+import 'reflect-metadata';
 import path from 'path';
 import Stripe from 'stripe';
+import { Config } from '@atomly/config';
 
 // Dependencies
-import { Loader } from '../../src/config/loader';
 import { resolveEnv } from '../../src/env/index';
-import { StripeConfig } from '../../src/config/stripe';
+import { StripeLoader } from '../../src/config/stripe';
 
 function resolveConfigFileLoation(fileLocation: string): { fileLocationUri: string } {
   return { fileLocationUri: `file://${path.resolve(__dirname, '..', '..', fileLocation).replace(/\\/g, '/')}` };
@@ -14,14 +15,14 @@ function resolveConfigFileLoation(fileLocation: string): { fileLocationUri: stri
 describe('stripe API requests using .env.test stripe configuration', () => {
   let stripe: Stripe;
 
-  const loader = new Loader(
-    new StripeConfig(resolveConfigFileLoation(process.env.STRIPE_CONFIG_FILE_LOCATION!)),
+  const config = new Config(
+    new StripeLoader(resolveConfigFileLoation(process.env.STRIPE_CONFIG_FILE_LOCATION!)),
   );
 
   beforeAll(async () => {
-    await loader.load();
+    await config.load();
     stripe = new Stripe(
-      loader.config.stripe.secretKey,
+      config.stripe.secretKey,
       {
         apiVersion: '2020-08-27',
       },
@@ -90,14 +91,14 @@ describe('stripe API requests using .env.dev stripe configuration', () => {
 
   let stripe: Stripe;
 
-  const loader = new Loader(
-    new StripeConfig(resolveConfigFileLoation(env.STRIPE_CONFIG_FILE_LOCATION!)),
+  const config = new Config(
+    new StripeLoader(resolveConfigFileLoation(env.STRIPE_CONFIG_FILE_LOCATION!)),
   );
 
   beforeAll(async () => {
-    await loader.load();
+    await config.load();
     stripe = new Stripe(
-      loader.config.stripe.secretKey,
+      config.stripe.secretKey,
       {
         apiVersion: '2020-08-27',
       },

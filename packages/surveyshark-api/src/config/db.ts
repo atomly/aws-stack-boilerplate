@@ -1,16 +1,13 @@
 // Libraries
-import { Matches } from 'class-validator';
+import { Matches, Loader } from '@atomly/config';
 
-// Dependencies
-import { Validator } from './validator';
-
-export class MongoDBConfig extends Validator<'db'> {
+export class MongoDBLoader extends Loader<'db'> {
   public readonly __name: 'db' = 'db';
 
   @Matches(
-    /^mongodb:\/\/.*$/g,
+    /^mongodb:\/\/.*$/i,
     {
-      message: Validator.errorMessageTemplate(
+      message: Loader.errorMessageTemplate(
         'the database connection string is not valid',
         'check that the database connection string matches a MongoDB connection URI and try again',
       ),

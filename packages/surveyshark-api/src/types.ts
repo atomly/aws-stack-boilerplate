@@ -34,6 +34,7 @@ export interface IResolvers extends Partial<Resolvers> {
   Query?: IBasicResolvers;
   Mutation?: IBasicResolvers;
   Subscription?: ISubscriptionResolvers;
+  // Subscription?: IBasicResolvers;
 }
 
 export * as GQL from './types/schema';

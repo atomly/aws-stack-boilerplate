@@ -73,7 +73,7 @@ const resolvers: IQuestionsResolverMap = {
     async updateQuestion(_, { input }, { dbContext }): Promise<Question | null | IThrowError> {
       try {
         let question: Question | null = null;
-        const session = await dbContext.connection.startSession();
+        const session = await dbContext.connection!.startSession();
         /**
          * When the subtype of the question changes, also update its answers.
          * If the subtype changes from SINGLE_CHOICE to MULTI_CHOICES, simply update the
@@ -133,7 +133,7 @@ const resolvers: IQuestionsResolverMap = {
     async deleteQuestion(_, { input }, { dbContext }): Promise<Question | null | IThrowError> {
       try {
         let question: Question | null = null;
-        const session = await dbContext.connection.startSession();
+        const session = await dbContext.connection!.startSession();
         await session.withTransaction(async () => {
           question = await dbContext.collections.Questions.model.findOneAndDelete({ uuid: input.uuid }).lean<Question>();
           if (question) {

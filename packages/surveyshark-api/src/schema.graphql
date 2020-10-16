@@ -298,7 +298,7 @@ scalar Date
 scalar JSON
 
 type Subscription {
-  hello(name: String!): String!
+  greetings: String
 }
 
 type SurveyCustomization {

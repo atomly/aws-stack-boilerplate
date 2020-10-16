@@ -1,16 +1,18 @@
 // Libraries
+import { SurveySharkDBContext } from '@atomly/surveyshark-collections-lib';
 import bodyParser from 'body-parser';
+import connectRedisStore from 'connect-redis';
 import cors from 'cors';
 import express, { Response, Request } from 'express';
 import { graphqlHTTP } from 'express-graphql';
-import expressPlayground from 'graphql-playground-middleware-express';
 import session from 'express-session';
-import connectRedisStore from 'connect-redis';
+import { execute, subscribe, GraphQLFormattedError } from 'graphql';
 import { makeExecutableSchema, IResolvers } from 'graphql-tools';
 import { applyMiddleware } from 'graphql-middleware';
-import { GraphQLFormattedError } from 'graphql';
+import expressPlayground from 'graphql-playground-middleware-express';
+import { createServer } from 'http';
 import { Redis } from 'ioredis';
-import { SurveySharkDBContext } from '@atomly/surveyshark-collections-lib';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 
 // Types
 import { IContext } from './types';
@@ -28,6 +30,7 @@ import { safeJsonParse } from './utils';
 const EXPRESS_APP_PORT = 4000;
 const GRAPHQL_ENDPOINT = '/graphql';
 const PLAYGROUND_ENDPOINT = '/playground';
+const SUBSCRIPTION_ENDPOINT = `ws://localhost:${EXPRESS_APP_PORT}/graphql`;
 
 // Redis store for user sessions.
 const RedisStore = connectRedisStore(session);
@@ -44,9 +47,6 @@ const schemaWithMiddleware = applyMiddleware(
   ...middlewares,
 );
 
-// Express app.
-const app = express();
-
 /**
  * Starts the GraphQL server. Returns void.
  */
@@ -55,6 +55,9 @@ export async function startServer(
   dbContext: SurveySharkDBContext,
   sessionSecretKey: string,
   ): Promise<void> {
+  // Express app.
+  const app = express();
+
   try {
     // Setting up a database connection:
     await dbContext.open();
@@ -157,17 +160,71 @@ export async function startServer(
 
     app.get( // TODO: Disable in production.
       PLAYGROUND_ENDPOINT,
-      expressPlayground({ endpoint: GRAPHQL_ENDPOINT }),
+      expressPlayground({
+        endpoint: GRAPHQL_ENDPOINT,
+        subscriptionEndpoint: SUBSCRIPTION_ENDPOINT,
+      }),
     );
 
-    app.listen(
+    // const server = app.listen(
+    //   EXPRESS_APP_PORT,
+    //   () => {
+    //     // eslint-disable-next-line no-console
+    //     console.log(`DEBUG: App listening on port ${EXPRESS_APP_PORT}!`);
+    //   },
+    // );
+
+    const server = createServer(app);
+
+    // server.listen(
+    //   EXPRESS_APP_PORT,
+    //   () => {
+    //     // eslint-disable-next-line no-console
+    //     console.log(`DEBUG: App listening on port ${EXPRESS_APP_PORT}!`);
+    //   },
+    // )
+
+    // const ws = createServer(
+    //   {
+    //     subscribe: 'asd'
+    //   }
+    // )
+    // console.log('resolvers: ', resolvers);
+
+    server.listen(
       EXPRESS_APP_PORT,
       () => {
+        SubscriptionServer.create(
+          {
+            schema,
+            execute,
+            subscribe,
+            onConnect() {
+              console.log('onConnect');
+            },
+            // onOperation,
+            onDisconnect() {
+              console.log('onDisconnect');
+            },
+          },
+          {
+            server: server,
+            path: GRAPHQL_ENDPOINT,
+          },
+        );
+
         // eslint-disable-next-line no-console
-        console.log(`DEBUG: App listening on port 4000!`);
+        console.log(`DEBUG: App listening on port ${EXPRESS_APP_PORT}!`);
       },
     );
   } catch (error) {
     await dbContext.close();
   }
 }
+
+
+// //logging
+// var onOperation = function (message, params) {
+//   console.log('subscription' + message.payload, params);
+//   return Promise.resolve(Object.assign({}, params, { context: message.payload.context }))
+// }

@@ -22,7 +22,7 @@
     "watch": "tsc -b -w"
   },
   "dependencies": {
-    "@atomly/mongoose-sdk": "^1.0.4-alpha.0",
+    "@atomly/mongoose-sdk": "^1.0.4-alpha.1",
     "mongoose": "^5.10.5",
     "uuid": "^8.3.0"
   },

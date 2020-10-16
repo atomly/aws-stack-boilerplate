@@ -1,14 +1,11 @@
 // Libraries
-import { IsString } from 'class-validator';
+import { IsString, Loader } from '@atomly/config';
 
-// Dependencies
-import { Validator } from './validator';
-
-export class StripeConfig extends Validator<'stripe'> {
+export class StripeLoader extends Loader<'stripe'> {
   public readonly __name: 'stripe' = 'stripe';
 
   @IsString({
-    message: Validator.errorMessageTemplate(
+    message: Loader.errorMessageTemplate(
       'the public key is not valid',
       'check that the public key is a valid string and try again',
     ),
@@ -16,7 +13,7 @@ export class StripeConfig extends Validator<'stripe'> {
   publicKey: string;
 
   @IsString({
-    message: Validator.errorMessageTemplate(
+    message: Loader.errorMessageTemplate(
       'the secret key is not valid',
       'check that the secret key is a valid string and try again',
     ),

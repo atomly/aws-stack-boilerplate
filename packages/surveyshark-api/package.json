@@ -25,11 +25,12 @@
     "watch": "tsc -b -w"
   },
   "dependencies": {
-    "@atomly/data-structures-sdk": "^1.0.2-alpha.0",
+    "@atomly/config": "^1.0.0-alpha.2",
+    "@atomly/hubful": "^1.0.2-alpha.1",
+    "@atomly/data-structures-sdk": "^1.0.2-alpha.1",
     "@atomly/surveyshark-collections-lib": "^1.0.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
-    "class-validator": "^0.12.2",
     "connect-redis": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -41,7 +42,9 @@
     "express": "^4.17.1",
     "express-graphql": "^0.11.0",
     "ioredis": "^4.17.3",
-    "merge-graphql-schemas": "^1.7.6"
+    "merge-graphql-schemas": "^1.7.6",
+    "reflect-metadata": "^0.1.13",
+    "subscriptions-transport-ws": "^0.9.18"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "1.17.8",

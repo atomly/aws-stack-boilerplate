@@ -8,7 +8,7 @@ import Redis from 'ioredis';
 import { SurveySharkDBContext, collections } from '@atomly/surveyshark-collections-lib';
 
 // Dependencies
-import { loader } from './config';
+import { config } from './config';
 import { startServer } from './server';
 
 (
@@ -16,23 +16,23 @@ import { startServer } from './server';
    * Loads the API configuration then starts the server.
    */
   async function start(): Promise<void> {
-    await loader.load();
+    await config.load();
 
     // NOTE: Make sure the request credentials setting is set up correctly
     // in the playground: "request.credentials": "include".
     const redis = new Redis({
-      port: loader.config.redis.port, // Redis port
-      host: loader.config.redis.host, // Redis host
-      family: loader.config.redis.family, // 4 (IPv4) or 6 (IPv6)
-      password: loader.config.redis.password,
-      db: loader.config.redis.db,
+      port: config.redis.port, // Redis port
+      host: config.redis.host, // Redis host
+      family: config.redis.family, // 4 (IPv4) or 6 (IPv6)
+      password: config.redis.password,
+      db: config.redis.db,
     });
 
     const dbContext = new SurveySharkDBContext({
-      connectionString: loader.config.db.dbConnectionString,
+      connectionString: config.db.dbConnectionString,
       collections,
     });
 
-    await startServer(redis, dbContext, loader.config.express.sessionSecretKey);
+    await startServer(redis, dbContext, config.express.sessionSecretKey);
   }
 )();

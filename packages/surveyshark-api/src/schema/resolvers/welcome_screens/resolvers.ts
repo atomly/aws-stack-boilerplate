@@ -71,7 +71,7 @@ const resolvers: IWelcomeScreensResolverMap = {
     async deleteWelcomeScreen(_, { input }, { dbContext }): Promise<WelcomeScreen | null | IThrowError> {
       try {
         let welcomeScreen: WelcomeScreen | null = null;
-        const session = await dbContext.connection.startSession();
+        const session = await dbContext.connection!.startSession();
         await session.withTransaction(async () => {
           welcomeScreen = await dbContext.collections.WelcomeScreens.model.findOneAndDelete({ uuid: input.uuid }).lean<WelcomeScreen>();
           if (welcomeScreen) {

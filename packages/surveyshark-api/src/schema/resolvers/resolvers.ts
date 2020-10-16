@@ -8,6 +8,7 @@ import enumsResolvers, { IEnumsResolverMap } from './enums';
 import graphsResolvers, { IGraphsResolverMap } from './graphs';
 import queryResolvers, { IQueryResolverMap } from './query';
 import questionsResolvers, { IQuestionsResolverMap } from './questions';
+import subscriptionResolvers, { ISubscriptionResolverMap } from './subscription';
 import surveyResolvers, { ISurveysResolverMap } from './survey';
 import usersResolvers, { IUsersResolverMap } from './users';
 import welcomeScreensResolvers, { IWelcomeScreensResolverMap } from './welcome_screens';
@@ -19,6 +20,7 @@ export type IResolverMap = (
   IGraphsResolverMap &
   IQueryResolverMap &
   IQuestionsResolverMap &
+  ISubscriptionResolverMap &
   ISurveysResolverMap &
   IUsersResolverMap &
   IWelcomeScreensResolverMap
@@ -31,6 +33,7 @@ export const resolvers: IResolverMap = composeResolvers<IResolverMap>(
   graphsResolvers,
   queryResolvers,
   questionsResolvers,
+  subscriptionResolvers,
   surveyResolvers,
   usersResolvers,
   welcomeScreensResolvers,
