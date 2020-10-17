@@ -32,6 +32,7 @@ type Query {
   readQuestions(input: QueryReadQuestionsInput!, withAnswers: Boolean): [Question!]!
   readResult(input: QueryReadResultInput!): Result
   readResults(input: QueryReadResultsInput!): [Result!]!
+  subPing(input: QuerySubPingInput!): String
   readSurvey(input: QueryReadSurveyInput!): Survey
   readSurveys(withData: Boolean): [Survey!]!
   validateSurvey(input: QueryValidateSurveyInput!): [SurveyValidationError]
@@ -297,7 +298,12 @@ scalar Date
 
 scalar JSON
 
+input QuerySubPingInput {
+  message: String!
+}
+
 type Subscription {
+  subPong: String
   greetings: String
 }
 

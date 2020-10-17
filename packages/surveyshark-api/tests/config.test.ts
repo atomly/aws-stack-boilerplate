@@ -1,12 +1,13 @@
 // Libraries
 import 'reflect-metadata';
 import path from 'path';
-import { Config } from '@atomly/config';
+import { Config } from '@atomly/config-loader';
 
 // API Configurations
 import { resolveEnv } from '../src/env';
 import { config } from '../src/config';
 import { MongoDBLoader } from '../src/config/db';
+import { HubfulLoader } from '../src/config/hubful';
 import { ExpressLoader } from '../src/config/express';
 import { RedisLoader } from '../src/config/redis';
 import { StripeLoader } from '../src/config/stripe';
@@ -32,6 +33,7 @@ describe('config using .env.test works correctly', () => {
     new MongoDBLoader(resolveConfigFileLoation(env.DB_CONFIG_FILE_LOCATION!)),
     new ExpressLoader(resolveConfigFileLoation(env.EXPRESS_CONFIG_FILE_LOCATION!)),
     new RedisLoader(resolveConfigFileLoation(env.REDIS_CONFIG_FILE_LOCATION!)),
+    new HubfulLoader(resolveConfigFileLoation(env.HUBFUL_CONFIG_FILE_LOCATION!)),
     new StripeLoader(resolveConfigFileLoation(env.STRIPE_CONFIG_FILE_LOCATION!)),
   );
 
@@ -50,6 +52,7 @@ describe('config using .env.dev works correctly', () => {
   const config = new Config(
     new MongoDBLoader(resolveConfigFileLoation(env.DB_CONFIG_FILE_LOCATION!)),
     new ExpressLoader(resolveConfigFileLoation(env.EXPRESS_CONFIG_FILE_LOCATION!)),
+    new HubfulLoader(resolveConfigFileLoation(env.HUBFUL_CONFIG_FILE_LOCATION!)),
     new RedisLoader(resolveConfigFileLoation(env.REDIS_CONFIG_FILE_LOCATION!)),
     new StripeLoader(resolveConfigFileLoation(env.STRIPE_CONFIG_FILE_LOCATION!)),
   );

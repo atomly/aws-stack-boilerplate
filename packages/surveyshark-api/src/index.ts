@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 // NOTE: Set up the ENV configuration before importing anything.
 import { setupEnv } from './env';
 
@@ -6,6 +8,12 @@ setupEnv(setupEnv.ENodeEnvConfig.DEVELOPMENT);
 // Libraries
 import Redis from 'ioredis';
 import { SurveySharkDBContext, collections } from '@atomly/surveyshark-collections-lib';
+import Hubful, {
+  IORedisEventsService,
+  IORedisStorageService,
+  DefaultPublisherService,
+  DefaultSubscriberService,
+} from '@atomly/hubful';
 
 // Dependencies
 import { config } from './config';
@@ -31,6 +39,27 @@ import { startServer } from './server';
     const dbContext = new SurveySharkDBContext({
       connectionString: config.db.dbConnectionString,
       collections,
+    });
+
+    const ioRedisEventsService = new IORedisEventsService(config.hubful.redis);
+
+    const ioRedisStorageService = new IORedisStorageService(config.hubful.redis);
+
+    const defaultPublisherService = new DefaultPublisherService({
+      eventsService: ioRedisEventsService,
+      storageService: ioRedisStorageService,
+    });
+
+    const defaultSubscriberService = new DefaultSubscriberService({
+      eventsService: ioRedisEventsService,
+      storageService: ioRedisStorageService,
+    });
+
+    await Hubful.setup({
+      eventsService: ioRedisEventsService,
+      storageService: ioRedisStorageService,
+      publisherService: defaultPublisherService,
+      subscriberService: defaultSubscriberService,
     });
 
     await startServer(redis, dbContext, config.express.sessionSecretKey);

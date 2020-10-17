@@ -25,7 +25,7 @@
     "watch": "tsc -b -w"
   },
   "dependencies": {
-    "@atomly/config": "^1.0.0-alpha.2",
+    "@atomly/config-loader": "^1.0.0-alpha.4",
     "@atomly/hubful": "^1.0.2-alpha.1",
     "@atomly/data-structures-sdk": "^1.0.2-alpha.1",
     "@atomly/surveyshark-collections-lib": "^1.0.0",

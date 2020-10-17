@@ -2,7 +2,7 @@
 import 'reflect-metadata';
 import path from 'path';
 import Stripe from 'stripe';
-import { Config } from '@atomly/config';
+import { Config } from '@atomly/config-loader';
 
 // Dependencies
 import { resolveEnv } from '../../src/env/index';

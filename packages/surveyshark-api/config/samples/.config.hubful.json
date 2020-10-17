@@ -1,0 +1,12 @@
+{
+  "redis": {
+    "nodes": {
+      "port": 6379,
+      "host": "localhost"
+    },
+    "name": "atomly_docker_hubful_redis",
+    "family": 4,
+    "password": "password",
+    "db": 0
+  }
+}

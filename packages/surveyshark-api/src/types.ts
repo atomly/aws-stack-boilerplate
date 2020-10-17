@@ -5,6 +5,7 @@ import { Redis } from 'ioredis';
 import { SurveySharkDBContext } from '@atomly/surveyshark-collections-lib';
 import { GraphQLResolveInfo } from 'graphql';
 import { IResolvers as Resolvers } from 'graphql-tools';
+import { ExecutionParams } from 'subscriptions-transport-ws';
 
 // GraphQLServer.context
 export interface IContext {
@@ -12,7 +13,7 @@ export interface IContext {
   response: Response;
   redis: Redis;
   dbContext: SurveySharkDBContext;
-  // connection: WebSocketConnection;
+  subscriptionParams?: ExecutionParams;
   // pubsub: PubSub;
 }
 

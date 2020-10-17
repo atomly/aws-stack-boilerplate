@@ -50,6 +50,7 @@ export type Query = {
   readQuestions: Array<Question>;
   readResult?: Maybe<Result>;
   readResults: Array<Result>;
+  subPing?: Maybe<Scalars['String']>;
   readSurvey?: Maybe<Survey>;
   readSurveys: Array<Survey>;
   validateSurvey?: Maybe<Array<Maybe<SurveyValidationError>>>;
@@ -113,6 +114,11 @@ export type QueryReadResultArgs = {
 
 export type QueryReadResultsArgs = {
   input: QueryReadResultsInput;
+};
+
+
+export type QuerySubPingArgs = {
+  input: QuerySubPingInput;
 };
 
 
@@ -522,8 +528,13 @@ export type MutationDeleteResultInput = {
 
 
 
+export type QuerySubPingInput = {
+  message: Scalars['String'];
+};
+
 export type Subscription = {
   __typename?: 'Subscription';
+  subPong?: Maybe<Scalars['String']>;
   greetings?: Maybe<Scalars['String']>;
 };
 
@@ -780,6 +791,7 @@ export type ResolversTypes = {
   MutationDeleteResultInput: MutationDeleteResultInput;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
+  QuerySubPingInput: QuerySubPingInput;
   Subscription: ResolverTypeWrapper<{}>;
   SurveyCustomization: ResolverTypeWrapper<SurveyCustomization>;
   Survey: ResolverTypeWrapper<Survey>;
@@ -847,6 +859,7 @@ export type ResolversParentTypes = {
   MutationDeleteResultInput: MutationDeleteResultInput;
   Date: Scalars['Date'];
   JSON: Scalars['JSON'];
+  QuerySubPingInput: QuerySubPingInput;
   Subscription: {};
   SurveyCustomization: SurveyCustomization;
   Survey: Survey;
@@ -895,6 +908,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   readQuestions?: Resolver<Array<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<QueryReadQuestionsArgs, 'input'>>;
   readResult?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType, RequireFields<QueryReadResultArgs, 'input'>>;
   readResults?: Resolver<Array<ResolversTypes['Result']>, ParentType, ContextType, RequireFields<QueryReadResultsArgs, 'input'>>;
+  subPing?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QuerySubPingArgs, 'input'>>;
   readSurvey?: Resolver<Maybe<ResolversTypes['Survey']>, ParentType, ContextType, RequireFields<QueryReadSurveyArgs, 'input'>>;
   readSurveys?: Resolver<Array<ResolversTypes['Survey']>, ParentType, ContextType, RequireFields<QueryReadSurveysArgs, never>>;
   validateSurvey?: Resolver<Maybe<Array<Maybe<ResolversTypes['SurveyValidationError']>>>, ParentType, ContextType, RequireFields<QueryValidateSurveyArgs, 'input'>>;
@@ -1018,6 +1032,7 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  subPong?: SubscriptionResolver<Maybe<ResolversTypes['String']>, "subPong", ParentType, ContextType>;
   greetings?: SubscriptionResolver<Maybe<ResolversTypes['String']>, "greetings", ParentType, ContextType>;
 };
 

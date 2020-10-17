@@ -1,5 +1,5 @@
 // Libraries
-import { Matches, Loader } from '@atomly/config';
+import { Matches, Loader } from '@atomly/config-loader';
 
 export class MongoDBLoader extends Loader<'db'> {
   public readonly __name: 'db' = 'db';

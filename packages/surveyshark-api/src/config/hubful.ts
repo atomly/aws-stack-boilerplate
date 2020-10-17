@@ -4,6 +4,11 @@ import {
   IsString,
   IsEnum,
   Loader,
+  Type,
+  IsDefined,
+  IsNotEmptyObject,
+  IsObject,
+  ValidateNested,
 } from '@atomly/config-loader';
 
 enum RedisFamily {
@@ -11,9 +16,7 @@ enum RedisFamily {
   IPv6 = 6
 }
 
-export class RedisLoader extends Loader<'redis'> {
-  public readonly __name: 'redis' = 'redis';
-
+class HubfulRedisNodes {
   @IsInt({
     message: Loader.errorMessageTemplate(
       'the port is not valid',
@@ -29,6 +32,23 @@ export class RedisLoader extends Loader<'redis'> {
     ),
   })
   host: string;
+}
+
+class HubfulRedis {
+  @IsDefined()
+  @IsNotEmptyObject()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => HubfulRedisNodes)
+  nodes: HubfulRedisNodes;
+
+  @IsString({
+    message: Loader.errorMessageTemplate(
+      'the name is not valid',
+      'check that the name is a valid string and try again',
+    ),
+  })
+  name: string;
 
   @IsEnum(
     RedisFamily,
@@ -56,4 +76,15 @@ export class RedisLoader extends Loader<'redis'> {
     ),
   })
   db: number;
+}
+
+export class HubfulLoader extends Loader<'hubful'> {
+  public readonly __name: 'hubful' = 'hubful';
+
+  @IsDefined()
+  @IsNotEmptyObject()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => HubfulRedis)
+  redis: HubfulRedis;
 }
