@@ -10,6 +10,9 @@
   "files": [
     "src"
   ],
+  "bin": {
+    "stripe": "dist/src/cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/atomly/surveyshark.git"
@@ -25,10 +28,12 @@
     "watch": "tsc -b -w"
   },
   "dependencies": {
+    "@atomly/config-loader": "^1.0.0-alpha.6",
     "@atomly/surveyshark-collections-lib": "^1.0.0",
-    "class-validator": "^0.12.2",
     "dotenv": "^8.2.0",
-    "stripe": "^8.102.0"
+    "reflect-metadata": "^0.1.13",
+    "stripe": "^8.102.0",
+    "yargs": "^16.0.3"
   },
   "devDependencies": {
     "@types/faker": "^5.1.0",

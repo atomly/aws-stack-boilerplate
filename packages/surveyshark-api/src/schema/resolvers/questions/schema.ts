@@ -10,6 +10,7 @@ type Question {
   subType: String!
   name: String!
   description: String
+  isRequired: Boolean!
   data: JSON
   answers: [Answer!]
 }
@@ -32,6 +33,7 @@ input MutationCreateQuestionInput {
   name: String!
   subType: QuestionTypes!
   description: String
+  isRequired: Boolean!
   data: JSON
 }
 
@@ -40,6 +42,7 @@ input MutationUpdateQuestionInput {
   name: String
   subType: QuestionTypes
   description: String
+  isRequired: Boolean
   data: JSON
 }
 

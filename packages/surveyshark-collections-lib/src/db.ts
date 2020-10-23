@@ -8,11 +8,14 @@ import { DefaultDBContext } from '@atomly/mongoose-sdk';
 import {
   answersCollection,
   closuresCollection,
+  customersCollection,
   graphVerticesCollection,
   graphEdgesCollection,
   graphsCollection,
+  plansCollection,
   questionsCollection,
   resultsCollection,
+  subscriptionsCollection,
   surveysCollection,
   usersCollection,
   welcomeScreensCollection,
@@ -31,11 +34,14 @@ import { sanitizeDuplicateVertices, sanitizeDuplicateEdges } from './collections
 export const collections = {
   Answers: answersCollection,
   Closures: closuresCollection,
+  Customers: customersCollection,
   GraphVertices: graphVerticesCollection,
   GraphEdges: graphEdgesCollection,
   Graphs: graphsCollection,
+  Plans: plansCollection,
   Questions: questionsCollection,
   Results: resultsCollection,
+  Subscriptions: subscriptionsCollection,
   Surveys: surveysCollection,
   Users: usersCollection,
   WelcomeScreens: welcomeScreensCollection,
@@ -60,6 +66,7 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
      */
     this.collections.Users.schema.post<UserDocument>('deleteOne',  { document: true, query: false }, async doc => {
       const surveys = await this.collections.Surveys.model.find({ user: doc }).populate('graph');
+      // TODO: Figure out what to do with Stripe ustomers and subscriptions data.
       await Promise.all(surveys.map(survey => survey.deleteOne()));
     });
 
@@ -71,6 +78,7 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
       const doc: UserDocument | null = await self.collections.Users.model.findOne(queryConditions).lean();
       if (doc) {
         const surveys = await self.collections.Surveys.model.find({ user: doc }).populate('graph');
+        // TODO: Figure out what to do with Stripe ustomers and subscriptions data.
         await Promise.all(surveys.map(survey => survey.deleteOne()));
       }
     });

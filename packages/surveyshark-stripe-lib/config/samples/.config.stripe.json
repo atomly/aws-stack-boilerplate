@@ -1,4 +1,52 @@
 {
   "publicKey": "pk_test_<key>",
-  "secretKey": "sk_test_<key>"
+  "secretKey": "sk_test_<key>",
+  "plans": [
+    {
+      "__comment": "The name of the plans are globally unique.",
+      "name": "Premium Monthly Plan",
+      "description": "Premium plan with full access to all features, billed monthly.",
+      "isActive": true,
+      "product": {
+        "name": "Premium Monthly Plan",
+        "description": "Premium plan with full access to all features, billed monthly."
+      },
+      "price": {
+        "__comment": "Prices are in cents.",
+        "nickname": "Premium Monthly Plan's Price",
+        "currency": "usd",
+        "unitAmount": 500,
+        "recurring": {
+          "interval": "month",
+          "intervalCount": 1
+        }
+      },
+      "metadata": {
+        "createdBy": "Robert Molina"
+      }
+    },
+    {
+      "__comment": "The name of the plans are globally unique.",
+      "name": "Premium Yearly Plan",
+      "description": "Premium plan with full access to all features, billed yearly.",
+      "isActive": true,
+      "product": {
+        "name": "Premium Yearly Plan",
+        "description": "Premium plan with full access to all features, billed yearly."
+      },
+      "price": {
+        "__comment": "Prices are in cents.",
+        "nickname": "Premium Yearly Plan's Price",
+        "currency": "usd",
+        "unitAmount": 5400,
+        "recurring": {
+          "interval": "year",
+          "intervalCount": 1
+        }
+      },
+      "metadata": {
+        "createdBy": "Robert Molina"
+      }
+    }
+  ]
 }

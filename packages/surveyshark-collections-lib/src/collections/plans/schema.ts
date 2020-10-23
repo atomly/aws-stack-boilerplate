@@ -15,6 +15,7 @@ const productSchema = new Schema({
   },
   name: {
     type: Schema.Types.String,
+    unique: true,
     required: true,
   },
   description: {
@@ -31,12 +32,9 @@ const priceSchema = new Schema({
     type: Schema.Types.String,
     required: true,
   },
-  name: {
+  nickname: {
     type: Schema.Types.String,
     required: true,
-  },
-  description: {
-    type: Schema.Types.String,
   },
   currency: {
     type: Schema.Types.String,

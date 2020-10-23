@@ -10,8 +10,7 @@ export interface Product {
 
 export interface Price {
   externalId: string;
-  name: string;
-  description?: string;
+  nickname: string;
   /**
    * Three-letter ISO currency code, in lowercase.
    * Must be a supported currency.

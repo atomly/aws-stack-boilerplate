@@ -8,6 +8,7 @@ export interface Question<T = unknown> extends Base {
   subType: QuestionTypes;
   name: string;
   description?: string;
+  isRequired: boolean;
   data: T;
 }
 

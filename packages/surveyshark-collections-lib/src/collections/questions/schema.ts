@@ -35,6 +35,11 @@ export const questionSchema = new BaseSchema<QuestionDocument>({
     type: Schema.Types.String,
     default: undefined,
   },
+  isRequired: {
+    type: Schema.Types.Boolean,
+    required: true,
+    default: false,
+  },
   data: {
     type: Schema.Types.Mixed,
     required: true,
