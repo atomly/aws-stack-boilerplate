@@ -88,7 +88,7 @@ type Subscription {
   userId: ID!
   externalId: String!
   externalCustomerId: String!
-  currentPeriodEnd: Date;
+  currentPeriodEnd: Date!
   items: [SubscriptionItems!]!
   status: String!
   collectionMethod: String!
@@ -96,6 +96,83 @@ type Subscription {
 }
 
 type Query {
-  readSelfSubscription(input: QueryReadSelfSubscriptionInput!): Subscription
+  readPlans: [Plan!]!
+  readSelfCustomer: Customer
+  readSelfSubscription: Subscription
+}
+
+input MutationCreateSelfSubscriptionInput {
+  planId: ID!
+  shouldSavePaymentMethod: Boolean!
+}
+
+input MutationCreateSelfSubscriptionDetails {
+  email: String
+  name: String
+  phone: String
+}
+
+input MutationCreateSelfSubscriptionCard {
+  number: String!
+  expMonth: Int!
+  expYear: Int!
+  cvc: String!
+}
+
+input MutationCreateSelfSubscriptionAddress {
+  city: String
+  country: String
+  line1: String
+  line2: String
+  postalCode: String
+  state: String
+}
+
+input MutationUpdateSelfSubscriptionInput {
+  subscriptionId: ID!
+  shouldSavePaymentMethod: Boolean!
+  planId: ID
+}
+
+input MutationUpdateSelfSubscriptionDetails {
+  email: String
+  name: String
+  phone: String
+}
+
+input MutationUpdateSelfSubscriptionCard {
+  number: String
+  expMonth: Int
+  expYear: Int
+  cvc: String
+}
+
+input MutationUpdateSelfSubscriptionAddress {
+  city: String
+  country: String
+  line1: String
+  line2: String
+  postalCode: String
+  state: String
+}
+
+input MutationCancelSelfSubscriptionInput {
+  subscriptionId: ID!
+}
+
+type Mutation {
+  createSelfSubscription(
+    input: MutationCreateSelfSubscriptionInput!,
+    details: MutationCreateSelfSubscriptionDetails!,
+    card: MutationCreateSelfSubscriptionCard!,
+    address: MutationCreateSelfSubscriptionAddress!
+  ): Subscription
+  updateSelfSubscription(
+    input: MutationUpdateSelfSubscriptionInput!,
+    details: MutationCreateSelfSubscriptionDetails!,
+    card: MutationCreateSelfSubscriptionCard!,
+    address: MutationCreateSelfSubscriptionAddress!
+  ): Subscription
+  cancelSelfSubscription(input: MutationCancelSelfSubscriptionInput): Subscription
 }
 `;

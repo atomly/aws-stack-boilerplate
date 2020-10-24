@@ -44,6 +44,9 @@ export type Query = {
   readClosures: Array<Closure>;
   readGraphEdge?: Maybe<GraphEdge>;
   readGraphEdges: Array<GraphEdge>;
+  readPlans: Array<Plan>;
+  readSelfCustomer?: Maybe<Customer>;
+  readSelfSubscription?: Maybe<Subscription>;
   test: Scalars['String'];
   ping: Scalars['String'];
   readQuestion?: Maybe<Question>;
@@ -187,6 +190,9 @@ export type Mutation = {
   createGraphEdge?: Maybe<GraphEdge>;
   updateGraphEdge?: Maybe<GraphEdge>;
   deleteGraphEdge?: Maybe<GraphEdge>;
+  createSelfSubscription?: Maybe<Subscription>;
+  updateSelfSubscription?: Maybe<Subscription>;
+  cancelSelfSubscription?: Maybe<Subscription>;
   createQuestion?: Maybe<Question>;
   updateQuestion?: Maybe<Question>;
   deleteQuestion?: Maybe<Question>;
@@ -245,6 +251,27 @@ export type MutationUpdateGraphEdgeArgs = {
 
 export type MutationDeleteGraphEdgeArgs = {
   input: MutationDeleteGraphEdgeInput;
+};
+
+
+export type MutationCreateSelfSubscriptionArgs = {
+  input: MutationCreateSelfSubscriptionInput;
+  details: MutationCreateSelfSubscriptionDetails;
+  card: MutationCreateSelfSubscriptionCard;
+  address: MutationCreateSelfSubscriptionAddress;
+};
+
+
+export type MutationUpdateSelfSubscriptionArgs = {
+  input: MutationUpdateSelfSubscriptionInput;
+  details: MutationCreateSelfSubscriptionDetails;
+  card: MutationCreateSelfSubscriptionCard;
+  address: MutationCreateSelfSubscriptionAddress;
+};
+
+
+export type MutationCancelSelfSubscriptionArgs = {
+  input?: Maybe<MutationCancelSelfSubscriptionInput>;
 };
 
 
@@ -434,6 +461,172 @@ export type MutationDeleteGraphEdgeInput = {
   toVertexKey: Scalars['ID'];
 };
 
+export type CustomerPaymentMethodDetailsCard = {
+  __typename?: 'CustomerPaymentMethodDetailsCard';
+  lastFourDigits: Scalars['String'];
+  expMonth: Scalars['String'];
+  expYear: Scalars['String'];
+  fingerprint: Scalars['String'];
+};
+
+export type CustomerPaymentMethodDetailsAddress = {
+  __typename?: 'CustomerPaymentMethodDetailsAddress';
+  city?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  line1?: Maybe<Scalars['String']>;
+  line2?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+};
+
+export type CustomerPaymentMethodDetails = {
+  __typename?: 'CustomerPaymentMethodDetails';
+  card: CustomerPaymentMethodDetailsCard;
+  address: CustomerPaymentMethodDetailsAddress;
+  email?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+};
+
+export type CustomerPaymentMethod = {
+  __typename?: 'CustomerPaymentMethod';
+  externalId: Scalars['String'];
+  details: CustomerPaymentMethodDetails;
+};
+
+export type Customer = {
+  __typename?: 'Customer';
+  uuid: Scalars['ID'];
+  createdAt: Scalars['Date'];
+  updatedAt: Scalars['Date'];
+  userId: Scalars['ID'];
+  externalId: Scalars['ID'];
+  currency: Scalars['String'];
+  externalDefaultPaymentMethodId?: Maybe<Scalars['ID']>;
+  paymentMethods: Array<CustomerPaymentMethod>;
+  invoicePrefix?: Maybe<Scalars['String']>;
+};
+
+export type Product = {
+  __typename?: 'Product';
+  externalId: Scalars['String'];
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  metadata?: Maybe<Scalars['JSON']>;
+};
+
+export type PriceRecurring = {
+  __typename?: 'PriceRecurring';
+  interval: Scalars['String'];
+  intervalCount: Scalars['Int'];
+};
+
+export type Price = {
+  __typename?: 'Price';
+  externalId: Scalars['String'];
+  nickname: Scalars['String'];
+  currency: Scalars['String'];
+  unitAmount: Scalars['Int'];
+  recurring: PriceRecurring;
+  metadata?: Maybe<Scalars['JSON']>;
+};
+
+export type Plan = {
+  __typename?: 'Plan';
+  uuid: Scalars['ID'];
+  createdAt: Scalars['Date'];
+  updatedAt: Scalars['Date'];
+  name: Scalars['String'];
+  description: Scalars['String'];
+  isActive: Scalars['Boolean'];
+  product: Product;
+  price: Price;
+  metadata: Scalars['JSON'];
+};
+
+export type SubscriptionItems = {
+  __typename?: 'SubscriptionItems';
+  externalId: Scalars['String'];
+  externalPriceId: Scalars['String'];
+  quantity: Scalars['Int'];
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  uuid: Scalars['ID'];
+  createdAt: Scalars['Date'];
+  updatedAt: Scalars['Date'];
+  userId: Scalars['ID'];
+  externalId: Scalars['String'];
+  externalCustomerId: Scalars['String'];
+  currentPeriodEnd: Scalars['Date'];
+  items: Array<SubscriptionItems>;
+  status: Scalars['String'];
+  collectionMethod: Scalars['String'];
+  externalLatestInvoiceId?: Maybe<Scalars['String']>;
+  subPong?: Maybe<Scalars['String']>;
+  greetings?: Maybe<Scalars['String']>;
+};
+
+export type MutationCreateSelfSubscriptionInput = {
+  planId: Scalars['ID'];
+  shouldSavePaymentMethod: Scalars['Boolean'];
+};
+
+export type MutationCreateSelfSubscriptionDetails = {
+  email?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+};
+
+export type MutationCreateSelfSubscriptionCard = {
+  number: Scalars['String'];
+  expMonth: Scalars['Int'];
+  expYear: Scalars['Int'];
+  cvc: Scalars['String'];
+};
+
+export type MutationCreateSelfSubscriptionAddress = {
+  city?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  line1?: Maybe<Scalars['String']>;
+  line2?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+};
+
+export type MutationUpdateSelfSubscriptionInput = {
+  subscriptionId: Scalars['ID'];
+  shouldSavePaymentMethod: Scalars['Boolean'];
+  planId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationUpdateSelfSubscriptionDetails = {
+  email?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+};
+
+export type MutationUpdateSelfSubscriptionCard = {
+  number?: Maybe<Scalars['String']>;
+  expMonth?: Maybe<Scalars['Int']>;
+  expYear?: Maybe<Scalars['Int']>;
+  cvc?: Maybe<Scalars['String']>;
+};
+
+export type MutationUpdateSelfSubscriptionAddress = {
+  city?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  line1?: Maybe<Scalars['String']>;
+  line2?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+};
+
+export type MutationCancelSelfSubscriptionInput = {
+  subscriptionId: Scalars['ID'];
+};
+
 export type Question = {
   __typename?: 'Question';
   uuid: Scalars['ID'];
@@ -444,6 +637,7 @@ export type Question = {
   subType: Scalars['String'];
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
+  isRequired: Scalars['Boolean'];
   data?: Maybe<Scalars['JSON']>;
   answers?: Maybe<Array<Answer>>;
 };
@@ -461,6 +655,7 @@ export type MutationCreateQuestionInput = {
   name: Scalars['String'];
   subType: QuestionTypes;
   description?: Maybe<Scalars['String']>;
+  isRequired: Scalars['Boolean'];
   data?: Maybe<Scalars['JSON']>;
 };
 
@@ -469,6 +664,7 @@ export type MutationUpdateQuestionInput = {
   name?: Maybe<Scalars['String']>;
   subType?: Maybe<QuestionTypes>;
   description?: Maybe<Scalars['String']>;
+  isRequired?: Maybe<Scalars['Boolean']>;
   data?: Maybe<Scalars['JSON']>;
 };
 
@@ -530,12 +726,6 @@ export type MutationDeleteResultInput = {
 
 export type QuerySubPingInput = {
   message: Scalars['String'];
-};
-
-export type Subscription = {
-  __typename?: 'Subscription';
-  subPong?: Maybe<Scalars['String']>;
-  greetings?: Maybe<Scalars['String']>;
 };
 
 export type SurveyCustomization = {
@@ -775,6 +965,26 @@ export type ResolversTypes = {
   MutationCreateGraphEdgeInput: MutationCreateGraphEdgeInput;
   MutationUpdateGraphEdgeInput: MutationUpdateGraphEdgeInput;
   MutationDeleteGraphEdgeInput: MutationDeleteGraphEdgeInput;
+  CustomerPaymentMethodDetailsCard: ResolverTypeWrapper<CustomerPaymentMethodDetailsCard>;
+  CustomerPaymentMethodDetailsAddress: ResolverTypeWrapper<CustomerPaymentMethodDetailsAddress>;
+  CustomerPaymentMethodDetails: ResolverTypeWrapper<CustomerPaymentMethodDetails>;
+  CustomerPaymentMethod: ResolverTypeWrapper<CustomerPaymentMethod>;
+  Customer: ResolverTypeWrapper<Customer>;
+  Product: ResolverTypeWrapper<Product>;
+  PriceRecurring: ResolverTypeWrapper<PriceRecurring>;
+  Price: ResolverTypeWrapper<Price>;
+  Plan: ResolverTypeWrapper<Plan>;
+  SubscriptionItems: ResolverTypeWrapper<SubscriptionItems>;
+  Subscription: ResolverTypeWrapper<{}>;
+  MutationCreateSelfSubscriptionInput: MutationCreateSelfSubscriptionInput;
+  MutationCreateSelfSubscriptionDetails: MutationCreateSelfSubscriptionDetails;
+  MutationCreateSelfSubscriptionCard: MutationCreateSelfSubscriptionCard;
+  MutationCreateSelfSubscriptionAddress: MutationCreateSelfSubscriptionAddress;
+  MutationUpdateSelfSubscriptionInput: MutationUpdateSelfSubscriptionInput;
+  MutationUpdateSelfSubscriptionDetails: MutationUpdateSelfSubscriptionDetails;
+  MutationUpdateSelfSubscriptionCard: MutationUpdateSelfSubscriptionCard;
+  MutationUpdateSelfSubscriptionAddress: MutationUpdateSelfSubscriptionAddress;
+  MutationCancelSelfSubscriptionInput: MutationCancelSelfSubscriptionInput;
   Question: ResolverTypeWrapper<Question>;
   QueryReadQuestionInput: QueryReadQuestionInput;
   QueryReadQuestionsInput: QueryReadQuestionsInput;
@@ -792,7 +1002,6 @@ export type ResolversTypes = {
   Date: ResolverTypeWrapper<Scalars['Date']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
   QuerySubPingInput: QuerySubPingInput;
-  Subscription: ResolverTypeWrapper<{}>;
   SurveyCustomization: ResolverTypeWrapper<SurveyCustomization>;
   Survey: ResolverTypeWrapper<Survey>;
   SurveyValidationError: ResolverTypeWrapper<SurveyValidationError>;
@@ -843,6 +1052,26 @@ export type ResolversParentTypes = {
   MutationCreateGraphEdgeInput: MutationCreateGraphEdgeInput;
   MutationUpdateGraphEdgeInput: MutationUpdateGraphEdgeInput;
   MutationDeleteGraphEdgeInput: MutationDeleteGraphEdgeInput;
+  CustomerPaymentMethodDetailsCard: CustomerPaymentMethodDetailsCard;
+  CustomerPaymentMethodDetailsAddress: CustomerPaymentMethodDetailsAddress;
+  CustomerPaymentMethodDetails: CustomerPaymentMethodDetails;
+  CustomerPaymentMethod: CustomerPaymentMethod;
+  Customer: Customer;
+  Product: Product;
+  PriceRecurring: PriceRecurring;
+  Price: Price;
+  Plan: Plan;
+  SubscriptionItems: SubscriptionItems;
+  Subscription: {};
+  MutationCreateSelfSubscriptionInput: MutationCreateSelfSubscriptionInput;
+  MutationCreateSelfSubscriptionDetails: MutationCreateSelfSubscriptionDetails;
+  MutationCreateSelfSubscriptionCard: MutationCreateSelfSubscriptionCard;
+  MutationCreateSelfSubscriptionAddress: MutationCreateSelfSubscriptionAddress;
+  MutationUpdateSelfSubscriptionInput: MutationUpdateSelfSubscriptionInput;
+  MutationUpdateSelfSubscriptionDetails: MutationUpdateSelfSubscriptionDetails;
+  MutationUpdateSelfSubscriptionCard: MutationUpdateSelfSubscriptionCard;
+  MutationUpdateSelfSubscriptionAddress: MutationUpdateSelfSubscriptionAddress;
+  MutationCancelSelfSubscriptionInput: MutationCancelSelfSubscriptionInput;
   Question: Question;
   QueryReadQuestionInput: QueryReadQuestionInput;
   QueryReadQuestionsInput: QueryReadQuestionsInput;
@@ -860,7 +1089,6 @@ export type ResolversParentTypes = {
   Date: Scalars['Date'];
   JSON: Scalars['JSON'];
   QuerySubPingInput: QuerySubPingInput;
-  Subscription: {};
   SurveyCustomization: SurveyCustomization;
   Survey: Survey;
   SurveyValidationError: SurveyValidationError;
@@ -902,6 +1130,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   readClosures?: Resolver<Array<ResolversTypes['Closure']>, ParentType, ContextType, RequireFields<QueryReadClosuresArgs, 'input'>>;
   readGraphEdge?: Resolver<Maybe<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<QueryReadGraphEdgeArgs, 'input'>>;
   readGraphEdges?: Resolver<Array<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<QueryReadGraphEdgesArgs, 'input'>>;
+  readPlans?: Resolver<Array<ResolversTypes['Plan']>, ParentType, ContextType>;
+  readSelfCustomer?: Resolver<Maybe<ResolversTypes['Customer']>, ParentType, ContextType>;
+  readSelfSubscription?: Resolver<Maybe<ResolversTypes['Subscription']>, ParentType, ContextType>;
   test?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   ping?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   readQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<QueryReadQuestionArgs, 'input'>>;
@@ -930,6 +1161,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createGraphEdge?: Resolver<Maybe<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<MutationCreateGraphEdgeArgs, 'input'>>;
   updateGraphEdge?: Resolver<Maybe<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<MutationUpdateGraphEdgeArgs, 'input'>>;
   deleteGraphEdge?: Resolver<Maybe<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<MutationDeleteGraphEdgeArgs, 'input'>>;
+  createSelfSubscription?: Resolver<Maybe<ResolversTypes['Subscription']>, ParentType, ContextType, RequireFields<MutationCreateSelfSubscriptionArgs, 'input' | 'details' | 'card' | 'address'>>;
+  updateSelfSubscription?: Resolver<Maybe<ResolversTypes['Subscription']>, ParentType, ContextType, RequireFields<MutationUpdateSelfSubscriptionArgs, 'input' | 'details' | 'card' | 'address'>>;
+  cancelSelfSubscription?: Resolver<Maybe<ResolversTypes['Subscription']>, ParentType, ContextType, RequireFields<MutationCancelSelfSubscriptionArgs, never>>;
   createQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<MutationCreateQuestionArgs, 'input'>>;
   updateQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<MutationUpdateQuestionArgs, 'input'>>;
   deleteQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<MutationDeleteQuestionArgs, 'input'>>;
@@ -990,6 +1224,112 @@ export type GraphEdgeResolvers<ContextType = any, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type CustomerPaymentMethodDetailsCardResolvers<ContextType = any, ParentType extends ResolversParentTypes['CustomerPaymentMethodDetailsCard'] = ResolversParentTypes['CustomerPaymentMethodDetailsCard']> = {
+  lastFourDigits?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  expMonth?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  expYear?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  fingerprint?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CustomerPaymentMethodDetailsAddressResolvers<ContextType = any, ParentType extends ResolversParentTypes['CustomerPaymentMethodDetailsAddress'] = ResolversParentTypes['CustomerPaymentMethodDetailsAddress']> = {
+  city?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  country?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  line1?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  line2?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  postalCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CustomerPaymentMethodDetailsResolvers<ContextType = any, ParentType extends ResolversParentTypes['CustomerPaymentMethodDetails'] = ResolversParentTypes['CustomerPaymentMethodDetails']> = {
+  card?: Resolver<ResolversTypes['CustomerPaymentMethodDetailsCard'], ParentType, ContextType>;
+  address?: Resolver<ResolversTypes['CustomerPaymentMethodDetailsAddress'], ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CustomerPaymentMethodResolvers<ContextType = any, ParentType extends ResolversParentTypes['CustomerPaymentMethod'] = ResolversParentTypes['CustomerPaymentMethod']> = {
+  externalId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  details?: Resolver<ResolversTypes['CustomerPaymentMethodDetails'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CustomerResolvers<ContextType = any, ParentType extends ResolversParentTypes['Customer'] = ResolversParentTypes['Customer']> = {
+  uuid?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  externalId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  currency?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  externalDefaultPaymentMethodId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  paymentMethods?: Resolver<Array<ResolversTypes['CustomerPaymentMethod']>, ParentType, ContextType>;
+  invoicePrefix?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductResolvers<ContextType = any, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
+  externalId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  metadata?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PriceRecurringResolvers<ContextType = any, ParentType extends ResolversParentTypes['PriceRecurring'] = ResolversParentTypes['PriceRecurring']> = {
+  interval?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  intervalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PriceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Price'] = ResolversParentTypes['Price']> = {
+  externalId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  nickname?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  currency?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  unitAmount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  recurring?: Resolver<ResolversTypes['PriceRecurring'], ParentType, ContextType>;
+  metadata?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PlanResolvers<ContextType = any, ParentType extends ResolversParentTypes['Plan'] = ResolversParentTypes['Plan']> = {
+  uuid?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  isActive?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  product?: Resolver<ResolversTypes['Product'], ParentType, ContextType>;
+  price?: Resolver<ResolversTypes['Price'], ParentType, ContextType>;
+  metadata?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SubscriptionItemsResolvers<ContextType = any, ParentType extends ResolversParentTypes['SubscriptionItems'] = ResolversParentTypes['SubscriptionItems']> = {
+  externalId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  externalPriceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  uuid?: SubscriptionResolver<ResolversTypes['ID'], "uuid", ParentType, ContextType>;
+  createdAt?: SubscriptionResolver<ResolversTypes['Date'], "createdAt", ParentType, ContextType>;
+  updatedAt?: SubscriptionResolver<ResolversTypes['Date'], "updatedAt", ParentType, ContextType>;
+  userId?: SubscriptionResolver<ResolversTypes['ID'], "userId", ParentType, ContextType>;
+  externalId?: SubscriptionResolver<ResolversTypes['String'], "externalId", ParentType, ContextType>;
+  externalCustomerId?: SubscriptionResolver<ResolversTypes['String'], "externalCustomerId", ParentType, ContextType>;
+  currentPeriodEnd?: SubscriptionResolver<ResolversTypes['Date'], "currentPeriodEnd", ParentType, ContextType>;
+  items?: SubscriptionResolver<Array<ResolversTypes['SubscriptionItems']>, "items", ParentType, ContextType>;
+  status?: SubscriptionResolver<ResolversTypes['String'], "status", ParentType, ContextType>;
+  collectionMethod?: SubscriptionResolver<ResolversTypes['String'], "collectionMethod", ParentType, ContextType>;
+  externalLatestInvoiceId?: SubscriptionResolver<Maybe<ResolversTypes['String']>, "externalLatestInvoiceId", ParentType, ContextType>;
+  subPong?: SubscriptionResolver<Maybe<ResolversTypes['String']>, "subPong", ParentType, ContextType>;
+  greetings?: SubscriptionResolver<Maybe<ResolversTypes['String']>, "greetings", ParentType, ContextType>;
+};
+
 export type QuestionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Question'] = ResolversParentTypes['Question']> = {
   uuid?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
@@ -999,6 +1339,7 @@ export type QuestionResolvers<ContextType = any, ParentType extends ResolversPar
   subType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   data?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
   answers?: Resolver<Maybe<Array<ResolversTypes['Answer']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1030,11 +1371,6 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
   name: 'JSON';
 }
-
-export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
-  subPong?: SubscriptionResolver<Maybe<ResolversTypes['String']>, "subPong", ParentType, ContextType>;
-  greetings?: SubscriptionResolver<Maybe<ResolversTypes['String']>, "greetings", ParentType, ContextType>;
-};
 
 export type SurveyCustomizationResolvers<ContextType = any, ParentType extends ResolversParentTypes['SurveyCustomization'] = ResolversParentTypes['SurveyCustomization']> = {
   color?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1096,12 +1432,22 @@ export type Resolvers<ContextType = any> = {
   Graph?: GraphResolvers<ContextType>;
   GraphVertex?: GraphVertexResolvers<ContextType>;
   GraphEdge?: GraphEdgeResolvers<ContextType>;
+  CustomerPaymentMethodDetailsCard?: CustomerPaymentMethodDetailsCardResolvers<ContextType>;
+  CustomerPaymentMethodDetailsAddress?: CustomerPaymentMethodDetailsAddressResolvers<ContextType>;
+  CustomerPaymentMethodDetails?: CustomerPaymentMethodDetailsResolvers<ContextType>;
+  CustomerPaymentMethod?: CustomerPaymentMethodResolvers<ContextType>;
+  Customer?: CustomerResolvers<ContextType>;
+  Product?: ProductResolvers<ContextType>;
+  PriceRecurring?: PriceRecurringResolvers<ContextType>;
+  Price?: PriceResolvers<ContextType>;
+  Plan?: PlanResolvers<ContextType>;
+  SubscriptionItems?: SubscriptionItemsResolvers<ContextType>;
+  Subscription?: SubscriptionResolvers<ContextType>;
   Question?: QuestionResolvers<ContextType>;
   ResultData?: ResultDataResolvers<ContextType>;
   Result?: ResultResolvers<ContextType>;
   Date?: GraphQLScalarType;
   JSON?: GraphQLScalarType;
-  Subscription?: SubscriptionResolvers<ContextType>;
   SurveyCustomization?: SurveyCustomizationResolvers<ContextType>;
   Survey?: SurveyResolvers<ContextType>;
   SurveyValidationError?: SurveyValidationErrorResolvers<ContextType>;
