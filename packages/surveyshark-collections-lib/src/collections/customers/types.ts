@@ -5,8 +5,8 @@ import { StripeSupportedCurrencies } from '../stripe';
 export interface CustomerPaymentMethodDetails {
   card: {
     lastFourDigits: string;
-    expMonth: string;
-    expYear: string;
+    expMonth: number;
+    expYear: number;
     fingerprint: string;
   };
   address: {

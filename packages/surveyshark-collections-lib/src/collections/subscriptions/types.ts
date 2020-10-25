@@ -12,6 +12,7 @@ export interface Subscription extends Base {
   userId: User['uuid'];
   externalId: string;
   externalCustomerId: string;
+  currentPeriodStart: Date;
   currentPeriodEnd: Date;
   items: SubscriptionItems[];
   /**

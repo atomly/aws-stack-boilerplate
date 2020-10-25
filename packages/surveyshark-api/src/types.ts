@@ -6,6 +6,7 @@ import { SurveySharkDBContext } from '@atomly/surveyshark-collections-lib';
 import { GraphQLResolveInfo } from 'graphql';
 import { IResolvers as Resolvers } from 'graphql-tools';
 import { ExecutionParams } from 'subscriptions-transport-ws';
+import Stripe from 'stripe';
 
 // GraphQLServer.context
 export interface IContext {
@@ -14,6 +15,7 @@ export interface IContext {
   redis: Redis;
   dbContext: SurveySharkDBContext;
   subscriptionParams?: ExecutionParams;
+  stripe: Stripe;
   // pubsub: PubSub;
 }
 

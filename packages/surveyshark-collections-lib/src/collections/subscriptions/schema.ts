@@ -38,6 +38,10 @@ export const subscriptionSchema = new BaseSchema<SubscriptionDocument>({
     type: Schema.Types.String,
     required: true,
   },
+  currentPeriodStart: {
+    type: Schema.Types.Date,
+    required: true,
+  },
   currentPeriodEnd: {
     type: Schema.Types.Date,
     required: true,

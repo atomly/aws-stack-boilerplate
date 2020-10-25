@@ -1,5 +1,9 @@
 // Libraries
-import { Question } from '@atomly/surveyshark-collections-lib';
+import {
+  Plan,
+  Customer,
+  Subscription,
+} from '@atomly/surveyshark-collections-lib';
 
 // Dependencies
 import { IThrowError } from '../../../utils';
@@ -11,14 +15,15 @@ import {
   IResolvers,
 } from '../../../types';
 
-export interface IQuestionsResolverMap extends IResolvers {
+export interface IPaymentsResolverMap extends IResolvers {
   Query: {
-    readQuestion: Resolver<null, GQL.QueryReadQuestionArgs, Promise<Question | null>>;
-    readQuestions: Resolver<null, GQL.QueryReadQuestionsArgs, Promise<Question[]>>;
+    readPlans: Resolver<null, null, Promise<Plan[]>>;
+    readSelfCustomer: Resolver<null, null, Promise<Customer | null>>;
+    readSelfSubscription: Resolver<null, null, Promise<Subscription | null>>;
   },
   Mutation: {
-    createQuestion: Resolver<null, GQL.MutationCreateQuestionArgs, Promise<Question | IThrowError>>;
-    updateQuestion: Resolver<null, GQL.MutationUpdateQuestionArgs, Promise<Question | null | IThrowError>>;
-    deleteQuestion: Resolver<null, GQL.MutationDeleteQuestionArgs, Promise<Question | null | IThrowError>>;
+    createSelfSubscription: Resolver<null, GQL.MutationCreateSelfSubscriptionArgs, Promise<Subscription | IThrowError>>;
+    updateSelfSubscription: Resolver<null, GQL.MutationUpdateSelfSubscriptionArgs, Promise<Subscription | IThrowError>>;
+    cancelSelfSubscription: Resolver<null, GQL.MutationCancelSelfSubscriptionArgs, Promise<Subscription | IThrowError>>;
   },
 }

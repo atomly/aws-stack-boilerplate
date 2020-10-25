@@ -1,155 +1,135 @@
 // Libraries
-import { Question, QuestionTypes, GraphVertexDocument } from '@atomly/surveyshark-collections-lib';
+import { Plan, Customer, Subscription, StripeSubscriptionStatuses } from '@atomly/surveyshark-collections-lib';
 
 // Types
-import { IQuestionsResolverMap } from './types';
-import { IThrowError, safeJsonParse } from '../../../utils';
+import { IPaymentsResolverMap } from './types';
+import { IThrowError } from '../../../utils';
 
 // Utils
 import { throwError } from '../../../utils';
 
 // Dependencies
-import { questionsWithAnswersPipeline, questionWithAnswersPipeline } from './aggregations';
+import { createStripeCustomer, createStripePaymentMethod, createStripeSubscription, saveStripeData } from './utils';
 
-const resolvers: IQuestionsResolverMap = {
-  Question: {
-    data(parent): Question['data'] {
-      return safeJsonParse(parent.data).value || parent.data;
-    },
-  },
+const resolvers: IPaymentsResolverMap = {
   Query: {
-    async readQuestion(_, { input, withAnswers }, { dbContext }): Promise<Question | null> {
-      if (withAnswers) {
-        const questions = await dbContext.collections.Questions.model.aggregate<Question>(questionsWithAnswersPipeline(input.uuid));
-        return questions[0];
-      } else {
-        const question = await dbContext.collections.Questions.model.findOne({
-          uuid: input.uuid,
-        }).lean<Question>();
-        return question;
-      }
+    async readPlans(_, __, { dbContext }): Promise<Plan[]> {
+      const plans = await dbContext.collections.Plans.model.find({});
+      return plans;
     },
-    async readQuestions(_, { input, withAnswers }, { dbContext }): Promise<Question[]> {
-      if (withAnswers) {
-        const questions = await dbContext.collections.Questions.model.aggregate<Question>(questionWithAnswersPipeline);
-        return questions;
-      } else {
-        const questions = await dbContext.collections.Questions.model.find({
-          surveyId: input.surveyId,
-        }).lean();
-        return questions;
+    async readSelfCustomer(_, __, { request, dbContext }): Promise<Customer | null> {
+      if (request.session?.userId) {
+        const customer = await dbContext.collections.Customers.model.findOne({
+          userId: request.session.userId,
+        });
+        return customer;
       }
+      return null;
+    },
+    async readSelfSubscription(_, __, { request, dbContext }): Promise<Subscription | null> {
+      if (request.session?.userId) {
+        const subscription = await dbContext.collections.Subscriptions.model.findOne({
+          userId: request.session.userId,
+          status: StripeSubscriptionStatuses.ACTIVE,
+        });
+        return subscription;
+      }
+      return null;
     },
   },
   Mutation: {
-    async createQuestion(_, { input }, { dbContext }): Promise<Question | IThrowError> {
-      try {
-        // TODO: Add transaction
-        const survey = await dbContext.collections.Surveys.model.findOne({
-          uuid: input.surveyId,
-        }).populate('graph').lean();
-        if (!survey) {
+    async createSelfSubscription(
+      _,
+      { input, details, card, address },
+      { request, dbContext, stripe },
+    ): Promise<Subscription | IThrowError> {
+      if (request.session?.userId) {
+        const { planId } = input;
+
+        // 1. Check the user in the session, and if the planId is related to an existing plan:
+
+        const user = await dbContext.collections.Users.model.findOne({ uuid: request.session.userId });
+
+        if (!user) {
           return throwError({
-            status: throwError.Errors.EStatuses.BAD_REQUEST,
-            message: `Invalid survey ID ${input.surveyId} input.`,
+            status: throwError.Errors.EStatuses.AUTHENTICATION,
+            message: `Invalid user session.`,
           });
         }
-        const question = await new dbContext.collections.Questions.model(input).save();
-        await new dbContext.collections.GraphVertices.model({
-          graphId: survey.graph.uuid,
-          key: question.uuid,
-          value: question,
-          _valueCollectionName: dbContext.collections.Questions.collectionName,
-        }).save();
-        return question;
-      } catch (err) {
-        return throwError({
-          status: throwError.Errors.EStatuses.BAD_REQUEST,
-          message: 'Invalid input.',
-          details: err.message,
-        });
+
+        const plan = await dbContext.collections.Plans.model.findOne({ uuid: planId }).lean();
+
+        if (!plan) {
+          return throwError({
+            status: throwError.Errors.EStatuses.BAD_REQUEST,
+            message: `Invalid plan ID: ${planId}`,
+          });
+        }
+
+        // 2. Check if the user has an existing subscription.
+
+        const existingSubscription = await dbContext.collections.Subscriptions.model.findOne({
+          userId: user.uuid,
+        }).lean();
+
+        if (existingSubscription) {
+          return throwError({
+            status: throwError.Errors.EStatuses.BAD_REQUEST,
+            message: `User already has an existing subscription: ${existingSubscription.uuid}`,
+          });
+        }
+
+        // 3. Create the Stripe customer:
+
+        const stripeCustomer = await createStripeCustomer(stripe, user);
+
+        // 4. Create a Stripe Payment Method:
+
+        const stripePaymentMethod = await createStripePaymentMethod(
+          stripe,
+          stripeCustomer,
+          details,
+          card,
+          address,
+        );
+
+        // 5. Create Stripe subscription:
+
+        const stripeSubscription = await createStripeSubscription(
+          stripe,
+          stripeCustomer,
+          plan,
+        );
+
+        // 6. Save Stripe data & references to the SurveySharkDB:
+
+        const { subscription } = await saveStripeData(
+          dbContext,
+          user.uuid,
+          stripeCustomer,
+          stripePaymentMethod,
+          stripeSubscription,
+        );
+
+        return subscription;
       }
+
+      return throwError({
+        status: throwError.Errors.EStatuses.UNATHORIZED,
+        message: `User not logged in.`,
+      });
     },
-    async updateQuestion(_, { input }, { dbContext }): Promise<Question | null | IThrowError> {
-      try {
-        let question: Question | null = null;
-        const session = await dbContext.connection!.startSession();
-        /**
-         * When the subtype of the question changes, also update its answers.
-         * If the subtype changes from SINGLE_CHOICE to MULTI_CHOICES, simply update the
-         * answers subtype and reset the `data` object.
-         * Otherwise, delete the answers, their graph vertices, and edges, essentially resetting the question.
-         */
-        await session.withTransaction(async () => {
-          question = await dbContext.collections.Questions.model.findOneAndUpdate(
-            { uuid: input.uuid },
-            input as Partial<Question>,
-            { new: true },
-          ).lean() as Question | null;
-          if (question && input.subType) {
-            const subType = input.subType as unknown as QuestionTypes;
-            switch(subType) {
-              case QuestionTypes.SINGLE_CHOICE:
-              case QuestionTypes.MULTI_CHOICES:
-                await dbContext.collections.Answers.model.updateMany(
-                  { parentQuestionId: question.uuid },
-                  { subType, data: {} },
-                );
-                break;
-              default: {
-                const questionGraphVertex = await dbContext.collections.GraphVertices.model.findOne({ key: question.uuid }).lean<GraphVertexDocument>();
-                if (questionGraphVertex) {
-                  const graphEdgesQuery = {
-                    from: questionGraphVertex,
-                  };
-                  const graphEdges = await dbContext.collections.GraphEdges.model.find(graphEdgesQuery);
-                  await Promise.all([
-                    dbContext.collections.GraphEdges.model.deleteMany(graphEdgesQuery),
-                    dbContext.collections.GraphVertices.model.deleteMany({
-                      _id: graphEdges.map(graphEdge => graphEdge.to),
-                    }),
-                    dbContext.collections.Answers.model.deleteMany({
-                      surveyId: question.surveyId,
-                      parentQuestionId: question.uuid,
-                    }),
-                  ]);
-                }
-                break;
-              }
-            }
-          }
-        });
-        await session.commitTransaction();
-        session.endSession();
-        return question;
-      } catch (err) {
-        return throwError({
-          status: throwError.Errors.EStatuses.BAD_REQUEST,
-          message: 'Invalid input.',
-          details: err.message,
-        });
-      }
+    async updateSelfSubscription(
+      _,
+      { input, details, card, address },
+      { request, dbContext, stripe },
+    ): Promise<Subscription | IThrowError> {
     },
-    async deleteQuestion(_, { input }, { dbContext }): Promise<Question | null | IThrowError> {
-      try {
-        let question: Question | null = null;
-        const session = await dbContext.connection!.startSession();
-        await session.withTransaction(async () => {
-          question = await dbContext.collections.Questions.model.findOneAndDelete({ uuid: input.uuid }).lean<Question>();
-          if (question) {
-            await dbContext.collections.GraphVertices.model.deleteOne({ key: question.uuid });
-          }
-        });
-        await session.commitTransaction();
-        session.endSession();
-        return question;
-      } catch (err) {
-        return throwError({
-          status: throwError.Errors.EStatuses.BAD_REQUEST,
-          message: 'Invalid input.',
-          details: err.message,
-        });
-      }
+    async cancelSelfSubscription(
+      _,
+      { input, details, card, address },
+      { request, dbContext, stripe },
+    ): Promise<Subscription | IThrowError> {
     },
   },
 }

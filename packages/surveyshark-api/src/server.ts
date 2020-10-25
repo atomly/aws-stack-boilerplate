@@ -53,6 +53,7 @@ export async function startServer(
   redis: Redis,
   dbContext: SurveySharkDBContext,
   sessionSecretKey: string,
+  stripe: Stripe,
   ): Promise<void> {
   // Express app.
   const app = express();
@@ -150,6 +151,7 @@ export async function startServer(
           response: response as Response,
           redis,
           dbContext,
+          stripe,
         } as IContext,
       })),
     );
@@ -207,6 +209,7 @@ export async function startServer(
                 redis,
                 dbContext,
                 subscriptionParams: params,
+                stripe,
               } as IContext;
 
               return params;

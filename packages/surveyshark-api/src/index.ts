@@ -14,6 +14,7 @@ import Hubful, {
   DefaultPublisherService,
   DefaultSubscriberService,
 } from '@atomly/hubful';
+import Stripe from 'stripe';
 
 // Dependencies
 import { config } from './config';
@@ -62,6 +63,16 @@ import { startServer } from './server';
       subscriberService: defaultSubscriberService,
     });
 
-    await startServer(redis, dbContext, config.express.sessionSecretKey);
+    const stripe = new Stripe(
+      config.stripe.secretKey,
+      { apiVersion: '2020-08-27' },
+    );
+
+    await startServer(
+      redis,
+      dbContext,
+      config.express.sessionSecretKey,
+      stripe,
+    );
   }
 )();

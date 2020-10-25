@@ -103,7 +103,6 @@ type Query {
 
 input MutationCreateSelfSubscriptionInput {
   planId: ID!
-  shouldSavePaymentMethod: Boolean!
 }
 
 input MutationCreateSelfSubscriptionDetails {
@@ -130,7 +129,6 @@ input MutationCreateSelfSubscriptionAddress {
 
 input MutationUpdateSelfSubscriptionInput {
   subscriptionId: ID!
-  shouldSavePaymentMethod: Boolean!
   planId: ID
 }
 
