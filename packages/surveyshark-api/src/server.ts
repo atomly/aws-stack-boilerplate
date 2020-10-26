@@ -13,6 +13,7 @@ import expressPlayground from 'graphql-playground-middleware-express';
 import { createServer as createHttpServer } from 'http';
 import { Redis } from 'ioredis';
 import { SubscriptionServer, ExecutionParams, OperationMessage } from 'subscriptions-transport-ws';
+import Stripe from 'stripe';
 
 // Types
 import { IContext } from './types';

@@ -3,13 +3,6 @@ import dotenv from 'dotenv';
 import path from 'path';
 import fs from 'fs';
 
-const envFileProperties = [
-  'NODE_ENV',
-  'DB_CONFIG_FILE_LOCATION',
-  'EXPRESS_CONFIG_FILE_LOCATION',
-  'REDIS_CONFIG_FILE_LOCATION',
-];
-
 enum ENodeEnv {
   DEVELOPMENT = 'development',
   TEST = 'test',
@@ -34,20 +27,35 @@ function resolveEnvFileLocation(nodeEnv?: ENodeEnv): string {
 }
 
 /**
+ * Validate the contents of a .env file against the sample .env file template.
+ * @param env - Env object.
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
+function validateEnvAgainstSampleTemplate(env: object): void {
+  const sampleTemplateEnvFileLocation = path.resolve(__dirname, '..', '..', '.env.sample');
+  const envContents = fs.readFileSync(sampleTemplateEnvFileLocation);
+  const envFileProperties: string[] = Object.keys(dotenv.parse(envContents));
+
+  envFileProperties.forEach(key => {
+    if (!(key in env)) {
+      throw new Error(`ERROR: Key ${key} not found in the respective .env file.`);
+    }
+  });
+}
+
+/**
  * Sets up the environmental configuration.
  * @param {ENodeEnv} nodeEnv - Respective environment to draw config settings from.
  */
 export function setupEnv(nodeEnv?: ENodeEnv): void {
   const envPath = resolveEnvFileLocation(nodeEnv);
   dotenv.config({ path: envPath });
+
   // Validating that all of the properties were in the env file:
   // eslint-disable-next-line no-console
   console.log(`DEBUG: Validating contents of the .env file at ${envPath}.`);
-  envFileProperties.forEach(key => {
-    if (!(key in process.env)) {
-      throw new Error(`ERROR: Key ${key} not found in the .env file at ${envPath}.`);
-    }
-  });
+  validateEnvAgainstSampleTemplate(process.env);
+
   // eslint-disable-next-line no-console
   console.log(`DEBUG: The contents of the .env file is valid!`);
 }
@@ -61,18 +69,16 @@ setupEnv.ENodeEnvConfig = ENodeEnv;
 export function resolveEnv(nodeEnv?: ENodeEnv): Record<string, string> {
   const envPath = resolveEnvFileLocation(nodeEnv);
   const envContents = fs.readFileSync(envPath);
-  const output = dotenv.parse(envContents);
+  const env = dotenv.parse(envContents);
+
   // Validating that all of the properties were in the env file:
   // eslint-disable-next-line no-console
   console.log(`DEBUG: Validating contents of the .env file at ${envPath}.`);
-  envFileProperties.forEach(key => {
-    if (!(key in output)) {
-      throw new Error(`ERROR: Key ${key} not found in the .env file at ${envPath}.`);
-    }
-  });
+  validateEnvAgainstSampleTemplate(env);
+
   // eslint-disable-next-line no-console
   console.log(`DEBUG: The contents of the .env file is valid!`);
-  return output;
+  return env;
 }
 
 resolveEnv.ENodeEnvConfig = ENodeEnv;

@@ -1,3 +1,9 @@
+// @ts-nocheck
+
+/**
+ * THIS IS A GENERATED FILE, DO NOT MODIFY. INSTEAD RUN COMMAND `npm run graphql:codegen`.
+ */
+
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -271,7 +277,7 @@ export type MutationUpdateSelfSubscriptionArgs = {
 
 
 export type MutationCancelSelfSubscriptionArgs = {
-  input?: Maybe<MutationCancelSelfSubscriptionInput>;
+  input: MutationCancelSelfSubscriptionInput;
 };
 
 
@@ -570,7 +576,6 @@ export type Subscription = {
 
 export type MutationCreateSelfSubscriptionInput = {
   planId: Scalars['ID'];
-  shouldSavePaymentMethod: Scalars['Boolean'];
 };
 
 export type MutationCreateSelfSubscriptionDetails = {
@@ -597,7 +602,6 @@ export type MutationCreateSelfSubscriptionAddress = {
 
 export type MutationUpdateSelfSubscriptionInput = {
   subscriptionId: Scalars['ID'];
-  shouldSavePaymentMethod: Scalars['Boolean'];
   planId?: Maybe<Scalars['ID']>;
 };
 
@@ -1163,7 +1167,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteGraphEdge?: Resolver<Maybe<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<MutationDeleteGraphEdgeArgs, 'input'>>;
   createSelfSubscription?: Resolver<Maybe<ResolversTypes['Subscription']>, ParentType, ContextType, RequireFields<MutationCreateSelfSubscriptionArgs, 'input' | 'details' | 'card' | 'address'>>;
   updateSelfSubscription?: Resolver<Maybe<ResolversTypes['Subscription']>, ParentType, ContextType, RequireFields<MutationUpdateSelfSubscriptionArgs, 'input' | 'details' | 'card' | 'address'>>;
-  cancelSelfSubscription?: Resolver<Maybe<ResolversTypes['Subscription']>, ParentType, ContextType, RequireFields<MutationCancelSelfSubscriptionArgs, never>>;
+  cancelSelfSubscription?: Resolver<Maybe<ResolversTypes['Subscription']>, ParentType, ContextType, RequireFields<MutationCancelSelfSubscriptionArgs, 'input'>>;
   createQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<MutationCreateQuestionArgs, 'input'>>;
   updateQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<MutationUpdateQuestionArgs, 'input'>>;
   deleteQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<MutationDeleteQuestionArgs, 'input'>>;

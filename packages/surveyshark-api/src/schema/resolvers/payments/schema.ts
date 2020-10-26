@@ -171,6 +171,6 @@ type Mutation {
     card: MutationCreateSelfSubscriptionCard!,
     address: MutationCreateSelfSubscriptionAddress!
   ): Subscription
-  cancelSelfSubscription(input: MutationCancelSelfSubscriptionInput): Subscription
+  cancelSelfSubscription(input: MutationCancelSelfSubscriptionInput!): Subscription
 }
 `;

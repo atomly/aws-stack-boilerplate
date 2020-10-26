@@ -77,7 +77,7 @@ type Mutation {
   deleteGraphEdge(input: MutationDeleteGraphEdgeInput!): GraphEdge
   createSelfSubscription(input: MutationCreateSelfSubscriptionInput!, details: MutationCreateSelfSubscriptionDetails!, card: MutationCreateSelfSubscriptionCard!, address: MutationCreateSelfSubscriptionAddress!): Subscription
   updateSelfSubscription(input: MutationUpdateSelfSubscriptionInput!, details: MutationCreateSelfSubscriptionDetails!, card: MutationCreateSelfSubscriptionCard!, address: MutationCreateSelfSubscriptionAddress!): Subscription
-  cancelSelfSubscription(input: MutationCancelSelfSubscriptionInput): Subscription
+  cancelSelfSubscription(input: MutationCancelSelfSubscriptionInput!): Subscription
   createQuestion(input: MutationCreateQuestionInput!): Question
   updateQuestion(input: MutationUpdateQuestionInput!): Question
   deleteQuestion(input: MutationDeleteQuestionInput!): Question
@@ -309,7 +309,6 @@ type Subscription {
 
 input MutationCreateSelfSubscriptionInput {
   planId: ID!
-  shouldSavePaymentMethod: Boolean!
 }
 
 input MutationCreateSelfSubscriptionDetails {
@@ -336,7 +335,6 @@ input MutationCreateSelfSubscriptionAddress {
 
 input MutationUpdateSelfSubscriptionInput {
   subscriptionId: ID!
-  shouldSavePaymentMethod: Boolean!
   planId: ID
 }
 

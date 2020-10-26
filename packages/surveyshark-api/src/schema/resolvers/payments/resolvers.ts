@@ -3,13 +3,12 @@ import { Plan, Customer, Subscription, StripeSubscriptionStatuses } from '@atoml
 
 // Types
 import { IPaymentsResolverMap } from './types';
-import { IThrowError } from '../../../utils';
 
 // Utils
-import { throwError } from '../../../utils';
+import { throwError, IThrowError } from '../../../utils';
 
 // Dependencies
-import { createStripeCustomer, createStripePaymentMethod, createStripeSubscription, saveStripeData } from './utils';
+import { cancelStripeSubscription, createStripeCustomer, createStripePaymentMethod, createStripeSubscription, saveStripeData, updateStripeData, updateStripePaymentMethod, updateStripeSubscription } from './utils';
 
 const resolvers: IPaymentsResolverMap = {
   Query: {
@@ -48,7 +47,7 @@ const resolvers: IPaymentsResolverMap = {
 
         // 1. Check the user in the session, and if the planId is related to an existing plan:
 
-        const user = await dbContext.collections.Users.model.findOne({ uuid: request.session.userId });
+        const user = await dbContext.collections.Users.model.findOne({ uuid: request.session.userId }).lean();
 
         if (!user) {
           return throwError({
@@ -124,12 +123,166 @@ const resolvers: IPaymentsResolverMap = {
       { input, details, card, address },
       { request, dbContext, stripe },
     ): Promise<Subscription | IThrowError> {
+      if (request.session?.userId) {
+        const { planId } = input;
+
+        // 1. Check the user in the session:
+
+        const user = await dbContext.collections.Users.model.findOne({ uuid: request.session.userId }).lean();
+
+        if (!user) {
+          return throwError({
+            status: throwError.Errors.EStatuses.AUTHENTICATION,
+            message: `Invalid user session.`,
+          });
+        }
+
+        const plan = planId ?
+          await dbContext.collections.Plans.model.findOne({ uuid: planId }).lean()
+          : null;
+
+        // 2. Check if the user has an existing subscription and fetch the plan of the
+        // new planId if any:
+
+        const currentSubscription = await dbContext.collections.Subscriptions.model.findOne({
+          userId: user.uuid,
+          status: StripeSubscriptionStatuses.ACTIVE,
+        }).lean();
+
+        if (!currentSubscription) {
+          return throwError({
+            status: throwError.Errors.EStatuses.BAD_REQUEST,
+            message: `User has no existing active subscription.`,
+          });
+        }
+
+        // 3. Fetch the customer document:
+
+        const customer = await dbContext.collections.Customers.model.findOne({
+          userId: user.uuid,
+        }).lean();
+
+        if (!customer) {
+          return throwError({
+            status: throwError.Errors.EStatuses.BAD_REQUEST,
+            message: `User has no existing customer.`,
+          });
+        }
+
+        // 4. If necessary, update a Stripe Payment Method:
+
+        const stripePaymentMethod = await updateStripePaymentMethod(
+          stripe,
+          customer,
+          details,
+          card,
+          address,
+        );
+
+        // 5. If necessary, update Stripe subscription to a new plan:
+
+        const stripeSubscription = await updateStripeSubscription(
+          stripe,
+          currentSubscription,
+          plan,
+        );
+
+        // 6. If necessary, update Stripe data & references to the SurveySharkDB:
+
+        const { subscription } = await updateStripeData(
+          dbContext,
+          user.uuid,
+          customer,
+          currentSubscription,
+          stripePaymentMethod,
+          stripeSubscription,
+        );
+
+        return subscription;
+      }
+
+      return throwError({
+        status: throwError.Errors.EStatuses.UNATHORIZED,
+        message: `User not logged in.`,
+      });
     },
     async cancelSelfSubscription(
       _,
-      { input, details, card, address },
+      { input },
       { request, dbContext, stripe },
     ): Promise<Subscription | IThrowError> {
+      if (request.session?.userId) {
+        const { subscriptionId } = input;
+
+        // 1. Check the user in the session:
+
+        const user = await dbContext.collections.Users.model.findOne({ uuid: request.session.userId }).lean();
+
+        if (!user) {
+          return throwError({
+            status: throwError.Errors.EStatuses.AUTHENTICATION,
+            message: `Invalid user session.`,
+          });
+        }
+
+        // 2. Check if the user has an existing subscription, and check if the subscription ID matches the one
+        // send in the input parameters:
+
+        const currentSubscription = await dbContext.collections.Subscriptions.model.findOne({
+          userId: user.uuid,
+          status: StripeSubscriptionStatuses.ACTIVE,
+        }).lean();
+
+        if (!currentSubscription) {
+          return throwError({
+            status: throwError.Errors.EStatuses.BAD_REQUEST,
+            message: `User has no existing active subscription.`,
+          });
+        } else if (currentSubscription.externalId !== subscriptionId) {
+          return throwError({
+            status: throwError.Errors.EStatuses.BAD_REQUEST,
+            message: `Subscription ID does not match the current user's active subscription.`,
+          });
+        }
+
+        // 3. Fetch the customer document:
+
+        const customer = await dbContext.collections.Customers.model.findOne({
+          userId: user.uuid,
+        }).lean();
+
+        if (!customer) {
+          return throwError({
+            status: throwError.Errors.EStatuses.BAD_REQUEST,
+            message: `User has no existing customer.`,
+          });
+        }
+
+        // 4. Cancel the subscription:
+
+        const stripeSubscription = await cancelStripeSubscription(
+          stripe,
+          currentSubscription,
+        );
+
+        // 5. Update Stripe data & references to the SurveySharkDB:
+
+        const { subscription } = await updateStripeData(
+          dbContext,
+          user.uuid,
+          customer,
+          currentSubscription,
+          null,
+          stripeSubscription,
+        );
+
+        return subscription;
+      }
+
+      return throwError({
+        status: throwError.Errors.EStatuses.UNATHORIZED,
+        message: `User not logged in.`,
+      });
     },
   },
 }

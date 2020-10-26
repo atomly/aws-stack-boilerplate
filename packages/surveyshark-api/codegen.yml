@@ -4,6 +4,10 @@ documents: null
 generates:
   ./src/types/schema.ts:
     plugins:
+      - add:
+          content: "// @ts-nocheck\n"
+      - add:
+          content: "/**\n * THIS IS A GENERATED FILE, DO NOT MODIFY. INSTEAD RUN COMMAND `npm run graphql:codegen`.\n */\n"
       - typescript
       - typescript-resolvers
   ./graphql.schema.json:

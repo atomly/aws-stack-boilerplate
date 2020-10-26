@@ -47,6 +47,7 @@
     "subscriptions-transport-ws": "^0.9.18"
   },
   "devDependencies": {
+    "@graphql-codegen/add": "^2.0.1",
     "@graphql-codegen/cli": "1.17.8",
     "@graphql-codegen/introspection": "1.17.8",
     "@graphql-codegen/typescript": "1.17.9",
