@@ -8,7 +8,7 @@ type Question {
   surveyId: ID!
   type: String!
   subType: String!
-  name: String!
+  name: String
   description: String
   isRequired: Boolean!
   data: JSON
@@ -30,7 +30,7 @@ type Query {
 
 input MutationCreateQuestionInput {
   surveyId: ID!
-  name: String!
+  name: String
   subType: QuestionTypes!
   description: String
   isRequired: Boolean!

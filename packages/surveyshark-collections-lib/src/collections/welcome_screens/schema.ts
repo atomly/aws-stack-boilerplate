@@ -23,8 +23,7 @@ export const welcomeScreenSchema = new BaseSchema<WelcomeScreenDocument>({
   },
   name: {
     type: Schema.Types.String,
-    required: true,
-    default: '',
+    default: undefined,
   },
   description: {
     type: Schema.Types.String,

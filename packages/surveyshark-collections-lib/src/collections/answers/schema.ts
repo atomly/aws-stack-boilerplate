@@ -33,8 +33,7 @@ export const answerSchema = new BaseSchema<AnswerDocument>({
   },
   name: {
     type: Schema.Types.String,
-    required: true,
-    default: '',
+    default: undefined,
   },
   data: {
     type: Schema.Types.Mixed,

@@ -6,7 +6,7 @@ type Answer {
   parentQuestionId: ID!
   type: String!
   subType: String!
-  name: String!
+  name: String
   data: JSON
 }
 
@@ -50,7 +50,7 @@ type Query {
 input MutationCreateAnswerInput {
   surveyId: ID!
   parentQuestionId: ID!
-  name: String!
+  name: String
   subType: QuestionTypes!
   data: JSON
 }
@@ -99,7 +99,7 @@ type Closure {
   updatedAt: Date!
   surveyId: ID!
   type: String!
-  name: String!
+  name: String
   description: String
 }
 
@@ -115,7 +115,7 @@ input MutationCreateClosureInput {
   surveyId: ID!
   parentClosureId: ID!
   type: SurveyTypes!
-  name: String!
+  name: String
   description: String
 }
 
@@ -371,7 +371,7 @@ type Question {
   surveyId: ID!
   type: String!
   subType: String!
-  name: String!
+  name: String
   description: String
   isRequired: Boolean!
   data: JSON
@@ -388,7 +388,7 @@ input QueryReadQuestionsInput {
 
 input MutationCreateQuestionInput {
   surveyId: ID!
-  name: String!
+  name: String
   subType: QuestionTypes!
   description: String
   isRequired: Boolean!
@@ -557,7 +557,7 @@ type WelcomeScreen {
   updatedAt: Date!
   surveyId: ID!
   type: String!
-  name: String!
+  name: String
   description: String
 }
 
@@ -573,7 +573,7 @@ input MutationCreateWelcomeScreenInput {
   surveyId: ID!
   parentWelcomeScreenId: ID!
   type: SurveyTypes!
-  name: String!
+  name: String
   description: String
 }
 

@@ -7,7 +7,7 @@ type Closure {
   updatedAt: Date!
   surveyId: ID!
   type: String!
-  name: String!
+  name: String
   description: String
 }
 
@@ -28,7 +28,7 @@ input MutationCreateClosureInput {
   surveyId: ID!
   parentClosureId: ID!
   type: SurveyTypes!
-  name: String!
+  name: String
   description: String
 }
 

@@ -29,7 +29,7 @@ export type Answer = {
   parentQuestionId: Scalars['ID'];
   type: Scalars['String'];
   subType: Scalars['String'];
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   data?: Maybe<Scalars['JSON']>;
 };
 
@@ -170,7 +170,7 @@ export type QueryReadWelcomeScreensArgs = {
 export type MutationCreateAnswerInput = {
   surveyId: Scalars['ID'];
   parentQuestionId: Scalars['ID'];
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   subType: QuestionTypes;
   data?: Maybe<Scalars['JSON']>;
 };
@@ -352,7 +352,7 @@ export type Closure = {
   updatedAt: Scalars['Date'];
   surveyId: Scalars['ID'];
   type: Scalars['String'];
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
 };
 
@@ -368,7 +368,7 @@ export type MutationCreateClosureInput = {
   surveyId: Scalars['ID'];
   parentClosureId: Scalars['ID'];
   type: SurveyTypes;
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
 };
 
@@ -639,7 +639,7 @@ export type Question = {
   surveyId: Scalars['ID'];
   type: Scalars['String'];
   subType: Scalars['String'];
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   isRequired: Scalars['Boolean'];
   data?: Maybe<Scalars['JSON']>;
@@ -656,7 +656,7 @@ export type QueryReadQuestionsInput = {
 
 export type MutationCreateQuestionInput = {
   surveyId: Scalars['ID'];
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   subType: QuestionTypes;
   description?: Maybe<Scalars['String']>;
   isRequired: Scalars['Boolean'];
@@ -830,7 +830,7 @@ export type WelcomeScreen = {
   updatedAt: Scalars['Date'];
   surveyId: Scalars['ID'];
   type: Scalars['String'];
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
 };
 
@@ -846,7 +846,7 @@ export type MutationCreateWelcomeScreenInput = {
   surveyId: Scalars['ID'];
   parentWelcomeScreenId: Scalars['ID'];
   type: SurveyTypes;
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
 };
 
@@ -1122,7 +1122,7 @@ export type AnswerResolvers<ContextType = any, ParentType extends ResolversParen
   parentQuestionId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   subType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   data?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -1189,7 +1189,7 @@ export type ClosureResolvers<ContextType = any, ParentType extends ResolversPare
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   surveyId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -1341,7 +1341,7 @@ export type QuestionResolvers<ContextType = any, ParentType extends ResolversPar
   surveyId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   subType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   data?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
@@ -1422,7 +1422,7 @@ export type WelcomeScreenResolvers<ContextType = any, ParentType extends Resolve
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   surveyId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

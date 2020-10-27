@@ -23,8 +23,7 @@ export const closureSchema = new BaseSchema<ClosureDocument>({
   },
   name: {
     type: Schema.Types.String,
-    required: true,
-    default: '',
+    default: undefined,
   },
   description: {
     type: Schema.Types.String,
