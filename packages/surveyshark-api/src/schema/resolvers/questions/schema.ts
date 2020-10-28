@@ -43,7 +43,7 @@ input MutationUpdateQuestionInput {
   subType: QuestionTypes
   description: String
   isRequired: Boolean
-  data: JSON!
+  data: JSON
 }
 
 input  MutationDeleteQuestionInput {

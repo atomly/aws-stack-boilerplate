@@ -38,7 +38,7 @@ input MutationCreateAnswerInput {
 input MutationUpdateAnswerInput {
   uuid: ID!
   name: String
-  data: JSON!
+  data: JSON
 }
 
 input  MutationDeleteAnswerInput {
