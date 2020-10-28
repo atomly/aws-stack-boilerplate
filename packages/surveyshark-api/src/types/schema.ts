@@ -30,7 +30,7 @@ export type Answer = {
   type: Scalars['String'];
   subType: Scalars['String'];
   name?: Maybe<Scalars['String']>;
-  data?: Maybe<Scalars['JSON']>;
+  data: Scalars['JSON'];
 };
 
 export type QueryReadAnswerInput = {
@@ -172,13 +172,13 @@ export type MutationCreateAnswerInput = {
   parentQuestionId: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   subType: QuestionTypes;
-  data?: Maybe<Scalars['JSON']>;
+  data: Scalars['JSON'];
 };
 
 export type MutationUpdateAnswerInput = {
   uuid: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
-  data?: Maybe<Scalars['JSON']>;
+  data: Scalars['JSON'];
 };
 
 export type MutationDeleteAnswerInput = {
@@ -376,7 +376,7 @@ export type MutationUpdateClosureInput = {
   uuid: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
-  data?: Maybe<Scalars['JSON']>;
+  data: Scalars['JSON'];
 };
 
 export type MutationDeleteClosureInput = {
@@ -642,7 +642,7 @@ export type Question = {
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   isRequired: Scalars['Boolean'];
-  data?: Maybe<Scalars['JSON']>;
+  data: Scalars['JSON'];
   answers?: Maybe<Array<Answer>>;
 };
 
@@ -660,7 +660,7 @@ export type MutationCreateQuestionInput = {
   subType: QuestionTypes;
   description?: Maybe<Scalars['String']>;
   isRequired: Scalars['Boolean'];
-  data?: Maybe<Scalars['JSON']>;
+  data: Scalars['JSON'];
 };
 
 export type MutationUpdateQuestionInput = {
@@ -669,7 +669,7 @@ export type MutationUpdateQuestionInput = {
   subType?: Maybe<QuestionTypes>;
   description?: Maybe<Scalars['String']>;
   isRequired?: Maybe<Scalars['Boolean']>;
-  data?: Maybe<Scalars['JSON']>;
+  data: Scalars['JSON'];
 };
 
 export type MutationDeleteQuestionInput = {
@@ -782,7 +782,7 @@ export type MutationUpdateSurveyInput = {
   status?: Maybe<SurveyStatuses>;
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
-  data?: Maybe<Scalars['JSON']>;
+  data: Scalars['JSON'];
   customization?: Maybe<SurveyCustomizationInput>;
 };
 
@@ -854,7 +854,7 @@ export type MutationUpdateWelcomeScreenInput = {
   uuid: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
-  data?: Maybe<Scalars['JSON']>;
+  data: Scalars['JSON'];
 };
 
 export type MutationDeleteWelcomeScreenInput = {
@@ -1123,7 +1123,7 @@ export type AnswerResolvers<ContextType = any, ParentType extends ResolversParen
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   subType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  data?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  data?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1344,7 +1344,7 @@ export type QuestionResolvers<ContextType = any, ParentType extends ResolversPar
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  data?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  data?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
   answers?: Resolver<Maybe<Array<ResolversTypes['Answer']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

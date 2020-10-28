@@ -54,7 +54,7 @@ input MutationUpdateSurveyInput {
   status: SurveyStatuses
   name: String
   description: String
-  data: JSON
+  data: JSON!
   customization: SurveyCustomizationInput
 }
 

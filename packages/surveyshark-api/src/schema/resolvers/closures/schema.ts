@@ -36,7 +36,7 @@ input MutationUpdateClosureInput {
   uuid: ID!
   name: String
   description: String
-  data: JSON
+  data: JSON!
 }
 
 input  MutationDeleteClosureInput {

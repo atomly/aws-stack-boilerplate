@@ -145,9 +145,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "JSON",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1063,9 +1067,13 @@
             "name": "data",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "JSON",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              }
             },
             "defaultValue": null
           }
@@ -1108,9 +1116,13 @@
             "name": "data",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "JSON",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              }
             },
             "defaultValue": null
           }
@@ -2196,9 +2208,13 @@
             "name": "data",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "JSON",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              }
             },
             "defaultValue": null
           }
@@ -4584,9 +4600,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "JSON",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -4739,9 +4759,13 @@
             "name": "data",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "JSON",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              }
             },
             "defaultValue": null
           }
@@ -4814,9 +4838,13 @@
             "name": "data",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "JSON",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              }
             },
             "defaultValue": null
           }
@@ -5776,9 +5804,13 @@
             "name": "data",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "JSON",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              }
             },
             "defaultValue": null
           },
@@ -6402,9 +6434,13 @@
             "name": "data",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "JSON",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              }
             },
             "defaultValue": null
           }
