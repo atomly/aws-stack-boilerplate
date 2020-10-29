@@ -88,15 +88,6 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
     //
 
     /**
-     * Pre-save hook that creates a Graph document and relates it to the Survey document.
-     */
-    this.collections.Surveys.schema.pre<SurveyDocument>('save', async function(next) {
-      const graph = await new self.collections.Graphs.model().save() as GraphDocument<AnswerDocument<unknown> | ClosureDocument | QuestionDocument<unknown> | WelcomeScreenDocument>;
-      this.graph = graph;
-      next();
-    });
-
-    /**
      * Post-delete document hook that deletes the related survey documents.
      */
     this.collections.Surveys.schema.post<SurveyDocument>('deleteOne',  { document: true, query: false }, async doc => {
