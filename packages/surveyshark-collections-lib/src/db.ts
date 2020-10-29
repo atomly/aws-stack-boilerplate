@@ -132,7 +132,6 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
      */
     this.collections.Questions.schema.pre(/delete|findOneAndDelete/i, async function() {
       const queryConditions = (this as any)._conditions; // `this` is the Query object.
-      console.log('queryConditions: ', queryConditions);
       const doc: GraphDocument | null = await self.collections.Questions.model.findOne(queryConditions).lean();
       if (doc) {
         await self.collections.Answers.model.deleteMany({ parentQuestionId: doc.uuid });
