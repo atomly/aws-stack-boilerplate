@@ -165,7 +165,7 @@ describe('users collection works correctly', () => {
       await new dbContext.collections.Results.model(generateResultDocument(survey, faker.internet.email())).save();
     });
 
-    it('should deletes all of the related survey, graph, closure, question, answer, and result documents when deleting the user (through document)', async () => {
+    it('deletes all of the related survey, graph, closure, question, answer, and result documents when deleting the user (through document)', async () => {
       await user.deleteOne();
       const surveyDocCount = await dbContext.collections.Surveys.model.countDocuments({ uuid: survey.uuid });
       expect(surveyDocCount).toBe(0);
@@ -183,8 +183,26 @@ describe('users collection works correctly', () => {
       expect(resultDocsCount).toBe(0);
     });
     
-    it('should deletes all of the related survey, graph, closure, question, answer, and result documents when deleting the user (through query)', async () => {
+    it('deletes all of the related survey, graph, closure, question, answer, and result documents when deleting the user (through query)', async () => {
       await dbContext.collections.Users.model.deleteOne({ uuid: user.uuid });
+      const surveyDocCount = await dbContext.collections.Surveys.model.countDocuments({ uuid: survey.uuid });
+      expect(surveyDocCount).toBe(0);
+      const graphDocCount = await dbContext.collections.Graphs.model.countDocuments({ uuid: survey.graph.uuid });
+      expect(graphDocCount).toBe(0);
+      const graphVertexDocsCount = await dbContext.collections.GraphVertices.model.countDocuments({ graphId: survey.graph.uuid });
+      expect(graphVertexDocsCount).toBe(0);
+      const graphEdgeDocsCount = await dbContext.collections.GraphEdges.model.countDocuments({ graphId: survey.graph.uuid });
+      expect(graphEdgeDocsCount).toBe(0);
+      const questionDocsCount = await dbContext.collections.Questions.model.countDocuments({ surveyId: survey.uuid });
+      expect(questionDocsCount).toBe(0);
+      const answerDocsCount = await dbContext.collections.Answers.model.countDocuments({ surveyId: survey.uuid });
+      expect(answerDocsCount).toBe(0);
+      const resultDocsCount = await dbContext.collections.Results.model.countDocuments({ surveyId: survey.uuid });
+      expect(resultDocsCount).toBe(0);
+    });
+    
+    it('deletes all of the related survey, graph, closure, question, answer, and result documents when deleting the user (through findOneAndDelete)', async () => {
+      await dbContext.collections.Users.model.findOneAndDelete({ uuid: user.uuid });
       const surveyDocCount = await dbContext.collections.Surveys.model.countDocuments({ uuid: survey.uuid });
       expect(surveyDocCount).toBe(0);
       const graphDocCount = await dbContext.collections.Graphs.model.countDocuments({ uuid: survey.graph.uuid });

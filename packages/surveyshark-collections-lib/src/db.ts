@@ -70,7 +70,7 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
     /**
      * Pre-delete query hook that deletes the related user documents.
      */
-    this.collections.Users.schema.pre('deleteOne', async function() {
+    this.collections.Users.schema.pre(/delete|findOneAndDelete/i, async function() {
       const queryConditions = (this as any)._conditions; // `this` is the Query object.
       const doc: UserDocument | null = await self.collections.Users.model.findOne(queryConditions).lean();
       if (doc) {
@@ -101,7 +101,7 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
     /**
      * Pre-delete query hook that deletes the related survey documents.
      */
-    this.collections.Surveys.schema.pre('deleteOne', async function() {
+    this.collections.Surveys.schema.pre(/delete|findOneAndDelete/i, async function() {
       const queryConditions = (this as any)._conditions; // `this` is the Query object.
       const doc: SurveyDocument | null = await self.collections.Surveys.model.findOne(queryConditions).populate('graph').lean();
       if (doc) {
@@ -130,8 +130,9 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
     /**
      * Pre-delete query hook that deletes the related answers of the removed question.
      */
-    this.collections.Questions.schema.pre('deleteOne', async function() {
+    this.collections.Questions.schema.pre(/delete|findOneAndDelete/i, async function() {
       const queryConditions = (this as any)._conditions; // `this` is the Query object.
+      console.log('queryConditions: ', queryConditions);
       const doc: GraphDocument | null = await self.collections.Questions.model.findOne(queryConditions).lean();
       if (doc) {
         await self.collections.Answers.model.deleteMany({ parentQuestionId: doc.uuid });
@@ -165,7 +166,7 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
     /**
      * Pre-delete query hook that deletes the related vertices and edges of the removed graph.
      */
-    this.collections.Graphs.schema.pre('deleteOne', async function() {
+    this.collections.Graphs.schema.pre(/delete|findOneAndDelete/i, async function() {
       const queryConditions = (this as any)._conditions; // `this` is the Query object.
       const doc: GraphDocument | null = await self.collections.Graphs.model.findOne(queryConditions).lean();
       if (doc) {
@@ -222,7 +223,7 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
     /**
      * Pre-delete query hook that pulls the deleted vertex from the respective graph's vertices.
      */
-    this.collections.GraphVertices.schema.pre('deleteOne', async function() {
+    this.collections.GraphVertices.schema.pre(/delete|findOneAndDelete/i, async function() {
       const queryConditions = (this as any)._conditions; // `this` is the Query object.
       const doc: GraphVertexDocument | null = await self.collections.GraphVertices.model.findOne(queryConditions).lean();
       if (doc) {
@@ -309,7 +310,7 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
     /**
      * Pre-delete query hook that pulls the deleted edge from the respective graph's edges.
      */
-    this.collections.GraphEdges.schema.pre('deleteOne', async function() {
+    this.collections.GraphEdges.schema.pre(/delete|findOneAndDelete/i, async function() {
       const queryConditions = (this as any)._conditions; // `this` is the Query object.
       const doc: GraphEdgeDocument | null = await self.collections.GraphEdges.model.findOne(queryConditions).lean();
       if (doc) {

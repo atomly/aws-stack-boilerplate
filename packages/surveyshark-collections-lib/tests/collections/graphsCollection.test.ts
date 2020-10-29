@@ -61,7 +61,7 @@ describe('graphs collection works correctly', () => {
 
   it('should have successfully added the previous vertex through the post-save vertex hook', async () => {
     graph = await dbContext.collections.Graphs.model.findOne({ uuid: graph.uuid }) as GraphDocument;
-    expect(graph.vertices).toHaveLength(1);
+    expect(graph.vertices).toHaveLength(1); // + 1
   });
 
   it('should fail to add duplicate vertices', async () => {
@@ -81,7 +81,7 @@ describe('graphs collection works correctly', () => {
 
   it('should have successfully added the previous vertices and edge through the post-save vertex and edge hook', async () => {
     graph = await dbContext.collections.Graphs.model.findOne({ uuid: graph.uuid }) as GraphDocument;
-    expect(graph.vertices).toHaveLength(3);
+    expect(graph.vertices).toHaveLength(3); // +2
     expect(graph.edges).toHaveLength(1);
   });
 
@@ -129,12 +129,12 @@ describe('graphs collection works correctly', () => {
       const vertex5 = await new dbContext.collections.GraphVertices.model(generateGraphVertexDocument(graph.uuid)).save();
       await new dbContext.collections.GraphEdges.model(generateGraphEdgeDocument(graph.uuid, vertex4, vertex5)).save();
       graph = await dbContext.collections.Graphs.model.findOne({ uuid: graph.uuid }) as GraphDocument;
-      expect(graph.vertices).toHaveLength(5);
+      expect(graph.vertices).toHaveLength(5); // +2
       expect(graph.edges).toHaveLength(1);
       // deleting vertex should remove its edge, and it should remove the vertex and edge from the graph:
       await vertex4.deleteOne();
       graph = await dbContext.collections.Graphs.model.findOne({ uuid: graph.uuid }) as GraphDocument;
-      expect(graph.vertices).toHaveLength(4);
+      expect(graph.vertices).toHaveLength(4); // -1
       expect(graph.edges).toHaveLength(0);
     });
 
@@ -145,17 +145,38 @@ describe('graphs collection works correctly', () => {
       expect(graph.edges).toHaveLength(0);
     });
 
+    it('deleting an edge (through findOneAndDelete) also removes it from the graph', async () => {
+      edge1 = await new dbContext.collections.GraphEdges.model(generateGraphEdgeDocument(graph.uuid, vertex1, vertex2)).save();
+      await dbContext.collections.GraphEdges.model.findOneAndDelete({ uuid: edge1.uuid });
+      graph = await dbContext.collections.Graphs.model.findOne({ uuid: graph.uuid }) as GraphDocument;
+      expect(graph.edges).toHaveLength(0);
+    });
+
     it('deleting a vertex (through query) also removes its edge(s) and removes the vertex and respective edge(s) from the graph', async () => {
       const vertex4 = await new dbContext.collections.GraphVertices.model(generateGraphVertexDocument(graph.uuid)).save();
       const vertex5 = await new dbContext.collections.GraphVertices.model(generateGraphVertexDocument(graph.uuid)).save();
       await new dbContext.collections.GraphEdges.model(generateGraphEdgeDocument(graph.uuid, vertex4, vertex5)).save();
       graph = await dbContext.collections.Graphs.model.findOne({ uuid: graph.uuid }) as GraphDocument;
-      expect(graph.vertices).toHaveLength(6);
+      expect(graph.vertices).toHaveLength(6); // +2
       expect(graph.edges).toHaveLength(1);
       // deleting vertex should remove its edge, and it should remove the vertex and edge from the graph:
       await dbContext.collections.GraphVertices.model.deleteOne({ uuid: vertex4.uuid });
       graph = await dbContext.collections.Graphs.model.findOne({ uuid: graph.uuid }) as GraphDocument;
-      expect(graph.vertices).toHaveLength(5);
+      expect(graph.vertices).toHaveLength(5); // -1
+      expect(graph.edges).toHaveLength(0);
+    });
+
+    it('deleting a vertex (through findOneAndDelete) also removes its edge(s) and removes the vertex and respective edge(s) from the graph', async () => {
+      const vertex4 = await new dbContext.collections.GraphVertices.model(generateGraphVertexDocument(graph.uuid)).save();
+      const vertex5 = await new dbContext.collections.GraphVertices.model(generateGraphVertexDocument(graph.uuid)).save();
+      await new dbContext.collections.GraphEdges.model(generateGraphEdgeDocument(graph.uuid, vertex4, vertex5)).save();
+      graph = await dbContext.collections.Graphs.model.findOne({ uuid: graph.uuid }) as GraphDocument;
+      expect(graph.vertices).toHaveLength(7); // +2
+      expect(graph.edges).toHaveLength(1);
+      // deleting vertex should remove its edge, and it should remove the vertex and edge from the graph:
+      await dbContext.collections.GraphVertices.model.findOneAndDelete({ uuid: vertex4.uuid });
+      graph = await dbContext.collections.Graphs.model.findOne({ uuid: graph.uuid }) as GraphDocument;
+      expect(graph.vertices).toHaveLength(6); // -1
       expect(graph.edges).toHaveLength(0);
     });
 
@@ -174,6 +195,20 @@ describe('graphs collection works correctly', () => {
       await new dbContext.collections.GraphVertices.model(generateGraphVertexDocument(graph.uuid)).save();
       await new dbContext.collections.GraphVertices.model(generateGraphVertexDocument(graph.uuid)).save();
       await dbContext.collections.Graphs.model.deleteOne({ uuid: graph.uuid });
+      // Assertions:
+      const vertices = await dbContext.collections.GraphVertices.model.find({}).lean();
+      expect(vertices).toHaveLength(0);
+      const edges = await dbContext.collections.GraphEdges.model.find({}).lean();
+      expect(edges).toHaveLength(0);
+    });
+
+    it('deleting a graph (through findOneAndDelete) also removes its related vertices and edges', async () => {
+      // Setting up a new small graph then deleting it through a query:
+      graph = await new dbContext.collections.Graphs.model(generateGraphDocument()).save();
+      vertex2 = await new dbContext.collections.GraphVertices.model(generateGraphVertexDocument(graph.uuid)).save();
+      await new dbContext.collections.GraphVertices.model(generateGraphVertexDocument(graph.uuid)).save();
+      await new dbContext.collections.GraphVertices.model(generateGraphVertexDocument(graph.uuid)).save();
+      await dbContext.collections.Graphs.model.findOneAndDelete({ uuid: graph.uuid });
       // Assertions:
       const vertices = await dbContext.collections.GraphVertices.model.find({}).lean();
       expect(vertices).toHaveLength(0);

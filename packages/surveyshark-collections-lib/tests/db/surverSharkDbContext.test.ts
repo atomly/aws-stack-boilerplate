@@ -26,18 +26,18 @@ describe('DefaultDBContext works correctly', () => {
   );
 
   it('successfully opens the dbContext', async () => {
-    expect(dbContext.connection.readyState).toBe(1);
+    expect(dbContext.connection?.readyState).toBe(1);
   });
 
   test('connection has the correct model names', () => {
-    expect(dbContext.connection.modelNames()).toMatchObject(Object
+    expect(dbContext.connection?.modelNames()).toMatchObject(Object
       .values(collections)
       .map(collection => collection.name),
     );
   });
 
   test('connection has the correct collection names', () => {
-    expect(Object.keys(dbContext.connection.collections)).toMatchObject(Object
+    expect(Object.keys(dbContext.connection?.collections ?? {})).toMatchObject(Object
       .values(collections)
       .map(collection => collection.collectionName),
     );

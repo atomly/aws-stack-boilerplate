@@ -75,7 +75,7 @@ describe('questions collection works correctly', () => {
     questionVertex = updatedVertex;
   });
 
-  it('removing a question (through query) removes its respective answers', async () => {
+  it('removes a question (through query) removes its respective answers', async () => {
     // Creating related answers
     const answersDisplayTexts = [
       faker.random.words(),
@@ -100,7 +100,36 @@ describe('questions collection works correctly', () => {
     expect(answersCount).toBe(0);
   });
 
-  it('removing a question (through document) removes its respective answers', async () => {
+  it('removes a question (through findOneAndDelete) removes its respective answers', async () => {
+    question = await new dbContext
+      .collections
+      .Questions
+      .model(doc).save() as QuestionDocument<string>;
+    // Creating related answers
+    const answersDisplayTexts = [
+      faker.random.words(),
+      faker.random.words(),
+      faker.random.words(),
+    ];
+    const randomSurveyId = faker.random.uuid();
+    for await (const answerDisplayText of answersDisplayTexts) {
+      await new dbContext
+        .collections
+        .Answers
+        .model(generateAnswerDocument(randomSurveyId, question.uuid, answerDisplayText)).save();
+    }
+    // Answers should be related to the question:
+    let answersCount: number;
+    answersCount = await dbContext.collections.Answers.model.count({ parentQuestionId: question.uuid });
+    expect(answersCount).toBe(answersDisplayTexts.length);
+    // Deleting question:
+    await dbContext.collections.Questions.model.findOneAndDelete({ uuid: question.uuid });
+    // Answers should be deleted:
+    answersCount = await dbContext.collections.Answers.model.count({ parentQuestionId: question.uuid });
+    expect(answersCount).toBe(0);
+  });
+
+  it('removes a question (through document) removes its respective answers', async () => {
     question = await new dbContext
       .collections
       .Questions
