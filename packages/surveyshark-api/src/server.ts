@@ -1,6 +1,5 @@
 // Libraries
 import { SurveySharkDBContext } from '@atomly/surveyshark-collections-lib';
-import bodyParser from 'body-parser';
 import connectRedisStore from 'connect-redis';
 import cors from 'cors';
 import express, { Response, Request } from 'express';
@@ -63,6 +62,10 @@ export async function startServer(
     // Setting up a database connection:
     await dbContext.open();
 
+    // Middleware that only parses json and only looks at requests where the
+    // Content-Type header matches the type option.
+    app.use(express.json());
+
     // Setting up CORS:
     app.use(cors({
       // Configures the Access-Control-Allow-Origin CORS header.
@@ -114,14 +117,10 @@ export async function startServer(
       }),
     );
 
-    // Middleware that only parses json and only looks at requests where the
-    // Content-Type header matches the type option.
-    app.use(bodyParser.json());
-
     // Setting up GraphQL HTTP server:
     app.use(
       GRAPHQL_ENDPOINT,
-      graphqlHTTP((request, response) => ({
+      graphqlHTTP((req, res) => ({
         // A GraphQLSchema instance from GraphQL.js. A schema must
         // be provided.
         schema: schemaWithMiddleware,
@@ -148,8 +147,8 @@ export async function startServer(
         },
         // GraphQL context object for the resolvers.
         context: {
-          request: request as Request,
-          response: response as Response,
+          request: req as Request,
+          response: res as Response,
           redis,
           dbContext,
           stripe,

@@ -159,7 +159,8 @@ describe('users collection works correctly', () => {
 
     beforeEach(async () => {
       user = await new dbContext.collections.Users.model(generateUserDocument()).save();
-      survey = await new dbContext.collections.Surveys.model(generateSurveyDocument(user)).save();
+      const graph = await new dbContext.collections.Graphs.model().save();
+      survey = await new dbContext.collections.Surveys.model(generateSurveyDocument(user, graph)).save();
       survey = await createSimpleSurveyGraph(dbContext, survey, simpleSurveyData);
       await new dbContext.collections.Results.model(generateResultDocument(survey, faker.internet.email())).save();
     });

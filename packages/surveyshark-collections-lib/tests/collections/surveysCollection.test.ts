@@ -110,7 +110,8 @@ describe('survey graphs collection works correctly', () => {
   );
 
   it('successfully creates a document for the survey graphs collection', async () => {
-    const doc = generateSurveyDocument(user);
+    const graph = await new dbContext.collections.Graphs.model().save();
+    const doc = generateSurveyDocument(user, graph);
     survey = await new dbContext.collections.Surveys.model(doc).save();
     expect(survey).toBeTruthy();
     expect(survey.uuid).toBeTruthy();
@@ -167,7 +168,8 @@ describe('survey graphs collection works correctly', () => {
   describe('survey delete hooks', () => {
     beforeEach(async () => {
       await survey?.deleteOne();
-      survey = await new dbContext.collections.Surveys.model(generateSurveyDocument(user)).save();
+      const graph = await new dbContext.collections.Graphs.model().save();
+      survey = await new dbContext.collections.Surveys.model(generateSurveyDocument(user, graph)).save();
       survey = await createSimpleSurveyGraph(dbContext, survey, simpleSurveyData);
       await new dbContext.collections.Results.model(generateResultDocument(survey, faker.internet.email())).save();
     });

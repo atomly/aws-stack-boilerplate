@@ -46,7 +46,7 @@ type Product {
   externalId: String!
   name: String!
   description: String
-  metadata: JSON
+  metadata: JSONObject
 }
 
 type PriceRecurring {
@@ -60,7 +60,7 @@ type Price {
   currency: String!
   unitAmount: Int!
   recurring: PriceRecurring!
-  metadata: JSON
+  metadata: JSONObject
 }
 
 type Plan {
@@ -72,7 +72,7 @@ type Plan {
   isActive: Boolean!
   product: Product!
   price: Price!
-  metadata: JSON!
+  metadata: JSONObject!
 }
 
 type SubscriptionItems {

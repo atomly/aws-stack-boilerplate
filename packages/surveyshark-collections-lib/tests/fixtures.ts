@@ -147,15 +147,15 @@ export function generateResultDocument(
   };
 }
 
-export function generateSurveyDocument(user: UserDocument): Partial<SurveyDocument> {
+export function generateSurveyDocument(user: UserDocument, graph: GraphDocument): Partial<SurveyDocument> {
   return {
     user,
     name: faker.random.words(),
     description: `${faker.random.words()}, ${faker.random.words()}.`,
+    graph: graph as SurveyDocument['graph'],
     // startingVertex: GraphVertexDocument;
     // surveyStartingQuestion: GraphVertexDocument;
     // surveyClosure: GraphVertexDocument;
-    // graph: GraphDocument;
   };
 }
 

@@ -1,6 +1,5 @@
 // Libraries
 import express, { Express, RequestHandler, Router } from 'express';
-import bodyParser from 'body-parser';
 import cors from 'cors';
 
 // Dependencies
@@ -49,8 +48,8 @@ export function buildExpressApp(
   }));
 
   // Parses json/text and only looks at requests where the Content-Type header matches the type option.
-  app.use(bodyParser.json({ strict: false, limit: '10mb' }));
-  app.use(bodyParser.text());
+  app.use(express.json({ strict: false, limit: '10mb' }));
+  app.use(express.text());
 
   // Protect your app from some well-known web vulnerabilities by setting HTTP headers appropriately.
   app.use(helmet());

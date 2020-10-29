@@ -18,6 +18,7 @@ export type Scalars = {
   Float: number;
   Date: any;
   JSON: any;
+  JSONObject: any;
 };
 
 export type Answer = {
@@ -30,7 +31,7 @@ export type Answer = {
   type: Scalars['String'];
   subType: Scalars['String'];
   name?: Maybe<Scalars['String']>;
-  data: Scalars['JSON'];
+  data: Scalars['JSONObject'];
 };
 
 export type QueryReadAnswerInput = {
@@ -172,13 +173,13 @@ export type MutationCreateAnswerInput = {
   parentQuestionId: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   subType: QuestionTypes;
-  data: Scalars['JSON'];
+  data: Scalars['JSONObject'];
 };
 
 export type MutationUpdateAnswerInput = {
   uuid: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
-  data: Scalars['JSON'];
+  data?: Maybe<Scalars['JSONObject']>;
 };
 
 export type MutationDeleteAnswerInput = {
@@ -376,7 +377,6 @@ export type MutationUpdateClosureInput = {
   uuid: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
-  data: Scalars['JSON'];
 };
 
 export type MutationDeleteClosureInput = {
@@ -669,7 +669,7 @@ export type MutationUpdateQuestionInput = {
   subType?: Maybe<QuestionTypes>;
   description?: Maybe<Scalars['String']>;
   isRequired?: Maybe<Scalars['Boolean']>;
-  data: Scalars['JSON'];
+  data?: Maybe<Scalars['JSON']>;
 };
 
 export type MutationDeleteQuestionInput = {
@@ -728,6 +728,7 @@ export type MutationDeleteResultInput = {
 
 
 
+
 export type QuerySubPingInput = {
   message: Scalars['String'];
 };
@@ -782,7 +783,6 @@ export type MutationUpdateSurveyInput = {
   status?: Maybe<SurveyStatuses>;
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
-  data: Scalars['JSON'];
   customization?: Maybe<SurveyCustomizationInput>;
 };
 
@@ -854,7 +854,6 @@ export type MutationUpdateWelcomeScreenInput = {
   uuid: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
-  data: Scalars['JSON'];
 };
 
 export type MutationDeleteWelcomeScreenInput = {
@@ -1005,6 +1004,7 @@ export type ResolversTypes = {
   MutationDeleteResultInput: MutationDeleteResultInput;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
+  JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
   QuerySubPingInput: QuerySubPingInput;
   SurveyCustomization: ResolverTypeWrapper<SurveyCustomization>;
   Survey: ResolverTypeWrapper<Survey>;
@@ -1092,6 +1092,7 @@ export type ResolversParentTypes = {
   MutationDeleteResultInput: MutationDeleteResultInput;
   Date: Scalars['Date'];
   JSON: Scalars['JSON'];
+  JSONObject: Scalars['JSONObject'];
   QuerySubPingInput: QuerySubPingInput;
   SurveyCustomization: SurveyCustomization;
   Survey: Survey;
@@ -1123,7 +1124,7 @@ export type AnswerResolvers<ContextType = any, ParentType extends ResolversParen
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   subType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  data?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  data?: Resolver<ResolversTypes['JSONObject'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1376,6 +1377,10 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'JSON';
 }
 
+export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
+  name: 'JSONObject';
+}
+
 export type SurveyCustomizationResolvers<ContextType = any, ParentType extends ResolversParentTypes['SurveyCustomization'] = ResolversParentTypes['SurveyCustomization']> = {
   color?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1452,6 +1457,7 @@ export type Resolvers<ContextType = any> = {
   Result?: ResultResolvers<ContextType>;
   Date?: GraphQLScalarType;
   JSON?: GraphQLScalarType;
+  JSONObject?: GraphQLScalarType;
   SurveyCustomization?: SurveyCustomizationResolvers<ContextType>;
   Survey?: SurveyResolvers<ContextType>;
   SurveyValidationError?: SurveyValidationErrorResolvers<ContextType>;

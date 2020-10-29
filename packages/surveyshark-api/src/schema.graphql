@@ -7,7 +7,7 @@ type Answer {
   type: String!
   subType: String!
   name: String
-  data: JSON!
+  data: JSONObject!
 }
 
 input QueryReadAnswerInput {
@@ -52,13 +52,13 @@ input MutationCreateAnswerInput {
   parentQuestionId: ID!
   name: String
   subType: QuestionTypes!
-  data: JSON!
+  data: JSONObject!
 }
 
 input MutationUpdateAnswerInput {
   uuid: ID!
   name: String
-  data: JSON!
+  data: JSONObject
 }
 
 input MutationDeleteAnswerInput {
@@ -123,7 +123,6 @@ input MutationUpdateClosureInput {
   uuid: ID!
   name: String
   description: String
-  data: JSON!
 }
 
 input MutationDeleteClosureInput {
@@ -401,7 +400,7 @@ input MutationUpdateQuestionInput {
   subType: QuestionTypes
   description: String
   isRequired: Boolean
-  data: JSON!
+  data: JSON
 }
 
 input MutationDeleteQuestionInput {
@@ -460,6 +459,8 @@ scalar Date
 
 scalar JSON
 
+scalar JSONObject
+
 input QuerySubPingInput {
   message: String!
 }
@@ -511,7 +512,6 @@ input MutationUpdateSurveyInput {
   status: SurveyStatuses
   name: String
   description: String
-  data: JSON!
   customization: SurveyCustomizationInput
 }
 
@@ -581,7 +581,6 @@ input MutationUpdateWelcomeScreenInput {
   uuid: ID!
   name: String
   description: String
-  data: JSON!
 }
 
 input MutationDeleteWelcomeScreenInput {

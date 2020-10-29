@@ -6,7 +6,7 @@ type ResultData {
   createdAt: Date!
   updatedAt: Date!
   question: Question!
-  answer: JSON!
+  answer: JSONObject!
 }
 
 type Result {
@@ -23,7 +23,7 @@ input ResultDataInput {
   createdAt: Date!
   updatedAt: Date!
   questionId: ID!
-  answer: JSON!
+  answer: JSONObject!
 }
 
 input QueryReadResultInput {

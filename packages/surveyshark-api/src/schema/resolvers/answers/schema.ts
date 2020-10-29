@@ -10,7 +10,7 @@ type Answer {
   type: String!
   subType: String!
   name: String
-  data: JSON!
+  data: JSONObject!
 }
 
 input QueryReadAnswerInput {
@@ -32,13 +32,13 @@ input MutationCreateAnswerInput {
   parentQuestionId: ID!
   name: String
   subType: QuestionTypes!
-  data: JSON!
+  data: JSONObject!
 }
 
 input MutationUpdateAnswerInput {
   uuid: ID!
   name: String
-  data: JSON
+  data: JSONObject
 }
 
 input  MutationDeleteAnswerInput {
