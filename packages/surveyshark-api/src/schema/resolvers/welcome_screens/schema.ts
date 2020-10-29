@@ -36,7 +36,6 @@ input MutationUpdateWelcomeScreenInput {
   uuid: ID!
   name: String
   description: String
-  data: JSON!
 }
 
 input  MutationDeleteWelcomeScreenInput {
