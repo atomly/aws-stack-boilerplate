@@ -19,15 +19,12 @@ import {
   surveysCollection,
   usersCollection,
   welcomeScreensCollection,
-  AnswerDocument,
-  ClosureDocument,
   GraphDocument,
   GraphVertexDocument,
   GraphEdgeDocument,
   QuestionDocument,
   SurveyDocument,
   UserDocument,
-  WelcomeScreenDocument,
 } from './collections';
 import { sanitizeDuplicateVertices, sanitizeDuplicateEdges } from './collections/graphs/utils';
 
