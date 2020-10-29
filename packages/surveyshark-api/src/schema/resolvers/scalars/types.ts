@@ -1,9 +1,6 @@
-// Libraries
-import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json';
-
 // Types
 import { IResolvers } from '../../../types';
-import { GraphQLDate } from './scalars';
+import { GraphQLDate, GraphQLJSON, GraphQLJSONObject } from './scalars';
 
 export interface IScalarsResolverMap extends IResolvers {
   Date: typeof GraphQLDate;
