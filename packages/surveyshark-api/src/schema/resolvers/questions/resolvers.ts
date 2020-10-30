@@ -10,6 +10,7 @@ import { throwError } from '../../../utils';
 
 // Dependencies
 import { questionsWithAnswersPipeline, questionWithAnswersPipeline } from './aggregations';
+import { Answer } from 'surveyshark-api/src/types/schema';
 
 const resolvers: IQuestionsResolverMap = {
   Question: {
@@ -135,9 +136,14 @@ const resolvers: IQuestionsResolverMap = {
         let question: Question | null = null;
         const session = await dbContext.connection!.startSession();
         await session.withTransaction(async () => {
-          question = await dbContext.collections.Questions.model.findOneAndDelete({ uuid: input.uuid }).lean<Question>();
+          const questions = await dbContext.collections.Questions.model.aggregate<Question>(questionsWithAnswersPipeline(input.uuid));
+          question = questions[0];
           if (question) {
-            await dbContext.collections.GraphVertices.model.deleteOne({ key: question.uuid });
+            const graphVerticesKeys = [question.uuid];
+            (question as Question & { answers: Answer[] }).answers.forEach(a => {
+              graphVerticesKeys.push(a.uuid);
+            });
+            await dbContext.collections.GraphVertices.model.deleteMany({ key: { $in: graphVerticesKeys } });
           }
         });
         await session.commitTransaction();
