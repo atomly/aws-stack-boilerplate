@@ -22,7 +22,7 @@ export function ensureObject(value: unknown): unknown {
 }
 
 export function parseObject(typeName: 'JSON' | 'JSONObject', ast: ObjectValueNode, variables: Maybe<{ [key: string]: unknown }>): Maybe<unknown> {
-  const value = Object.create({});
+  const value = Object.create(null);
 
   ast.fields.forEach((field) => {
     value[field.name.value] = parseLiteral(typeName, field.value, variables);

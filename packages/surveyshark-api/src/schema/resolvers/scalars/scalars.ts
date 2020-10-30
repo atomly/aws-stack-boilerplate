@@ -29,6 +29,7 @@ export const GraphQLDate = new GraphQLScalarType({
     if (ast.kind === Kind.INT) {
       return parseInt(ast.value, 10);
     }
+
     return null;
   },
 });
