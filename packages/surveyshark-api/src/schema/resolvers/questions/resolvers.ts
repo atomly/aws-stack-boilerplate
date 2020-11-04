@@ -143,7 +143,10 @@ const resolvers: IQuestionsResolverMap = {
             (question as Question & { answers: Answer[] }).answers.forEach(a => {
               graphVerticesKeys.push(a.uuid);
             });
-            await dbContext.collections.GraphVertices.model.deleteMany({ key: { $in: graphVerticesKeys } });
+            await Promise.all([
+              dbContext.collections.GraphVertices.model.deleteMany({ key: { $in: graphVerticesKeys } }),
+              dbContext.collections.Questions.model.deleteOne({ uuid: question.uuid }),
+            ]);
           }
         });
         await session.commitTransaction();
