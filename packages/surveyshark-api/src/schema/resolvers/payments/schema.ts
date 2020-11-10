@@ -86,6 +86,7 @@ type Subscription {
   createdAt: Date!
   updatedAt: Date!
   userId: ID!
+  planId: ID!
   externalId: String!
   externalCustomerId: String!
   currentPeriodEnd: Date!

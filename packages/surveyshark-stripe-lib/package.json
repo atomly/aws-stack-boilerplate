@@ -19,10 +19,7 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "graphql:codegen": "npm run graphql:schema && graphql-codegen --config codegen.yml",
-    "graphql:schema": "ts-node --transpile-only ./src/schema/generateSchema.ts",
     "start": "ts-node-dev --respawn ./src/index.ts",
-    "start:prod": "ts-node --files ./src/prod.ts",
     "test": "npx jest --runInBand",
     "test:watch": "npx jest --watch --runInBand",
     "watch": "tsc -b -w"

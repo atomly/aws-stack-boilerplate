@@ -1,12 +1,13 @@
 // Libraries
 import Stripe from 'stripe';
-import { StripeSupportedCurrencies, SurveySharkDBContext, User, Plan, Customer, Subscription, StripeSubscriptionStatuses, StripeSubscriptionCollectionMethods } from '@atomly/surveyshark-collections-lib';
+import { StripeSupportedCurrencies, SurveySharkDBContext, User, Plan, Customer, Subscription, StripeSubscriptionStatuses, StripeSubscriptionCollectionMethods, CustomerPaymentMethod } from '@atomly/surveyshark-collections-lib';
 
 // Types
-import { GQL } from '../../../types';
+import { ClientSession } from 'mongoose';
+import { GQL } from '../types';
 
 // Dependencies
-import { throwError } from '../../../utils';
+import { throwError } from '../utils';
 
 /**
  * Creates a Stripe customer then returns it.
@@ -26,14 +27,14 @@ export async function createStripeCustomer(stripe: Stripe, user: User): Promise<
 /**
  * Creates a Stripe payment method, attaches it to the customer, then returns it.
  * @param stripe - Stripe instance.
- * @param stripeCustomer - Stripe customer.
+ * @param customer - SurveyShark Stripe Customer document.
  * @param details - Customer details information for the payment method.
  * @param card - Customer card information for the payment method.
  * @param address - Customer address information for the payment method.
  */
 export async function createStripePaymentMethod(
   stripe: Stripe,
-  stripeCustomer: Stripe.Customer,
+  customer: Customer,
   details: GQL.MutationCreateSelfSubscriptionDetails,
   card: GQL.MutationCreateSelfSubscriptionCard,
   address: GQL.MutationCreateSelfSubscriptionAddress,
@@ -44,7 +45,6 @@ export async function createStripePaymentMethod(
 
   const paymentMethodCreateParams: Stripe.PaymentMethodCreateParams = {
     type: 'card',
-    customer: stripeCustomer.id,
     card: {
       number,
       exp_year: expYear,
@@ -69,7 +69,13 @@ export async function createStripePaymentMethod(
   const stripePaymentMethod = await stripe.paymentMethods.create(paymentMethodCreateParams);
 
   await stripe.paymentMethods.attach(stripePaymentMethod.id, {
-    customer: stripeCustomer.id,
+    customer: customer.externalId,
+  });
+
+  await stripe.customers.update(customer.externalId, {
+    invoice_settings: {
+      default_payment_method: stripePaymentMethod.id,
+    },
   });
 
   return stripePaymentMethod;
@@ -78,16 +84,16 @@ export async function createStripePaymentMethod(
 /**
  * Creates a Stripe subscription then returns it.
  * @param stripe - Stripe instance.
- * @param stripeCustomer - Stripe customer.
+ * @param customer - SurveyShark Stripe Customer document.
  * @param plan - SurveyShark Plan document.
  */
 export async function createStripeSubscription(
   stripe: Stripe,
-  stripeCustomer: Stripe.Customer,
+  customer: Customer,
   plan: Plan,
 ): Promise<Stripe.Subscription> {
   const stripeSubscription = await stripe.subscriptions.create({
-    customer: stripeCustomer.id,
+    customer: customer.externalId,
     items: [{ price: plan.price.externalId }],
     expand: ['latest_invoice.payment_intent'],
   });
@@ -99,74 +105,72 @@ export async function createStripeSubscription(
  * Saves Stripe relevant payment data (customer, payment method, and subscription)
  * in the SurveyShark database. Returns the Customer and Subscription document.
  * @param dbContext - SurveyShark DB Context.
- * @param userId - SurbeyShark User document UUID.
- * @param stripeCustomer - Stripe Customer object.
+ * @param customer - SurveyShark Stripe Customer document.
+ * @param plan - SurveyShark Plan document.
  * @param stripePaymentMethod - Stripe PaymentMethod object.
  * @param stripeSubscription - Stripe Subscription object.
+ * @param {optional} session - MongoDB session for atomic transactions.
  */
 export async function saveStripeData(
   dbContext: SurveySharkDBContext,
-  userId: string,
-  stripeCustomer: Stripe.Customer,
-  stripePaymentMethod: Stripe.PaymentMethod,
+  customer: Customer,
+  plan: Plan,
+  stripePaymentMethod: Stripe.PaymentMethod | null,
   stripeSubscription: Stripe.Subscription,
+  session?: ClientSession,
 ): Promise<{ customer: Customer, subscription: Subscription}> {
-  const [customer, subscription] = await Promise.all([
-    dbContext.collections.Customers.model.findOneAndUpdate(
-      { userId },
-      {
-        userId,
-        externalId: stripeCustomer.id,
-        currency: StripeSupportedCurrencies.USD,
-        externalDefaultPaymentMethodId: stripePaymentMethod.id,
-        paymentMethods: [{
-          externalId: stripePaymentMethod.id,
-          details: {
-            card: {
-              lastFourDigits: stripePaymentMethod.card!.last4!,
-              expMonth: stripePaymentMethod.card!.exp_month!,
-              expYear: stripePaymentMethod.card!.exp_year!,
-              fingerprint: stripePaymentMethod.card!.fingerprint!,
+  const [updatedCustomer, subscription] = await Promise.all([
+    stripePaymentMethod ?
+      dbContext.collections.Customers.model.findOneAndUpdate(
+        { uuid: customer.uuid },
+        {
+          externalDefaultPaymentMethodId: stripePaymentMethod.id,
+          paymentMethods: [{
+            externalId: stripePaymentMethod.id,
+            details: {
+              card: {
+                lastFourDigits: stripePaymentMethod.card!.last4!,
+                expMonth: stripePaymentMethod.card!.exp_month!,
+                expYear: stripePaymentMethod.card!.exp_year!,
+                fingerprint: stripePaymentMethod.card!.fingerprint!,
+              },
+              address: {
+                city: stripePaymentMethod.billing_details.address?.city ?? undefined,
+                country: stripePaymentMethod.billing_details.address?.country ?? undefined,
+                line1: stripePaymentMethod.billing_details.address?.line1 ?? undefined,
+                line2: stripePaymentMethod.billing_details.address?.line2 ?? undefined,
+                postalCode: stripePaymentMethod.billing_details.address?.postal_code ?? undefined,
+                state: stripePaymentMethod.billing_details.address?.state ?? undefined,
+              },
+              email: stripePaymentMethod.billing_details.email ?? undefined,
+              name: stripePaymentMethod.billing_details.name ?? undefined,
+              phone: stripePaymentMethod.billing_details.phone ?? undefined,
             },
-            address: {
-              city: stripePaymentMethod.billing_details.address?.city ?? undefined,
-              country: stripePaymentMethod.billing_details.address?.country ?? undefined,
-              line1: stripePaymentMethod.billing_details.address?.line1 ?? undefined,
-              line2: stripePaymentMethod.billing_details.address?.line2 ?? undefined,
-              postalCode: stripePaymentMethod.billing_details.address?.postal_code ?? undefined,
-              state: stripePaymentMethod.billing_details.address?.state ?? undefined,
-            },
-            email: stripePaymentMethod.billing_details.email ?? undefined,
-            name: stripePaymentMethod.billing_details.name ?? undefined,
-            phone: stripePaymentMethod.billing_details.phone ?? undefined,
-          },
-        }],
-      },
-      { upsert: true, new: true },
-    ).lean(),
-    dbContext.collections.Subscriptions.model.findOneAndUpdate(
-      { userId },
-      {
-        userId,
-        externalId: stripeSubscription.id,
-        externalCustomerId: stripeSubscription.customer as string,
-        currentPeriodStart: new Date(stripeSubscription.current_period_start),
-        currentPeriodEnd: new Date(stripeSubscription.current_period_end),
-        items: stripeSubscription.items.data.map(d => ({
-          externalId: d.id!,
-          externalPriceId: d.price.id,
-          quantity: d.quantity!,
-        })),
-        status: stripeSubscription.status as StripeSubscriptionStatuses,
-        collectionMethod: stripeSubscription.collection_method as StripeSubscriptionCollectionMethods,
-        externalLatestInvoiceId: stripeSubscription.latest_invoice as string,
-      },
-      { upsert: true, new: true },
-    ).lean(),
+          }],
+        },
+        { new: true, session },
+      ) : 
+      undefined,
+    new dbContext.collections.Subscriptions.model({
+      userId: customer.userId,
+      planId: plan.uuid,
+      externalId: stripeSubscription.id,
+      externalCustomerId: customer.externalId,
+      currentPeriodStart: new Date(stripeSubscription.current_period_start),
+      currentPeriodEnd: new Date(stripeSubscription.current_period_end),
+      items: stripeSubscription.items.data.map(d => ({
+        externalId: d.id!,
+        externalPriceId: d.price.id,
+        quantity: d.quantity!,
+      })),
+      status: stripeSubscription.status as StripeSubscriptionStatuses,
+      collectionMethod: stripeSubscription.collection_method as StripeSubscriptionCollectionMethods,
+      externalLatestInvoiceId: (stripeSubscription.latest_invoice as Stripe.Invoice)?.id,
+    }).save({ session }),
   ]);
 
   return {
-    customer: customer!,
+    customer: updatedCustomer ?? customer,
     subscription: subscription!,
   };
 }
@@ -191,7 +195,7 @@ export async function updateStripePaymentMethod(
   const { number, expYear, expMonth, cvc } = card;
   const { city, country, line1, line2, postalCode, state } = address;
 
-  const customerPaymentMethod = customer.paymentMethods.find(i => (
+  const customerPaymentMethod: CustomerPaymentMethod | undefined = customer.paymentMethods.find(i => (
     i.externalId === customer.externalDefaultPaymentMethodId
   ))!;
 
@@ -199,36 +203,35 @@ export async function updateStripePaymentMethod(
 
   const paymentMethodUpdateParams: Stripe.PaymentMethodUpdateParams = {
     card: {
-      exp_year: expYear ?? customerPaymentMethod.details.card.expYear,
-      exp_month: expMonth ?? customerPaymentMethod.details.card.expMonth,
+      exp_year: expYear ?? customerPaymentMethod?.details.card.expYear,
+      exp_month: expMonth ?? customerPaymentMethod?.details.card.expMonth,
     },
     billing_details: {
       address: {
-        city: city ?? customerPaymentMethod.details.address.city,
-        country: country ?? customerPaymentMethod.details.address.country,
-        line1: line1 ?? customerPaymentMethod.details.address.line1,
-        line2: line2 ?? customerPaymentMethod.details.address.line2,
-        postal_code: postalCode ?? customerPaymentMethod.details.address.postalCode,
-        state: state ?? customerPaymentMethod.details.address.state,
+        city: city ?? customerPaymentMethod?.details.address.city,
+        country: country ?? customerPaymentMethod?.details.address.country,
+        line1: line1 ?? customerPaymentMethod?.details.address.line1,
+        line2: line2 ?? customerPaymentMethod?.details.address.line2,
+        postal_code: postalCode ?? customerPaymentMethod?.details.address.postalCode,
+        state: state ?? customerPaymentMethod?.details.address.state,
       },
-      email: email ?? customerPaymentMethod.details.email,
-      name: name ?? customerPaymentMethod.details.name,
-      phone: phone ?? customerPaymentMethod.details.phone,
+      email: email ?? customerPaymentMethod?.details.email,
+      name: name ?? customerPaymentMethod?.details.name,
+      phone: phone ?? customerPaymentMethod?.details.phone,
     },
   };
 
   // If the card details have to be changed, then detach the previous
-  // payment method from the user, then attach a new one.
+  // payment method from the user if necessary, then attach a new one.
 
   if (shouldUpdatePaymentMethodCard) {
     if (number && expYear && expMonth && cvc) {
-      await stripe.paymentMethods.detach(customerPaymentMethod.externalId);
+      customerPaymentMethod?.externalId && await stripe.paymentMethods.detach(customerPaymentMethod.externalId);
 
       const paymentMethodCreateParams = Object.assign(
         paymentMethodUpdateParams,
         {
           type: 'card',
-          customer: customer.externalId,
           card: {
             number,
             exp_year: expYear,
@@ -242,6 +245,12 @@ export async function updateStripePaymentMethod(
 
       await stripe.paymentMethods.attach(stripePaymentMethod.id, {
         customer: customer.externalId,
+      });
+
+      await stripe.customers.update(customer.externalId, {
+        invoice_settings: {
+          default_payment_method: stripePaymentMethod.id,
+        },
       });
 
       return stripePaymentMethod;
@@ -260,9 +269,12 @@ export async function updateStripePaymentMethod(
   const shouldUpdateAddress = Boolean(city ?? country ?? line1 ?? line2 ?? postalCode ?? state);
 
   if (
-    shouldUpdateDetails ||
-    shouldUpdateCard ||
-    shouldUpdateAddress
+    customerPaymentMethod &&
+    (
+      shouldUpdateDetails ||
+      shouldUpdateCard ||
+      shouldUpdateAddress
+    )
   ) {
     const stripePaymentMethod = await stripe.paymentMethods.update(
       customerPaymentMethod.externalId,
@@ -278,7 +290,6 @@ export async function updateStripePaymentMethod(
 /**
  * If necessary, update a Stripe subscription method. Returns the updated
  * subscription or null.
- * @param dbContext - SurveyShark DB Context.
  * @param stripe - Stripe instance.
  * @param customer - SurveyShark DB customer document.
  * @param plan - SurveyShark DB plan document.
@@ -303,6 +314,7 @@ export async function updateStripeSubscription(
         price: plan.price.externalId,
       })),
       expand: ['latest_invoice.payment_intent'],
+      proration_behavior: 'always_invoice',
     });
 
     return stripeSubscription;
@@ -315,28 +327,30 @@ export async function updateStripeSubscription(
  * Saves Stripe relevant payment data (payment method, and subscription)
  * in the SurveyShark database. Returns the Customer and Subscription document.
  * @param dbContext - SurveyShark DB Context.
- * @param userId - SurbeyShark User document UUID.
  * @param customer - SurveyShark DB customer document.
+ * @param plan - SurveyShark Plan document.
  * @param subscription - SurveyShark DB subscription document.
  * @param stripePaymentMethod - Stripe PaymentMethod object.
  * @param stripeSubscription - Stripe Subscription object.
+ * @param {optional} session - MongoDB session for atomic transactions.
  */
 export async function updateStripeData(
   dbContext: SurveySharkDBContext,
-  userId: string,
   customer: Customer,
+  plan: Plan | null,
   subscription: Subscription,
   stripePaymentMethod: Stripe.PaymentMethod | null,
   stripeSubscription: Stripe.Subscription | null,
+  session?: ClientSession,
 ): Promise<{ customer: Customer, subscription: Subscription}> {
   const promises: (Promise<unknown> | undefined)[] = [];
 
   // If necessary, update the Customer with the Stripe new payment method information.
   promises.push(stripePaymentMethod ?
     dbContext.collections.Customers.model.findOneAndUpdate(
-      { userId },
+      { userId: customer.userId },
       {
-        userId,
+        userId: customer.userId,
         externalId: customer.externalId,
         currency: StripeSupportedCurrencies.USD,
         externalDefaultPaymentMethodId: stripePaymentMethod.id,
@@ -363,7 +377,7 @@ export async function updateStripeData(
           },
         }],
       },
-      { upsert: true, new: true },
+      { upsert: true, new: true, useFindAndModify: false, session },
     ).lean() as unknown as Promise<unknown>
     : undefined,
   );
@@ -371,23 +385,42 @@ export async function updateStripeData(
   // If necessary, update the Subscription with the new Stripe subscription information.
   promises.push(stripeSubscription ?
     dbContext.collections.Subscriptions.model.findOneAndUpdate(
-      { userId },
-      {
-        userId,
-        externalId: stripeSubscription.id,
-        externalCustomerId: stripeSubscription.customer as string,
-        currentPeriodStart: new Date(stripeSubscription.current_period_start),
-        currentPeriodEnd: new Date(stripeSubscription.current_period_end),
-        items: stripeSubscription.items.data.map(d => ({
-          externalId: d.id!,
-          externalPriceId: d.price.id,
-          quantity: d.quantity!,
-        })),
-        status: stripeSubscription.status as StripeSubscriptionStatuses,
-        collectionMethod: stripeSubscription.collection_method as StripeSubscriptionCollectionMethods,
-        externalLatestInvoiceId: stripeSubscription.latest_invoice as string,
-      },
-      { upsert: true, new: true },
+      { userId: customer.userId },
+      (
+        plan ?
+          {
+            userId: customer.userId,
+            planId: plan.uuid,
+            externalId: stripeSubscription.id,
+            externalCustomerId: customer.externalId,
+            currentPeriodStart: new Date(stripeSubscription.current_period_start),
+            currentPeriodEnd: new Date(stripeSubscription.current_period_end),
+            items: stripeSubscription.items.data.map(d => ({
+              externalId: d.id!,
+              externalPriceId: d.price.id,
+              quantity: d.quantity!,
+            })),
+            status: stripeSubscription.status as StripeSubscriptionStatuses,
+            collectionMethod: stripeSubscription.collection_method as StripeSubscriptionCollectionMethods,
+            externalLatestInvoiceId: (stripeSubscription.latest_invoice as Stripe.Invoice)?.id,
+          } :
+          {
+            userId: customer.userId,
+            externalId: stripeSubscription.id,
+            externalCustomerId: customer.externalId,
+            currentPeriodStart: new Date(stripeSubscription.current_period_start),
+            currentPeriodEnd: new Date(stripeSubscription.current_period_end),
+            items: stripeSubscription.items.data.map(d => ({
+              externalId: d.id!,
+              externalPriceId: d.price.id,
+              quantity: d.quantity!,
+            })),
+            status: stripeSubscription.status as StripeSubscriptionStatuses,
+            collectionMethod: stripeSubscription.collection_method as StripeSubscriptionCollectionMethods,
+            externalLatestInvoiceId: (stripeSubscription.latest_invoice as Stripe.Invoice)?.id,
+          }
+      ),
+      { upsert: true, new: true, useFindAndModify: false, session },
     ).lean() as unknown as Promise<unknown>
     : Promise.resolve(),
   );
@@ -409,7 +442,9 @@ export async function cancelStripeSubscription(
   stripe: Stripe,
   subscription: Subscription,
 ): Promise<Stripe.Subscription> {
-  const stripeSubscription = await stripe.subscriptions.del(subscription.externalId);
+  const stripeSubscription = await stripe.subscriptions.del(subscription.externalId, {
+    prorate: true,
+  });
 
   return stripeSubscription;
 }

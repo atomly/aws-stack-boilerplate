@@ -7,9 +7,11 @@ import { GraphQLResolveInfo } from 'graphql';
 import { IResolvers as Resolvers } from 'graphql-tools';
 import { ExecutionParams } from 'subscriptions-transport-ws';
 import Stripe from 'stripe';
+import { config as surveySharkConfig } from './config';
 
 // GraphQLServer.context
 export interface IContext {
+  config: typeof surveySharkConfig;
   request: Request;
   response: Response;
   redis: Redis;

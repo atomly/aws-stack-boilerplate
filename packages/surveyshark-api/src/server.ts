@@ -22,6 +22,7 @@ import { middlewares } from './middlewares';
 import { resolvers, objectTypesDefinitions } from './schema';
 import { redisSessionPrefix } from './constants';
 import { safeJsonParse } from './utils';
+import { config as surveySharkConfig } from './config';
 
 //
 // SERVER DEPENDENCIES
@@ -50,9 +51,9 @@ const schemaWithMiddleware = applyMiddleware(
  * Starts the GraphQL server. Returns void.
  */
 export async function startServer(
+  config: typeof surveySharkConfig,
   redis: Redis,
   dbContext: SurveySharkDBContext,
-  sessionSecretKey: string,
   stripe: Stripe,
   ): Promise<void> {
   // Express app.
@@ -106,7 +107,7 @@ export async function startServer(
           prefix: redisSessionPrefix,
         }),
         name: 'qid',
-        secret: sessionSecretKey,
+        secret: config.express.sessionSecretKey,
         resave: true,
         saveUninitialized: true,
         cookie: {
@@ -147,6 +148,7 @@ export async function startServer(
         },
         // GraphQL context object for the resolvers.
         context: {
+          config,
           request: req as Request,
           response: res as Response,
           redis,
@@ -204,6 +206,7 @@ export async function startServer(
               };
 
               params.context = {
+                config,
                 request: {} as Request,
                 response: {} as Response,
                 redis,

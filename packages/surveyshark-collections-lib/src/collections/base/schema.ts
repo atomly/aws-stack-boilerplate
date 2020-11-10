@@ -21,14 +21,17 @@ export class BaseSchema<T> extends Schema<T> {
       required: true,
       unique: true,
       match: [UUID_V4_REGEXP, 'Invalid UUID v4 pattern.'],
+      default(): string { return v4(); },
     },
     createdAt: {
-      type: Date,
+      type: Schema.Types.Date,
       required: true,
+      default(): Date { return BaseSchema.now(); },
     },
     updatedAt: {
-      type: Date,
+      type: Schema.Types.Date,
       required: true,
+      default(): Date { return BaseSchema.now(); },
     },
   } as SchemaDefinition;
 
@@ -43,7 +46,7 @@ export class BaseSchema<T> extends Schema<T> {
     );
 
     /**
-     * Hook that writes `createdAt` and `updatedAt` properties before saving.
+     * Hook that writes `uuid`, `createdAt`, and `updatedAt` properties before saving.
      */
     this.pre<BaseDocument>('validate', function(next) {
       const now = BaseSchema.now();

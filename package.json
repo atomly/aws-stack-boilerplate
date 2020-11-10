@@ -33,7 +33,8 @@
     "update:package": "npx lerna-update-wizard",
     "start": "docker-compose -f ./setup/docker-compose.yml --env-file ./setup/.env up -d",
     "start:attached": "docker-compose -f ./setup/docker-compose.yml --env-file ./setup/.env up",
-    "stop": "docker-compose -f ./setup/docker-compose.yml --env-file ./setup/.env down"
+    "stop": "docker-compose -f ./setup/docker-compose.yml --env-file ./setup/.env down",
+    "remove": "docker-compose -f ./setup/docker-compose.yml --env-file ./setup/.env rm"
   },
   "config": {
     "commitizen": {

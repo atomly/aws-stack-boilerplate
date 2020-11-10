@@ -3422,7 +3422,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "JSON",
+              "name": "JSONObject",
               "ofType": null
             },
             "isDeprecated": false,
@@ -3568,7 +3568,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "JSON",
+              "name": "JSONObject",
               "ofType": null
             },
             "isDeprecated": false,
@@ -3722,7 +3722,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "JSON",
+                "name": "JSONObject",
                 "ofType": null
               }
             },
@@ -4586,7 +4586,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "JSON",
+                "name": "JSONObject",
                 "ofType": null
               }
             },
@@ -4745,7 +4745,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "JSON",
+                "name": "JSONObject",
                 "ofType": null
               }
             },
@@ -4821,7 +4821,7 @@
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "JSON",
+              "name": "JSONObject",
               "ofType": null
             },
             "defaultValue": null
@@ -4934,7 +4934,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "JSON",
+                "name": "JSONObject",
                 "ofType": null
               }
             },
@@ -5128,7 +5128,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "JSON",
+                "name": "JSONObject",
                 "ofType": null
               }
             },

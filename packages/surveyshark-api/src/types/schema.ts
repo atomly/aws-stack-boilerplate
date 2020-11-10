@@ -518,7 +518,7 @@ export type Product = {
   externalId: Scalars['String'];
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
-  metadata?: Maybe<Scalars['JSON']>;
+  metadata?: Maybe<Scalars['JSONObject']>;
 };
 
 export type PriceRecurring = {
@@ -534,7 +534,7 @@ export type Price = {
   currency: Scalars['String'];
   unitAmount: Scalars['Int'];
   recurring: PriceRecurring;
-  metadata?: Maybe<Scalars['JSON']>;
+  metadata?: Maybe<Scalars['JSONObject']>;
 };
 
 export type Plan = {
@@ -547,7 +547,7 @@ export type Plan = {
   isActive: Scalars['Boolean'];
   product: Product;
   price: Price;
-  metadata: Scalars['JSON'];
+  metadata: Scalars['JSONObject'];
 };
 
 export type SubscriptionItems = {
@@ -642,7 +642,7 @@ export type Question = {
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   isRequired: Scalars['Boolean'];
-  data: Scalars['JSON'];
+  data: Scalars['JSONObject'];
   answers?: Maybe<Array<Answer>>;
 };
 
@@ -660,7 +660,7 @@ export type MutationCreateQuestionInput = {
   subType: QuestionTypes;
   description?: Maybe<Scalars['String']>;
   isRequired: Scalars['Boolean'];
-  data: Scalars['JSON'];
+  data: Scalars['JSONObject'];
 };
 
 export type MutationUpdateQuestionInput = {
@@ -669,7 +669,7 @@ export type MutationUpdateQuestionInput = {
   subType?: Maybe<QuestionTypes>;
   description?: Maybe<Scalars['String']>;
   isRequired?: Maybe<Scalars['Boolean']>;
-  data?: Maybe<Scalars['JSON']>;
+  data?: Maybe<Scalars['JSONObject']>;
 };
 
 export type MutationDeleteQuestionInput = {
@@ -682,7 +682,7 @@ export type ResultData = {
   createdAt: Scalars['Date'];
   updatedAt: Scalars['Date'];
   question: Question;
-  answer: Scalars['JSON'];
+  answer: Scalars['JSONObject'];
 };
 
 export type Result = {
@@ -700,7 +700,7 @@ export type ResultDataInput = {
   createdAt: Scalars['Date'];
   updatedAt: Scalars['Date'];
   questionId: Scalars['ID'];
-  answer: Scalars['JSON'];
+  answer: Scalars['JSONObject'];
 };
 
 export type QueryReadResultInput = {
@@ -1279,7 +1279,7 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   externalId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  metadata?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  metadata?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1295,7 +1295,7 @@ export type PriceResolvers<ContextType = any, ParentType extends ResolversParent
   currency?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   unitAmount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   recurring?: Resolver<ResolversTypes['PriceRecurring'], ParentType, ContextType>;
-  metadata?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  metadata?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1308,7 +1308,7 @@ export type PlanResolvers<ContextType = any, ParentType extends ResolversParentT
   isActive?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   product?: Resolver<ResolversTypes['Product'], ParentType, ContextType>;
   price?: Resolver<ResolversTypes['Price'], ParentType, ContextType>;
-  metadata?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  metadata?: Resolver<ResolversTypes['JSONObject'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1345,7 +1345,7 @@ export type QuestionResolvers<ContextType = any, ParentType extends ResolversPar
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  data?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  data?: Resolver<ResolversTypes['JSONObject'], ParentType, ContextType>;
   answers?: Resolver<Maybe<Array<ResolversTypes['Answer']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -1355,7 +1355,7 @@ export type ResultDataResolvers<ContextType = any, ParentType extends ResolversP
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   question?: Resolver<ResolversTypes['Question'], ParentType, ContextType>;
-  answer?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  answer?: Resolver<ResolversTypes['JSONObject'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

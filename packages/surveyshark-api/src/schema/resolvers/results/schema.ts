@@ -19,9 +19,6 @@ type Result {
 }
 
 input ResultDataInput {
-  uuid: ID!
-  createdAt: Date!
-  updatedAt: Date!
   questionId: ID!
   answer: JSONObject!
 }
@@ -50,7 +47,7 @@ input MutationUpdateResultInput {
   identifier: String
 }
 
-input  MutationDeleteResultInput {
+input MutationDeleteResultInput {
   uuid: ID!
 }
 

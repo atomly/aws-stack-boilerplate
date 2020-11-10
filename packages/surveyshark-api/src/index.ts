@@ -69,9 +69,9 @@ import { startServer } from './server';
     );
 
     await startServer(
+      config,
       redis,
       dbContext,
-      config.express.sessionSecretKey,
       stripe,
     );
   }

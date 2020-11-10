@@ -1,5 +1,6 @@
 import { Base, BaseDocument } from '../base';
 import { User } from '../users';
+import { Plan } from '../plans';
 import { StripeSubscriptionCollectionMethods, StripeSubscriptionStatuses } from '../stripe';
 
 export interface SubscriptionItems {
@@ -10,6 +11,7 @@ export interface SubscriptionItems {
 
 export interface Subscription extends Base {
   userId: User['uuid'];
+  planId: Plan['uuid'];
   externalId: string;
   externalCustomerId: string;
   currentPeriodStart: Date;

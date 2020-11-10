@@ -7,3 +7,16 @@ services:
       - "${REDIS_CONTAINER_PORT}"
     # Setting the server password on start.
     command: redis-server --requirepass ${REDIS_PASSWORD} --port "${REDIS_PORT}"
+  atomly_mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    entrypoint: [ "mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  atomly_surveyshark_mongo_client:
+    image: mongo
+    depends_on:
+      - atomly_mongodb
+    volumes:
+      - ./scripts:/scripts
+    entrypoint:
+      - ./scripts/initiate_mongo_replica_set_client.sh

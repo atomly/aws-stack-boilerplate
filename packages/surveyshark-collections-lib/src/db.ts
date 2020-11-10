@@ -61,7 +61,7 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
     /**
      * Post-delete document hook that deletes the related user documents.
      */
-    this.collections.Users.schema.post<UserDocument>('deleteOne',  { document: true, query: false }, async doc => {
+    this.collections.Users.schema.post<UserDocument>('deleteOne', { document: true, query: false }, async doc => {
       const surveys = await this.collections.Surveys.model.find({ user: doc }).populate('graph');
       // TODO: Figure out what to do with Stripe ustomers and subscriptions data.
       await Promise.all(surveys.map(survey => survey.deleteOne()));
@@ -87,7 +87,7 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
     /**
      * Post-delete document hook that deletes the related survey documents.
      */
-    this.collections.Surveys.schema.post<SurveyDocument>('deleteOne',  { document: true, query: false }, async doc => {
+    this.collections.Surveys.schema.post<SurveyDocument>('deleteOne', { document: true, query: false }, async doc => {
       await Promise.all([
         this.collections.Graphs.model.deleteOne({ uuid: doc.graph.uuid }),
         this.collections.Questions.model.deleteMany({ surveyId: doc.uuid }),
@@ -123,7 +123,7 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
     /**
      * Post-delete document hook that deletes the related answers of the removed question.
      */
-    this.collections.Questions.schema.post<QuestionDocument>('deleteOne',  { document: true, query: false }, async doc => {
+    this.collections.Questions.schema.post<QuestionDocument>('deleteOne', { document: true, query: false }, async doc => {
       await this.collections.Answers.model.deleteMany({ parentQuestionId: doc.uuid });
     });
 
@@ -155,7 +155,7 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
     /**
      * Post-delete document hook that deletes the related vertices and edges of the removed graph.
      */
-    this.collections.Graphs.schema.post<GraphVertexDocument>('deleteOne',  { document: true, query: false }, async doc => {
+    this.collections.Graphs.schema.post<GraphVertexDocument>('deleteOne', { document: true, query: false }, async doc => {
       await Promise.all([
         this.collections.GraphVertices.model.deleteMany({ graphId: doc.uuid }),
         this.collections.GraphEdges.model.deleteMany({ graphId: doc.uuid }),
@@ -246,7 +246,7 @@ export class SurveySharkDBContext<T extends typeof collections = typeof collecti
     /**
      * Post-delete document hook that pulls the deleted vertex from the respective graph's vertices.
      */
-    this.collections.GraphVertices.schema.post<GraphVertexDocument>('deleteOne',  { document: true, query: false }, async doc => {
+    this.collections.GraphVertices.schema.post<GraphVertexDocument>('deleteOne', { document: true, query: false }, async doc => {
       const edges = await this.collections.GraphEdges.model.find({
         $or: [
           { from: doc },

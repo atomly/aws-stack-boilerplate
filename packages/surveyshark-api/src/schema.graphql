@@ -255,7 +255,7 @@ type Product {
   externalId: String!
   name: String!
   description: String
-  metadata: JSON
+  metadata: JSONObject
 }
 
 type PriceRecurring {
@@ -269,7 +269,7 @@ type Price {
   currency: String!
   unitAmount: Int!
   recurring: PriceRecurring!
-  metadata: JSON
+  metadata: JSONObject
 }
 
 type Plan {
@@ -281,7 +281,7 @@ type Plan {
   isActive: Boolean!
   product: Product!
   price: Price!
-  metadata: JSON!
+  metadata: JSONObject!
 }
 
 type SubscriptionItems {
@@ -373,7 +373,7 @@ type Question {
   name: String
   description: String
   isRequired: Boolean!
-  data: JSON!
+  data: JSONObject!
   answers: [Answer!]
 }
 
@@ -391,7 +391,7 @@ input MutationCreateQuestionInput {
   subType: QuestionTypes!
   description: String
   isRequired: Boolean!
-  data: JSON!
+  data: JSONObject!
 }
 
 input MutationUpdateQuestionInput {
@@ -400,7 +400,7 @@ input MutationUpdateQuestionInput {
   subType: QuestionTypes
   description: String
   isRequired: Boolean
-  data: JSON
+  data: JSONObject
 }
 
 input MutationDeleteQuestionInput {
@@ -412,7 +412,7 @@ type ResultData {
   createdAt: Date!
   updatedAt: Date!
   question: Question!
-  answer: JSON!
+  answer: JSONObject!
 }
 
 type Result {
@@ -429,7 +429,7 @@ input ResultDataInput {
   createdAt: Date!
   updatedAt: Date!
   questionId: ID!
-  answer: JSON!
+  answer: JSONObject!
 }
 
 input QueryReadResultInput {

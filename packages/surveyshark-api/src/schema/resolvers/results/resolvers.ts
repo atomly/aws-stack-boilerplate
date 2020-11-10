@@ -7,7 +7,7 @@ import { IThrowError, safeJsonParse } from '../../../utils';
 
 // Utils
 import { throwError } from '../../../utils';
-import { surveysWithDataPopulatePipeline } from '../survey/aggregations';
+import { surveysWithDataPopulatePipeline } from '../surveys/aggregations';
 
 const resolvers: IResultsResolverMap = {
   ResultData: {

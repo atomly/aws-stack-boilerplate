@@ -6,12 +6,13 @@ import answersResolvers, { IAnswersResolverMap } from './answers';
 import closuresResolvers, { IClosuresResolverMap } from './closures';
 import enumsResolvers, { IEnumsResolverMap } from './enums';
 import graphsResolvers, { IGraphsResolverMap } from './graphs';
-import queryResolvers, { IQueryResolverMap } from './query';
+import paymentsResolvers, { IPaymentsResolverMap } from './payments';
+import queryResolvers, { IQueryResolverMap } from './queries';
 import questionsResolvers, { IQuestionsResolverMap } from './questions';
 import resultsResolvers, { IResultsResolverMap } from './results';
 import scalarsResolvers, { IScalarsResolverMap } from './scalars';
-import subscriptionResolvers, { ISubscriptionResolverMap } from './subscription';
-import surveyResolvers, { ISurveysResolverMap } from './survey';
+import subscriptionResolvers, { ISubscriptionResolverMap } from './subscriptions';
+import surveyResolvers, { ISurveysResolverMap } from './surveys';
 import usersResolvers, { IUsersResolverMap } from './users';
 import welcomeScreensResolvers, { IWelcomeScreensResolverMap } from './welcome_screens';
 
@@ -20,6 +21,7 @@ export type IResolverMap = (
   IClosuresResolverMap &
   IEnumsResolverMap &
   IGraphsResolverMap &
+  IPaymentsResolverMap &
   IQueryResolverMap &
   IQuestionsResolverMap &
   IResultsResolverMap &
@@ -35,6 +37,7 @@ export const resolvers: IResolverMap = composeResolvers<IResolverMap>(
   closuresResolvers,
   enumsResolvers,
   graphsResolvers,
+  paymentsResolvers,
   queryResolvers,
   questionsResolvers,
   resultsResolvers,

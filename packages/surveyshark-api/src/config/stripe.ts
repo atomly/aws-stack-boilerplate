@@ -19,4 +19,12 @@ export class StripeLoader extends Loader<'stripe'> {
     ),
   })
   secretKey: string;
+
+  // @IsString({
+  //   message: Loader.errorMessageTemplate(
+  //     'the webhook secret is not valid',
+  //     'check that the webhook secret is a valid string and try again',
+  //   ),
+  // })
+  // webhookSecret: string;
 }

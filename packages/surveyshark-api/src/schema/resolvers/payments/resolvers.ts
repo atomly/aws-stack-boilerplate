@@ -1,5 +1,5 @@
 // Libraries
-import { Plan, Customer, Subscription, StripeSubscriptionStatuses } from '@atomly/surveyshark-collections-lib';
+import { Plan, Customer, Subscription } from '@atomly/surveyshark-collections-lib';
 
 // Types
 import { IPaymentsResolverMap } from './types';
@@ -8,7 +8,7 @@ import { IPaymentsResolverMap } from './types';
 import { throwError, IThrowError } from '../../../utils';
 
 // Dependencies
-import { cancelStripeSubscription, createStripeCustomer, createStripePaymentMethod, createStripeSubscription, saveStripeData, updateStripeData, updateStripePaymentMethod, updateStripeSubscription } from './utils';
+import { createStripePaymentMethod, createStripeSubscription, saveStripeData, updateStripeData, updateStripePaymentMethod, updateStripeSubscription } from '../../../stripe';
 
 const resolvers: IPaymentsResolverMap = {
   Query: {
@@ -29,8 +29,8 @@ const resolvers: IPaymentsResolverMap = {
       if (request.session?.userId) {
         const subscription = await dbContext.collections.Subscriptions.model.findOne({
           userId: request.session.userId,
-          status: StripeSubscriptionStatuses.ACTIVE,
         });
+
         return subscription;
       }
       return null;
@@ -78,25 +78,34 @@ const resolvers: IPaymentsResolverMap = {
           });
         }
 
-        // 3. Create the Stripe customer:
+        // 3. Fetch the user's Stripe customer:
 
-        const stripeCustomer = await createStripeCustomer(stripe, user);
+        const customer = await dbContext.collections.Customers.model.findOne({ userId: user.uuid });
+
+        if (!customer) {
+          return throwError({
+            status: throwError.Errors.EStatuses.INTERNAL_SERVER_ERROR,
+            message: `User has no existing customer.`,
+            details: `User has no existing customer with userId of ${user.uuid}`,
+          });
+        }
 
         // 4. Create a Stripe Payment Method:
 
-        const stripePaymentMethod = await createStripePaymentMethod(
-          stripe,
-          stripeCustomer,
-          details,
-          card,
-          address,
-        );
+        const stripePaymentMethod = plan.price.unitAmount ?
+          await createStripePaymentMethod(
+            stripe,
+            customer,
+            details,
+            card,
+            address,
+          ) : null;
 
         // 5. Create Stripe subscription:
 
         const stripeSubscription = await createStripeSubscription(
           stripe,
-          stripeCustomer,
+          customer,
           plan,
         );
 
@@ -104,8 +113,8 @@ const resolvers: IPaymentsResolverMap = {
 
         const { subscription } = await saveStripeData(
           dbContext,
-          user.uuid,
-          stripeCustomer,
+          customer,
+          plan,
           stripePaymentMethod,
           stripeSubscription,
         );
@@ -124,7 +133,7 @@ const resolvers: IPaymentsResolverMap = {
       { request, dbContext, stripe },
     ): Promise<Subscription | IThrowError> {
       if (request.session?.userId) {
-        const { planId } = input;
+        const { planId, subscriptionId } = input;
 
         // 1. Check the user in the session:
 
@@ -137,16 +146,11 @@ const resolvers: IPaymentsResolverMap = {
           });
         }
 
-        const plan = planId ?
-          await dbContext.collections.Plans.model.findOne({ uuid: planId }).lean()
-          : null;
-
-        // 2. Check if the user has an existing subscription and fetch the plan of the
+        // 2. Check if the user has a current subscription and fetch the plan of the
         // new planId if any:
 
         const currentSubscription = await dbContext.collections.Subscriptions.model.findOne({
           userId: user.uuid,
-          status: StripeSubscriptionStatuses.ACTIVE,
         }).lean();
 
         if (!currentSubscription) {
@@ -154,7 +158,16 @@ const resolvers: IPaymentsResolverMap = {
             status: throwError.Errors.EStatuses.BAD_REQUEST,
             message: `User has no existing active subscription.`,
           });
+        } else if (currentSubscription.uuid !== subscriptionId) {
+          return throwError({
+            status: throwError.Errors.EStatuses.BAD_REQUEST,
+            message: `Subscription ID does not match the current user's active subscription.`,
+          });
         }
+
+        const plan = planId ?
+          await dbContext.collections.Plans.model.findOne({ uuid: planId }).lean()
+          : null;
 
         // 3. Fetch the customer document:
 
@@ -164,20 +177,23 @@ const resolvers: IPaymentsResolverMap = {
 
         if (!customer) {
           return throwError({
-            status: throwError.Errors.EStatuses.BAD_REQUEST,
+            status: throwError.Errors.EStatuses.INTERNAL_SERVER_ERROR,
             message: `User has no existing customer.`,
+            details: `User has no existing customer with userId of ${user.uuid}`,
           });
         }
 
         // 4. If necessary, update a Stripe Payment Method:
 
-        const stripePaymentMethod = await updateStripePaymentMethod(
-          stripe,
-          customer,
-          details,
-          card,
-          address,
-        );
+        const stripePaymentMethod = plan?.price.unitAmount ?
+          await updateStripePaymentMethod(
+            stripe,
+            customer,
+            details,
+            card,
+            address,
+          ) :
+          null;
 
         // 5. If necessary, update Stripe subscription to a new plan:
 
@@ -191,8 +207,8 @@ const resolvers: IPaymentsResolverMap = {
 
         const { subscription } = await updateStripeData(
           dbContext,
-          user.uuid,
           customer,
+          plan,
           currentSubscription,
           stripePaymentMethod,
           stripeSubscription,
@@ -225,27 +241,39 @@ const resolvers: IPaymentsResolverMap = {
           });
         }
 
-        // 2. Check if the user has an existing subscription, and check if the subscription ID matches the one
+        // 2. Check that the free plan exists to downgrade the current subscription to the
+        // free tier:
+
+        const plan = await dbContext.collections.Plans.model.findOne({ 'price.unitAmount': 0 }).lean();
+
+        if (!plan) {
+          throw throwError({
+            status: throwError.Errors.EStatuses.BAD_REQUEST,
+            message: `Free Plan does not exist.`,
+          });
+        }
+
+        // 3. Check if the user has a current subscription, and check if the subscription ID matches the one
         // send in the input parameters:
 
         const currentSubscription = await dbContext.collections.Subscriptions.model.findOne({
           userId: user.uuid,
-          status: StripeSubscriptionStatuses.ACTIVE,
+          // status: StripeSubscriptionStatuses.ACTIVE,
         }).lean();
 
         if (!currentSubscription) {
           return throwError({
             status: throwError.Errors.EStatuses.BAD_REQUEST,
-            message: `User has no existing active subscription.`,
+            message: `User has no current subscription.`,
           });
-        } else if (currentSubscription.externalId !== subscriptionId) {
+        } else if (currentSubscription.uuid !== subscriptionId) {
           return throwError({
             status: throwError.Errors.EStatuses.BAD_REQUEST,
-            message: `Subscription ID does not match the current user's active subscription.`,
+            message: `Subscription ID does not match the current user's subscription.`,
           });
         }
 
-        // 3. Fetch the customer document:
+        // 4. Check the customer document:
 
         const customer = await dbContext.collections.Customers.model.findOne({
           userId: user.uuid,
@@ -253,24 +281,29 @@ const resolvers: IPaymentsResolverMap = {
 
         if (!customer) {
           return throwError({
-            status: throwError.Errors.EStatuses.BAD_REQUEST,
+            status: throwError.Errors.EStatuses.INTERNAL_SERVER_ERROR,
             message: `User has no existing customer.`,
+            details: `User has no existing customer with userId of ${user.uuid}`,
           });
         }
 
-        // 4. Cancel the subscription:
+        // 5. Cancel the subscription:
 
-        const stripeSubscription = await cancelStripeSubscription(
+        // TODO: Issue Stripe refund.
+        // https://stripe.com/docs/refunds
+
+        const stripeSubscription = await updateStripeSubscription(
           stripe,
           currentSubscription,
+          plan,
         );
 
-        // 5. Update Stripe data & references to the SurveySharkDB:
+        // 6. Update Stripe data & references to the SurveySharkDB:
 
         const { subscription } = await updateStripeData(
           dbContext,
-          user.uuid,
           customer,
+          plan,
           currentSubscription,
           null,
           stripeSubscription,
