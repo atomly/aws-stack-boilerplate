@@ -563,6 +563,7 @@ export type Subscription = {
   createdAt: Scalars['Date'];
   updatedAt: Scalars['Date'];
   userId: Scalars['ID'];
+  planId: Scalars['ID'];
   externalId: Scalars['String'];
   externalCustomerId: Scalars['String'];
   currentPeriodEnd: Scalars['Date'];
