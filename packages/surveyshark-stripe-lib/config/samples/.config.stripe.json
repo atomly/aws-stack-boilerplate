@@ -1,10 +1,33 @@
 {
-  "publicKey": "pk_test_<key>",
-  "secretKey": "sk_test_<key>",
+  "publicKey": "pk_test_51HaahvDqJTeoZ9i6W7zaTqqYLsuhNJjcmhmtIjqMiomnxGsaBXjDqPPHxYXAHdRP8ThcT4yt4G6rL3ubmDQWOjcZ00Vqy6YhPk",
+  "secretKey": "sk_test_51HaahvDqJTeoZ9i6gFBQO7WSs1os35SDF5rCj4Mt5iMEY5YbWekIxVOrfZ82DOAhYJdW5sdmJRRVEtrZezVxXzlK00CxiAOGfq",
   "plans": [
     {
       "__comment": "The name of the plans are globally unique.",
-      "name": "Premium Monthly Plan",
+      "name": "Free Plan",
+      "description": "Free plan with full access to all features, but limited usage.",
+      "isActive": true,
+      "product": {
+        "name": "Free Plan",
+        "description": "Free plan with full access to all features, but limited usage."
+      },
+      "price": {
+        "__comment": "Prices are in cents.",
+        "nickname": "Free Plan's Price",
+        "currency": "usd",
+        "unitAmount": 0,
+        "recurring": {
+          "interval": "year",
+          "intervalCount": 1
+        }
+      },
+      "metadata": {
+        "createdBy": "Robert Molina"
+      }
+    },
+    {
+      "__comment": "The name of the plans are globally unique.",
+      "name": "Premium Plan",
       "description": "Premium plan with full access to all features, billed monthly.",
       "isActive": true,
       "product": {
@@ -18,29 +41,6 @@
         "unitAmount": 500,
         "recurring": {
           "interval": "month",
-          "intervalCount": 1
-        }
-      },
-      "metadata": {
-        "createdBy": "Robert Molina"
-      }
-    },
-    {
-      "__comment": "The name of the plans are globally unique.",
-      "name": "Premium Yearly Plan",
-      "description": "Premium plan with full access to all features, billed yearly.",
-      "isActive": true,
-      "product": {
-        "name": "Premium Yearly Plan",
-        "description": "Premium plan with full access to all features, billed yearly."
-      },
-      "price": {
-        "__comment": "Prices are in cents.",
-        "nickname": "Premium Yearly Plan's Price",
-        "currency": "usd",
-        "unitAmount": 5400,
-        "recurring": {
-          "interval": "year",
           "intervalCount": 1
         }
       },
