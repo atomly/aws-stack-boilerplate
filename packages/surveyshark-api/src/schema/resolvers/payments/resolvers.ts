@@ -17,18 +17,18 @@ const resolvers: IPaymentsResolverMap = {
       return plans;
     },
     async readSelfCustomer(_, __, { request, dbContext }): Promise<Customer | null> {
-      if (request.session?.userId) {
+      if (request.session.id) {
         const customer = await dbContext.collections.Customers.model.findOne({
-          userId: request.session.userId,
+          userId: request.session.id,
         });
         return customer;
       }
       return null;
     },
     async readSelfSubscription(_, __, { request, dbContext }): Promise<Subscription | null> {
-      if (request.session?.userId) {
+      if (request.session.id) {
         const subscription = await dbContext.collections.Subscriptions.model.findOne({
-          userId: request.session.userId,
+          userId: request.session.id,
         });
 
         return subscription;
@@ -42,12 +42,12 @@ const resolvers: IPaymentsResolverMap = {
       { input, details, card, address },
       { request, dbContext, stripe },
     ): Promise<Subscription | IThrowError> {
-      if (request.session?.userId) {
+      if (request.session.id) {
         const { planId } = input;
 
         // 1. Check the user in the session, and if the planId is related to an existing plan:
 
-        const user = await dbContext.collections.Users.model.findOne({ uuid: request.session.userId }).lean();
+        const user = await dbContext.collections.Users.model.findOne({ uuid: request.session.id }).lean();
 
         if (!user) {
           return throwError({
@@ -132,12 +132,12 @@ const resolvers: IPaymentsResolverMap = {
       { input, details, card, address },
       { request, dbContext, stripe },
     ): Promise<Subscription | IThrowError> {
-      if (request.session?.userId) {
+      if (request.session.id) {
         const { planId, subscriptionId } = input;
 
         // 1. Check the user in the session:
 
-        const user = await dbContext.collections.Users.model.findOne({ uuid: request.session.userId }).lean();
+        const user = await dbContext.collections.Users.model.findOne({ uuid: request.session.id }).lean();
 
         if (!user) {
           return throwError({
@@ -227,12 +227,12 @@ const resolvers: IPaymentsResolverMap = {
       { input },
       { request, dbContext, stripe },
     ): Promise<Subscription | IThrowError> {
-      if (request.session?.userId) {
+      if (request.session.id) {
         const { subscriptionId } = input;
 
         // 1. Check the user in the session:
 
-        const user = await dbContext.collections.Users.model.findOne({ uuid: request.session.userId }).lean();
+        const user = await dbContext.collections.Users.model.findOne({ uuid: request.session.id }).lean();
 
         if (!user) {
           return throwError({

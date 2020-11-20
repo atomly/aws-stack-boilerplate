@@ -41,19 +41,19 @@ const resolvers: ISurveysResolverMap = {
       return survey;
     },
     async readSurveys(_, { withData }, { dbContext, request }): Promise<Survey[] | IThrowError> {
-      if (!request.session?.userId) {
+      if (!request.session.id) {
         return throwError({
           status: throwError.Errors.EStatuses.UNATHORIZED,
           message: 'Client is unauthenticated.',
         });
       }
       const user = await dbContext.collections.Users.model.findOne({
-        uuid: request.session.userId,
+        uuid: request.session.id,
       });
       if (!user) {
         return throwError({
           status: throwError.Errors.EStatuses.BAD_REQUEST,
-          message: `User ${request.session.userId} does not exists.`,
+          message: `User ${request.session.id} does not exists.`,
         });
       }
       if (withData) {
@@ -91,7 +91,7 @@ const resolvers: ISurveysResolverMap = {
   },
   Mutation: {
     async createSurvey(_, { input }, { dbContext, request }): Promise<Survey | IThrowError> {
-      if (!request.session?.userId) {
+      if (!request.session.id) {
         return throwError({
           status: throwError.Errors.EStatuses.UNATHORIZED,
           message: 'Client is unauthenticated.',
@@ -100,10 +100,10 @@ const resolvers: ISurveysResolverMap = {
       try {
         // TODO: Add transaction
         const user = await dbContext.collections.Users.model.findOne({
-          uuid: request.session.userId,
+          uuid: request.session.id,
         }).lean<User>();
         if (!user) {
-          throw new Error(`User ${request.session.userId} does not exists.`);
+          throw new Error(`User ${request.session.id} does not exists.`);
         }
         const graph = await new dbContext.collections.Graphs.model().save();
         const survey = await new dbContext.collections.Surveys.model({
