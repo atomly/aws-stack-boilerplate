@@ -8,11 +8,16 @@ import { IResolvers as Resolvers } from 'graphql-tools';
 import { ExecutionParams } from 'subscriptions-transport-ws';
 import Stripe from 'stripe';
 import { config as surveySharkConfig } from './config';
+import { Session, SessionData } from 'express-session';
+
+export interface SurveySharkRequest extends Request {
+  session: Session & Partial<SessionData> & { userId: string };
+}
 
 // GraphQLServer.context
 export interface IContext {
   config: typeof surveySharkConfig;
-  request: Request;
+  request: SurveySharkRequest;
   response: Response;
   redis: Redis;
   dbContext: SurveySharkDBContext;

@@ -11,7 +11,7 @@ export const isAuthenticated: IMiddleware = async function (
   context,
   info,
 ) {
-  if (!context.request.session.id) {
+  if (!context.request.session.userId) {
     // User is not logged in.
     return throwError({
       status: throwError.Errors.EStatuses.NETWORK_AUTHENTICATION_REQUIRED,

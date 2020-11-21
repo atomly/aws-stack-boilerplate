@@ -34,14 +34,14 @@ const resolvers: IUsersResolverMap = {
     // },
     async me(_, _args, { request, dbContext }): Promise<User | null> {
       const user = await dbContext.collections.Users.model.findOne({
-        uuid: request.session.id,
+        uuid: request.session.userId,
       });
 
       return user;
     },
     async defaultAuthentication(_, args, { request, redis, dbContext }): Promise<User | IThrowError> {
       // Check if there is no user logged in.
-      if (!request.session.id) {
+      if (!request.session.userId) {
         const user = await dbContext.collections.Users.model.findOne({
           email: args.input.email.toLowerCase(),
         });
@@ -68,10 +68,10 @@ const resolvers: IUsersResolverMap = {
         }
 
         // Save user's ID to the session and Redis.
-        request.session.id = user.uuid;
+        request.session.userId = user.uuid;
 
-        if (request.sessionID) {
-          await addUserSession(redis, user.uuid, request.sessionID);
+        if (request.session.userId) {
+          await addUserSession(redis, user.uuid, request.session.userId);
         }
 
         return user;
@@ -85,8 +85,8 @@ const resolvers: IUsersResolverMap = {
     },
     async deauthentication(_, _args, { redis, response, request }): Promise<boolean | IThrowError> {
       // Check if there is a user saved in the session.
-      if (request.session.id) {
-        await removeAllUserSessions(request.session.id, redis);
+      if (request.session.userId) {
+        await removeAllUserSessions(request.session.userId, redis);
 
         request.session.destroy(err => {
           // If error, return throw error response.
@@ -176,16 +176,16 @@ const resolvers: IUsersResolverMap = {
             );
     
             // If there's a user logged in the existing session, delete it.
-            if (request.session.id) {
-              await removeAllUserSessions(request.session.id, redis);
+            if (request.session.userId) {
+              await removeAllUserSessions(request.session.userId, redis);
             }
     
             // Log the user in by saving his/her session.
     
-            request.session.id = user.uuid;
+            request.session.userId = user.uuid;
     
-            if (request.sessionID) {
-              await addUserSession(redis, user.uuid, request.sessionID);
+            if (request.session.userId) {
+              await addUserSession(redis, user.uuid, request.session.userId);
             }
           },
           {
