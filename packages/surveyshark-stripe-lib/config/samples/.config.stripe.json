@@ -1,6 +1,6 @@
 {
-  "publicKey": "pk_test_51HaahvDqJTeoZ9i6W7zaTqqYLsuhNJjcmhmtIjqMiomnxGsaBXjDqPPHxYXAHdRP8ThcT4yt4G6rL3ubmDQWOjcZ00Vqy6YhPk",
-  "secretKey": "sk_test_51HaahvDqJTeoZ9i6gFBQO7WSs1os35SDF5rCj4Mt5iMEY5YbWekIxVOrfZ82DOAhYJdW5sdmJRRVEtrZezVxXzlK00CxiAOGfq",
+  "publicKey": "pk_test_<key>",
+  "secretKey": "sk_test_<key>",
   "plans": [
     {
       "__comment": "The name of the plans are globally unique.",
