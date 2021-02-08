@@ -19,71 +19,30 @@ import {
 } from '@atomly/surveyshark-collections-lib';
 
 class Product {
-  @IsString({
-    message: Loader.errorMessageTemplate(
-      'the name is not valid',
-      'check that the name is a valid string and try again',
-    ),
-  })
+  @IsString()
   name: string;
 
-  @IsString({
-    message: Loader.errorMessageTemplate(
-      'the description is not valid',
-      'check that the description is a valid string and try again',
-    ),
-  })
+  @IsString()
   description: string;
 }
 
 class Recurring {
-  @IsEnum(
-    StripePriceRecurringIntervals,
-    {
-      message: Loader.errorMessageTemplate(
-        'the interval is not valid',
-        `check that the interval is one of these values and try again: ${Object.values(StripePriceRecurringIntervals).join(', ')}.`,
-      ),
-    },
-  )
+  @IsEnum(StripePriceRecurringIntervals)
   interval: StripePriceRecurringIntervals;
 
 
-  @IsInt({
-    message: Loader.errorMessageTemplate(
-      'the intervalCount is not valid',
-      'check that the intervalCount is a valid integer and try again',
-    ),
-  })
+  @IsInt()
   intervalCount: number;
 }
 
 class Price {
-  @IsString({
-    message: Loader.errorMessageTemplate(
-      'the nickname is not valid',
-      'check that the nickname is a valid string and try again',
-    ),
-  })
+  @IsString()
   nickname: string;
 
-  @IsEnum(
-    StripeSupportedCurrencies,
-    {
-      message: Loader.errorMessageTemplate(
-        'the currency is not valid',
-        `check that the currency is one of these values and try again: ${Object.values(StripeSupportedCurrencies).join(', ')}.`,
-      ),
-    },
-  )
+  @IsEnum(StripeSupportedCurrencies)
   currency: StripeSupportedCurrencies;
 
-  @IsInt({
-    message: Loader.errorMessageTemplate(
-      'the unitAmount is not valid',
-      'check that the unitAmount is a valid integer and try again',
-    ),
-  })
+  @IsInt()
   unitAmount: number;
 
   @IsDefined()
@@ -95,28 +54,13 @@ class Price {
 }
 
 class Plan {
-  @IsString({
-    message: Loader.errorMessageTemplate(
-      'the name is not valid',
-      'check that the name is a valid string and try again',
-    ),
-  })
+  @IsString()
   name: string;
 
-  @IsString({
-    message: Loader.errorMessageTemplate(
-      'the description is not valid',
-      'check that the description is a valid string and try again',
-    ),
-  })
+  @IsString()
   description: string;
 
-  @IsBoolean({
-    message: Loader.errorMessageTemplate(
-      'isActive is not valid',
-      'check that isActive is a valid string and try again',
-    ),
-  })
+  @IsBoolean()
   isActive: boolean;
 
   @IsDefined()
@@ -142,20 +86,10 @@ class Plan {
 export class StripeLoader extends Loader<'stripe'> {
   public readonly __name: 'stripe' = 'stripe';
 
-  @IsString({
-    message: Loader.errorMessageTemplate(
-      'the public key is not valid',
-      'check that the public key is a valid string and try again',
-    ),
-  })
+  @IsString()
   publicKey: string;
 
-  @IsString({
-    message: Loader.errorMessageTemplate(
-      'the secret key is not valid',
-      'check that the secret key is a valid string and try again',
-    ),
-  })
+  @IsString()
   secretKey: string;
 
   @IsDefined()
