@@ -1,5 +1,5 @@
 // Libraries
-import { WelcomeScreen } from '@atomly/surveyshark-collections-lib';
+import { WelcomeScreen, GraphVertex } from '@atomly/surveyshark-collections-lib';
 
 // Dependencies
 import { IThrowError } from '../../../utils';
@@ -17,8 +17,8 @@ export interface IWelcomeScreensResolverMap extends IResolvers {
     readWelcomeScreens: Resolver<null, GQL.QueryReadWelcomeScreensArgs, Promise<WelcomeScreen[]>>;
   },
   Mutation: {
-    createWelcomeScreen: Resolver<null, GQL.MutationCreateWelcomeScreenArgs, Promise<WelcomeScreen | IThrowError>>;
-    updateWelcomeScreen: Resolver<null, GQL.MutationUpdateWelcomeScreenArgs, Promise<WelcomeScreen | null | IThrowError>>;
-    deleteWelcomeScreen: Resolver<null, GQL.MutationDeleteWelcomeScreenArgs, Promise<WelcomeScreen | null | IThrowError>>;
+    createWelcomeScreen: Resolver<null, GQL.MutationCreateWelcomeScreenArgs, Promise<GraphVertex | IThrowError>>;
+    updateWelcomeScreen: Resolver<null, GQL.MutationUpdateWelcomeScreenArgs, Promise<GraphVertex | null | IThrowError>>;
+    deleteWelcomeScreen: Resolver<null, GQL.MutationDeleteWelcomeScreenArgs, Promise<GraphVertex | null | IThrowError>>;
   },
 }

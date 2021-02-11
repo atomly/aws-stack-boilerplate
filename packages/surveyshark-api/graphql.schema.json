@@ -15,6 +15,7 @@
         "kind": "OBJECT",
         "name": "Answer",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -166,6 +167,7 @@
         "kind": "SCALAR",
         "name": "ID",
         "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -176,6 +178,7 @@
         "kind": "SCALAR",
         "name": "String",
         "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -186,6 +189,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryReadAnswerInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -200,7 +204,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -211,6 +217,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryReadAnswersInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -225,7 +232,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "parentQuestionId",
@@ -239,7 +248,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -250,6 +261,7 @@
         "kind": "OBJECT",
         "name": "Query",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "readAnswer",
@@ -267,7 +279,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -294,7 +308,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -333,7 +349,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "withAnswers",
@@ -343,7 +361,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -370,7 +390,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "withAnswers",
@@ -380,7 +402,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -419,7 +443,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -446,7 +472,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -565,7 +593,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "withAnswers",
@@ -575,7 +605,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -602,7 +634,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "withAnswers",
@@ -612,7 +646,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -651,7 +687,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -678,7 +716,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -717,7 +757,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -744,7 +786,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -767,7 +811,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -806,7 +852,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -837,7 +885,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -876,7 +926,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -919,7 +971,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "withAnswers",
@@ -929,7 +983,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -956,7 +1012,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "withAnswers",
@@ -966,7 +1024,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -999,6 +1059,7 @@
         "kind": "SCALAR",
         "name": "Boolean",
         "description": "The `Boolean` scalar type represents `true` or `false`.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -1009,6 +1070,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationCreateAnswerInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -1023,7 +1085,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "parentQuestionId",
@@ -1037,7 +1101,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -1047,7 +1113,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "subType",
@@ -1061,7 +1129,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "data",
@@ -1075,7 +1145,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -1086,6 +1158,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationUpdateAnswerInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -1100,7 +1173,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -1110,7 +1185,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "data",
@@ -1120,7 +1197,9 @@
               "name": "JSONObject",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -1131,6 +1210,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationDeleteAnswerInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -1145,7 +1225,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -1156,6 +1238,7 @@
         "kind": "OBJECT",
         "name": "Mutation",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "createAnswer",
@@ -1173,12 +1256,14 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Answer",
+              "name": "GraphVertex",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1200,12 +1285,14 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Answer",
+              "name": "GraphVertex",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1227,12 +1314,14 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Answer",
+              "name": "GraphVertex",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1254,12 +1343,14 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Closure",
+              "name": "GraphVertex",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1281,12 +1372,14 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Closure",
+              "name": "GraphVertex",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1308,12 +1401,14 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Closure",
+              "name": "GraphVertex",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1335,7 +1430,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1362,7 +1459,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1389,7 +1488,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1416,7 +1517,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "details",
@@ -1430,7 +1533,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "card",
@@ -1444,7 +1549,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "address",
@@ -1458,7 +1565,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1485,7 +1594,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "details",
@@ -1499,7 +1610,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "card",
@@ -1513,7 +1626,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "address",
@@ -1527,7 +1642,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1554,7 +1671,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1581,12 +1700,14 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Question",
+              "name": "GraphVertex",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1608,12 +1729,14 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Question",
+              "name": "GraphVertex",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1635,12 +1758,14 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Question",
+              "name": "GraphVertex",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1662,7 +1787,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1689,7 +1816,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1716,7 +1845,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1743,7 +1874,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1770,7 +1903,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1797,7 +1932,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1824,7 +1961,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1851,12 +1990,14 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "WelcomeScreen",
+              "name": "GraphVertex",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1878,12 +2019,14 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "WelcomeScreen",
+              "name": "GraphVertex",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1905,12 +2048,14 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "WelcomeScreen",
+              "name": "GraphVertex",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1926,6 +2071,7 @@
         "kind": "OBJECT",
         "name": "Closure",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -2041,6 +2187,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryReadClosureInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2055,7 +2202,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2066,6 +2215,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryReadClosuresInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2080,7 +2230,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2091,6 +2243,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationCreateClosureInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2105,7 +2258,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "parentClosureId",
@@ -2119,7 +2274,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "type",
@@ -2133,7 +2290,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -2143,7 +2302,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "description",
@@ -2153,7 +2314,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2164,6 +2327,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationUpdateClosureInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2178,7 +2342,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -2188,7 +2354,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "description",
@@ -2198,7 +2366,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2209,6 +2379,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationDeleteClosureInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2223,7 +2394,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2234,6 +2407,7 @@
         "kind": "ENUM",
         "name": "SurveyStatuses",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2263,6 +2437,7 @@
         "kind": "ENUM",
         "name": "SurveyTypes",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2298,6 +2473,7 @@
         "kind": "ENUM",
         "name": "QuestionTypes",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2369,6 +2545,7 @@
         "kind": "UNION",
         "name": "GraphVertexValue",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2400,6 +2577,7 @@
         "kind": "OBJECT",
         "name": "Graph",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -2507,6 +2685,7 @@
         "kind": "OBJECT",
         "name": "GraphVertex",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -2610,6 +2789,7 @@
         "kind": "OBJECT",
         "name": "GraphEdge",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -2729,6 +2909,7 @@
         "kind": "SCALAR",
         "name": "Int",
         "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2739,6 +2920,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryReadGraphEdgeInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2753,7 +2935,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "toVertexKey",
@@ -2767,7 +2951,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2778,6 +2964,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryReadGraphEdgesInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2788,7 +2975,9 @@
               "name": "ID",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "toVertexKey",
@@ -2798,7 +2987,9 @@
               "name": "ID",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2809,6 +3000,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationCreateGraphEdgeInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2823,7 +3015,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "toVertexKey",
@@ -2837,7 +3031,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2848,6 +3044,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationUpdateGraphEdgeInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2862,7 +3059,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "toVertexKey",
@@ -2876,7 +3075,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "weight",
@@ -2886,7 +3087,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2897,6 +3100,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationDeleteGraphEdgeInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2911,7 +3115,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "toVertexKey",
@@ -2925,7 +3131,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2936,6 +3144,7 @@
         "kind": "OBJECT",
         "name": "CustomerPaymentMethodDetailsCard",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "lastFourDigits",
@@ -3011,6 +3220,7 @@
         "kind": "OBJECT",
         "name": "CustomerPaymentMethodDetailsAddress",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "city",
@@ -3094,6 +3304,7 @@
         "kind": "OBJECT",
         "name": "CustomerPaymentMethodDetails",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "card",
@@ -3173,6 +3384,7 @@
         "kind": "OBJECT",
         "name": "CustomerPaymentMethod",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "externalId",
@@ -3216,6 +3428,7 @@
         "kind": "OBJECT",
         "name": "Customer",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -3371,6 +3584,7 @@
         "kind": "OBJECT",
         "name": "Product",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "externalId",
@@ -3438,6 +3652,7 @@
         "kind": "OBJECT",
         "name": "PriceRecurring",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "interval",
@@ -3481,6 +3696,7 @@
         "kind": "OBJECT",
         "name": "Price",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "externalId",
@@ -3584,6 +3800,7 @@
         "kind": "OBJECT",
         "name": "Plan",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -3739,6 +3956,7 @@
         "kind": "OBJECT",
         "name": "SubscriptionItems",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "externalId",
@@ -3798,6 +4016,7 @@
         "kind": "OBJECT",
         "name": "Subscription",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -3849,6 +4068,22 @@
           },
           {
             "name": "userId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "planId",
             "description": null,
             "args": [],
             "type": {
@@ -4013,6 +4248,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationCreateSelfSubscriptionInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4027,7 +4263,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4038,6 +4276,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationCreateSelfSubscriptionDetails",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4048,7 +4287,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -4058,7 +4299,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "phone",
@@ -4068,7 +4311,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4079,6 +4324,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationCreateSelfSubscriptionCard",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4093,7 +4339,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "expMonth",
@@ -4107,7 +4355,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "expYear",
@@ -4121,7 +4371,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "cvc",
@@ -4135,7 +4387,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4146,6 +4400,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationCreateSelfSubscriptionAddress",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4156,7 +4411,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "country",
@@ -4166,7 +4423,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "line1",
@@ -4176,7 +4435,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "line2",
@@ -4186,7 +4447,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "postalCode",
@@ -4196,7 +4459,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "state",
@@ -4206,7 +4471,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4217,6 +4484,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationUpdateSelfSubscriptionInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4231,7 +4499,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "planId",
@@ -4241,7 +4511,9 @@
               "name": "ID",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4252,6 +4524,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationUpdateSelfSubscriptionDetails",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4262,7 +4535,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -4272,7 +4547,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "phone",
@@ -4282,7 +4559,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4293,6 +4572,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationUpdateSelfSubscriptionCard",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4303,7 +4583,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "expMonth",
@@ -4313,7 +4595,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "expYear",
@@ -4323,7 +4607,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "cvc",
@@ -4333,7 +4619,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4344,6 +4632,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationUpdateSelfSubscriptionAddress",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4354,7 +4643,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "country",
@@ -4364,7 +4655,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "line1",
@@ -4374,7 +4667,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "line2",
@@ -4384,7 +4679,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "postalCode",
@@ -4394,7 +4691,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "state",
@@ -4404,7 +4703,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4415,6 +4716,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationCancelSelfSubscriptionInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4429,7 +4731,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4440,6 +4744,7 @@
         "kind": "OBJECT",
         "name": "Question",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -4623,6 +4928,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryReadQuestionInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4637,7 +4943,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4648,6 +4956,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryReadQuestionsInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4662,7 +4971,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4673,6 +4984,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationCreateQuestionInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4687,7 +4999,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -4697,7 +5011,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "subType",
@@ -4711,7 +5027,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "description",
@@ -4721,7 +5039,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "isRequired",
@@ -4735,7 +5055,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "data",
@@ -4749,7 +5071,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4760,6 +5084,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationUpdateQuestionInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4774,7 +5099,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -4784,7 +5111,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "subType",
@@ -4794,7 +5123,9 @@
               "name": "QuestionTypes",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "description",
@@ -4804,7 +5135,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "isRequired",
@@ -4814,7 +5147,9 @@
               "name": "Boolean",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "data",
@@ -4824,7 +5159,9 @@
               "name": "JSONObject",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4835,6 +5172,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationDeleteQuestionInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4849,7 +5187,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4860,6 +5200,7 @@
         "kind": "OBJECT",
         "name": "ResultData",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -4951,6 +5292,7 @@
         "kind": "OBJECT",
         "name": "Result",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -5062,50 +5404,9 @@
         "kind": "INPUT_OBJECT",
         "name": "ResultDataInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
-          {
-            "name": "uuid",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "createdAt",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Date",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "updatedAt",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Date",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
           {
             "name": "questionId",
             "description": null,
@@ -5118,7 +5419,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "answer",
@@ -5132,7 +5435,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5143,6 +5448,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryReadResultInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5157,7 +5463,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5168,6 +5476,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryReadResultsInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5182,7 +5491,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5193,6 +5504,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationCreateResultInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5207,7 +5519,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "data",
@@ -5229,7 +5543,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "identifier",
@@ -5239,7 +5555,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5250,6 +5568,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationUpdateResultInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5264,7 +5583,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "identifier",
@@ -5274,7 +5595,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5285,6 +5608,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationDeleteResultInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5299,7 +5623,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5310,6 +5636,7 @@
         "kind": "SCALAR",
         "name": "Date",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -5320,6 +5647,7 @@
         "kind": "SCALAR",
         "name": "JSON",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -5330,6 +5658,7 @@
         "kind": "SCALAR",
         "name": "JSONObject",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -5340,6 +5669,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QuerySubPingInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5354,7 +5684,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5365,6 +5697,7 @@
         "kind": "OBJECT",
         "name": "SurveyCustomization",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "color",
@@ -5392,6 +5725,7 @@
         "kind": "OBJECT",
         "name": "Survey",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -5579,6 +5913,7 @@
         "kind": "OBJECT",
         "name": "SurveyValidationError",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "vertexKey",
@@ -5622,6 +5957,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryReadSurveyInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5636,7 +5972,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5647,6 +5985,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryValidateSurveyInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5661,7 +6000,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5672,6 +6013,7 @@
         "kind": "INPUT_OBJECT",
         "name": "SurveyCustomizationInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5686,7 +6028,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5697,6 +6041,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationCreateSurveyInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5711,7 +6056,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "description",
@@ -5721,7 +6068,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "customization",
@@ -5731,7 +6080,9 @@
               "name": "SurveyCustomizationInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5742,6 +6093,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationUpdateSurveyInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5756,7 +6108,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "status",
@@ -5766,7 +6120,9 @@
               "name": "SurveyStatuses",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -5776,7 +6132,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "description",
@@ -5786,7 +6144,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "customization",
@@ -5796,7 +6156,9 @@
               "name": "SurveyCustomizationInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5807,6 +6169,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationDeleteSurveyInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5821,7 +6184,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5832,6 +6197,7 @@
         "kind": "OBJECT",
         "name": "User",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -5967,6 +6333,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryUserInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5981,7 +6348,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5992,6 +6361,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryDefaultAuthenticationInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -6006,7 +6376,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "password",
@@ -6020,7 +6392,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "firstName",
@@ -6030,7 +6404,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "lastName",
@@ -6040,7 +6416,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "displayName",
@@ -6050,7 +6428,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -6061,6 +6441,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationDefaultAuthenticationInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -6075,7 +6456,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "password",
@@ -6089,7 +6472,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "firstName",
@@ -6099,7 +6484,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "lastName",
@@ -6109,7 +6496,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "displayName",
@@ -6119,7 +6508,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -6130,6 +6521,7 @@
         "kind": "OBJECT",
         "name": "WelcomeScreen",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "uuid",
@@ -6245,6 +6637,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryReadWelcomeScreenInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -6259,7 +6652,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -6270,6 +6665,7 @@
         "kind": "INPUT_OBJECT",
         "name": "QueryReadWelcomeScreensInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -6284,7 +6680,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -6295,6 +6693,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationCreateWelcomeScreenInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -6309,7 +6708,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "parentWelcomeScreenId",
@@ -6323,7 +6724,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "type",
@@ -6337,7 +6740,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -6347,7 +6752,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "description",
@@ -6357,7 +6764,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -6368,6 +6777,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationUpdateWelcomeScreenInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -6382,7 +6792,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -6392,7 +6804,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "description",
@@ -6402,7 +6816,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -6413,6 +6829,7 @@
         "kind": "INPUT_OBJECT",
         "name": "MutationDeleteWelcomeScreenInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -6427,7 +6844,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -6438,6 +6857,7 @@
         "kind": "OBJECT",
         "name": "__Schema",
         "description": "A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "description",
@@ -6549,6 +6969,7 @@
         "kind": "OBJECT",
         "name": "__Type",
         "description": "The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.\n\nDepending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "kind",
@@ -6614,7 +7035,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": "false"
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -6685,7 +7108,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": "false"
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -6707,7 +7132,20 @@
           {
             "name": "inputFields",
             "description": null,
-            "args": [],
+            "args": [
+              {
+                "name": "includeDeprecated",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                },
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
             "type": {
               "kind": "LIST",
               "name": null,
@@ -6746,6 +7184,7 @@
         "kind": "ENUM",
         "name": "__TypeKind",
         "description": "An enum describing what kind of type a given `__Type` is.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -6805,6 +7244,7 @@
         "kind": "OBJECT",
         "name": "__Field",
         "description": "Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -6837,7 +7277,20 @@
           {
             "name": "args",
             "description": null,
-            "args": [],
+            "args": [
+              {
+                "name": "includeDeprecated",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                },
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -6912,6 +7365,7 @@
         "kind": "OBJECT",
         "name": "__InputValue",
         "description": "Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -6968,6 +7422,34 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "isDeprecated",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "deprecationReason",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -6979,6 +7461,7 @@
         "kind": "OBJECT",
         "name": "__EnumValue",
         "description": "One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -7046,6 +7529,7 @@
         "kind": "OBJECT",
         "name": "__Directive",
         "description": "A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.\n\nIn some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -7149,6 +7633,7 @@
         "kind": "ENUM",
         "name": "__DirectiveLocation",
         "description": "A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -7273,32 +7758,6 @@
     ],
     "directives": [
       {
-        "name": "skip",
-        "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
-        "isRepeatable": false,
-        "locations": [
-          "FIELD",
-          "FRAGMENT_SPREAD",
-          "INLINE_FRAGMENT"
-        ],
-        "args": [
-          {
-            "name": "if",
-            "description": "Skipped when true.",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          }
-        ]
-      },
-      {
         "name": "include",
         "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
         "isRepeatable": false,
@@ -7320,7 +7779,37 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ]
+      },
+      {
+        "name": "skip",
+        "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
+        "isRepeatable": false,
+        "locations": [
+          "FIELD",
+          "FRAGMENT_SPREAD",
+          "INLINE_FRAGMENT"
+        ],
+        "args": [
+          {
+            "name": "if",
+            "description": "Skipped when true.",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ]
       },
@@ -7330,6 +7819,8 @@
         "isRepeatable": false,
         "locations": [
           "FIELD_DEFINITION",
+          "ARGUMENT_DEFINITION",
+          "INPUT_FIELD_DEFINITION",
           "ENUM_VALUE"
         ],
         "args": [
@@ -7341,7 +7832,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": "\"No longer supported\""
+            "defaultValue": "\"No longer supported\"",
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ]
       },
@@ -7365,7 +7858,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ]
       }

@@ -43,8 +43,8 @@ input  MutationDeleteWelcomeScreenInput {
 }
 
 type Mutation {
-  createWelcomeScreen(input: MutationCreateWelcomeScreenInput!): WelcomeScreen
-  updateWelcomeScreen(input: MutationUpdateWelcomeScreenInput!): WelcomeScreen
-  deleteWelcomeScreen(input: MutationDeleteWelcomeScreenInput!): WelcomeScreen
+  createWelcomeScreen(input: MutationCreateWelcomeScreenInput!): GraphVertex
+  updateWelcomeScreen(input: MutationUpdateWelcomeScreenInput!): GraphVertex
+  deleteWelcomeScreen(input: MutationDeleteWelcomeScreenInput!): GraphVertex
 }
 `;

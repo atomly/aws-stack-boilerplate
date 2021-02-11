@@ -188,21 +188,21 @@ export type MutationDeleteAnswerInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createAnswer?: Maybe<Answer>;
-  updateAnswer?: Maybe<Answer>;
-  deleteAnswer?: Maybe<Answer>;
-  createClosure?: Maybe<Closure>;
-  updateClosure?: Maybe<Closure>;
-  deleteClosure?: Maybe<Closure>;
+  createAnswer?: Maybe<GraphVertex>;
+  updateAnswer?: Maybe<GraphVertex>;
+  deleteAnswer?: Maybe<GraphVertex>;
+  createClosure?: Maybe<GraphVertex>;
+  updateClosure?: Maybe<GraphVertex>;
+  deleteClosure?: Maybe<GraphVertex>;
   createGraphEdge?: Maybe<GraphEdge>;
   updateGraphEdge?: Maybe<GraphEdge>;
   deleteGraphEdge?: Maybe<GraphEdge>;
   createSelfSubscription?: Maybe<Subscription>;
   updateSelfSubscription?: Maybe<Subscription>;
   cancelSelfSubscription?: Maybe<Subscription>;
-  createQuestion?: Maybe<Question>;
-  updateQuestion?: Maybe<Question>;
-  deleteQuestion?: Maybe<Question>;
+  createQuestion?: Maybe<GraphVertex>;
+  updateQuestion?: Maybe<GraphVertex>;
+  deleteQuestion?: Maybe<GraphVertex>;
   createResult?: Maybe<Result>;
   updateResult?: Maybe<Result>;
   deleteResult?: Maybe<Result>;
@@ -210,9 +210,9 @@ export type Mutation = {
   updateSurvey?: Maybe<Survey>;
   deleteSurvey?: Maybe<Survey>;
   defaultAuthentication?: Maybe<User>;
-  createWelcomeScreen?: Maybe<WelcomeScreen>;
-  updateWelcomeScreen?: Maybe<WelcomeScreen>;
-  deleteWelcomeScreen?: Maybe<WelcomeScreen>;
+  createWelcomeScreen?: Maybe<GraphVertex>;
+  updateWelcomeScreen?: Maybe<GraphVertex>;
+  deleteWelcomeScreen?: Maybe<GraphVertex>;
 };
 
 
@@ -697,9 +697,6 @@ export type Result = {
 };
 
 export type ResultDataInput = {
-  uuid: Scalars['ID'];
-  createdAt: Scalars['Date'];
-  updatedAt: Scalars['Date'];
   questionId: Scalars['ID'];
   answer: Scalars['JSONObject'];
 };
@@ -1158,21 +1155,21 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createAnswer?: Resolver<Maybe<ResolversTypes['Answer']>, ParentType, ContextType, RequireFields<MutationCreateAnswerArgs, 'input'>>;
-  updateAnswer?: Resolver<Maybe<ResolversTypes['Answer']>, ParentType, ContextType, RequireFields<MutationUpdateAnswerArgs, 'input'>>;
-  deleteAnswer?: Resolver<Maybe<ResolversTypes['Answer']>, ParentType, ContextType, RequireFields<MutationDeleteAnswerArgs, 'input'>>;
-  createClosure?: Resolver<Maybe<ResolversTypes['Closure']>, ParentType, ContextType, RequireFields<MutationCreateClosureArgs, 'input'>>;
-  updateClosure?: Resolver<Maybe<ResolversTypes['Closure']>, ParentType, ContextType, RequireFields<MutationUpdateClosureArgs, 'input'>>;
-  deleteClosure?: Resolver<Maybe<ResolversTypes['Closure']>, ParentType, ContextType, RequireFields<MutationDeleteClosureArgs, 'input'>>;
+  createAnswer?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType, RequireFields<MutationCreateAnswerArgs, 'input'>>;
+  updateAnswer?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType, RequireFields<MutationUpdateAnswerArgs, 'input'>>;
+  deleteAnswer?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType, RequireFields<MutationDeleteAnswerArgs, 'input'>>;
+  createClosure?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType, RequireFields<MutationCreateClosureArgs, 'input'>>;
+  updateClosure?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType, RequireFields<MutationUpdateClosureArgs, 'input'>>;
+  deleteClosure?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType, RequireFields<MutationDeleteClosureArgs, 'input'>>;
   createGraphEdge?: Resolver<Maybe<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<MutationCreateGraphEdgeArgs, 'input'>>;
   updateGraphEdge?: Resolver<Maybe<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<MutationUpdateGraphEdgeArgs, 'input'>>;
   deleteGraphEdge?: Resolver<Maybe<ResolversTypes['GraphEdge']>, ParentType, ContextType, RequireFields<MutationDeleteGraphEdgeArgs, 'input'>>;
   createSelfSubscription?: Resolver<Maybe<ResolversTypes['Subscription']>, ParentType, ContextType, RequireFields<MutationCreateSelfSubscriptionArgs, 'input' | 'details' | 'card' | 'address'>>;
   updateSelfSubscription?: Resolver<Maybe<ResolversTypes['Subscription']>, ParentType, ContextType, RequireFields<MutationUpdateSelfSubscriptionArgs, 'input' | 'details' | 'card' | 'address'>>;
   cancelSelfSubscription?: Resolver<Maybe<ResolversTypes['Subscription']>, ParentType, ContextType, RequireFields<MutationCancelSelfSubscriptionArgs, 'input'>>;
-  createQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<MutationCreateQuestionArgs, 'input'>>;
-  updateQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<MutationUpdateQuestionArgs, 'input'>>;
-  deleteQuestion?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType, RequireFields<MutationDeleteQuestionArgs, 'input'>>;
+  createQuestion?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType, RequireFields<MutationCreateQuestionArgs, 'input'>>;
+  updateQuestion?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType, RequireFields<MutationUpdateQuestionArgs, 'input'>>;
+  deleteQuestion?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType, RequireFields<MutationDeleteQuestionArgs, 'input'>>;
   createResult?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType, RequireFields<MutationCreateResultArgs, 'input'>>;
   updateResult?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType, RequireFields<MutationUpdateResultArgs, 'input'>>;
   deleteResult?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType, RequireFields<MutationDeleteResultArgs, 'input'>>;
@@ -1180,9 +1177,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateSurvey?: Resolver<Maybe<ResolversTypes['Survey']>, ParentType, ContextType, RequireFields<MutationUpdateSurveyArgs, 'input'>>;
   deleteSurvey?: Resolver<Maybe<ResolversTypes['Survey']>, ParentType, ContextType, RequireFields<MutationDeleteSurveyArgs, 'input'>>;
   defaultAuthentication?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationDefaultAuthenticationArgs, 'input'>>;
-  createWelcomeScreen?: Resolver<Maybe<ResolversTypes['WelcomeScreen']>, ParentType, ContextType, RequireFields<MutationCreateWelcomeScreenArgs, 'input'>>;
-  updateWelcomeScreen?: Resolver<Maybe<ResolversTypes['WelcomeScreen']>, ParentType, ContextType, RequireFields<MutationUpdateWelcomeScreenArgs, 'input'>>;
-  deleteWelcomeScreen?: Resolver<Maybe<ResolversTypes['WelcomeScreen']>, ParentType, ContextType, RequireFields<MutationDeleteWelcomeScreenArgs, 'input'>>;
+  createWelcomeScreen?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType, RequireFields<MutationCreateWelcomeScreenArgs, 'input'>>;
+  updateWelcomeScreen?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType, RequireFields<MutationUpdateWelcomeScreenArgs, 'input'>>;
+  deleteWelcomeScreen?: Resolver<Maybe<ResolversTypes['GraphVertex']>, ParentType, ContextType, RequireFields<MutationDeleteWelcomeScreenArgs, 'input'>>;
 };
 
 export type ClosureResolvers<ContextType = any, ParentType extends ResolversParentTypes['Closure'] = ResolversParentTypes['Closure']> = {
@@ -1325,6 +1322,7 @@ export type SubscriptionResolvers<ContextType = any, ParentType extends Resolver
   createdAt?: SubscriptionResolver<ResolversTypes['Date'], "createdAt", ParentType, ContextType>;
   updatedAt?: SubscriptionResolver<ResolversTypes['Date'], "updatedAt", ParentType, ContextType>;
   userId?: SubscriptionResolver<ResolversTypes['ID'], "userId", ParentType, ContextType>;
+  planId?: SubscriptionResolver<ResolversTypes['ID'], "planId", ParentType, ContextType>;
   externalId?: SubscriptionResolver<ResolversTypes['String'], "externalId", ParentType, ContextType>;
   externalCustomerId?: SubscriptionResolver<ResolversTypes['String'], "externalCustomerId", ParentType, ContextType>;
   currentPeriodEnd?: SubscriptionResolver<ResolversTypes['Date'], "currentPeriodEnd", ParentType, ContextType>;

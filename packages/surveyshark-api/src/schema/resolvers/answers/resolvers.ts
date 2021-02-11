@@ -1,5 +1,5 @@
 // Libraries
-import { Answer } from '@atomly/surveyshark-collections-lib';
+import { Answer, GraphVertex } from '@atomly/surveyshark-collections-lib';
 
 // Types
 import { IAnswersResolverMap } from './types';
@@ -19,6 +19,7 @@ const resolvers: IAnswersResolverMap = {
       const answer = await dbContext.collections.Answers.model.findOne({
         uuid: input.uuid,
       }).lean<Answer>();
+
       return answer;
     },
     async readAnswers(_, { input }, { dbContext }): Promise<Answer[]> {
@@ -26,38 +27,45 @@ const resolvers: IAnswersResolverMap = {
         surveyId: input.surveyId,
         parentQuestionId: input.parentQuestionId,
       }).lean();
+
       return answers;
     },
   },
   Mutation: {
-    async createAnswer(_, { input }, { dbContext }): Promise<Answer | IThrowError> {
+    async createAnswer(_, { input }, { dbContext }): Promise<GraphVertex | IThrowError> {
       try {
         // TODO: Add transaction
         const survey = await dbContext.collections.Surveys.model.findOne({
           uuid: input.surveyId,
         }).populate('graph').lean();
+
         if (!survey) {
           return throwError({
             status: throwError.Errors.EStatuses.BAD_REQUEST,
             message: `Invalid survey ID ${input.surveyId} input.`,
           });
         }
+
         const answer = await new dbContext.collections.Answers.model(input).save();
-        const answerVertex = await new dbContext.collections.GraphVertices.model({
+
+        const answerGraphVertex = await new dbContext.collections.GraphVertices.model({
           graphId: survey.graph.uuid,
           key: answer.uuid,
           value: answer,
           _valueCollectionName: dbContext.collections.Answers.collectionName,
         }).save();
+
         const parentGraphVertex = await dbContext.collections.GraphVertices.model.findOne({
           key: input.parentQuestionId,
         });
+
         await new dbContext.collections.GraphEdges.model({
           graphId: survey.graph.uuid,
           from: parentGraphVertex,
-          to: answerVertex,
+          to: answerGraphVertex,
         }).save();
-        return answer;
+
+        return answerGraphVertex;
       } catch (err) {
         return throwError({
           status: throwError.Errors.EStatuses.BAD_REQUEST,
@@ -66,14 +74,16 @@ const resolvers: IAnswersResolverMap = {
         });
       }
     },
-    async updateAnswer(_, { input }, { dbContext }): Promise<Answer | null | IThrowError> {
+    async updateAnswer(_, { input }, { dbContext }): Promise<GraphVertex | null | IThrowError> {
       try {
-        const answer = await dbContext.collections.Answers.model.findOneAndUpdate(
+        await dbContext.collections.Answers.model.updateOne(
           { uuid: input.uuid },
           input as Partial<Answer>,
-          { new: true },
         ).lean() as Answer | null;
-        return answer;
+
+        const answerGraphVertex = await dbContext.collections.GraphVertices.model.findOne({ key: input.uuid }).lean();
+
+        return answerGraphVertex;
       } catch (err) {
         return throwError({
           status: throwError.Errors.EStatuses.BAD_REQUEST,
@@ -82,19 +92,27 @@ const resolvers: IAnswersResolverMap = {
         });
       }
     },
-    async deleteAnswer(_, { input }, { dbContext }): Promise<Answer | null | IThrowError> {
+    async deleteAnswer(_, { input }, { dbContext }): Promise<GraphVertex | null | IThrowError> {
       try {
+        const answerGraphVertex = await dbContext.collections.GraphVertices.model.findOne({ key: input.uuid }).lean();
+
         let answer: Answer | null = null;
+
         const session = await dbContext.connection!.startSession();
+
         await session.withTransaction(async () => {
           answer = await dbContext.collections.Answers.model.findOneAndDelete({ uuid: input.uuid }).lean<Answer>();
+
           if (answer) {
             await dbContext.collections.GraphVertices.model.deleteOne({ key: answer.uuid });
           }
         });
+
         await session.commitTransaction();
+
         session.endSession();
-        return answer;
+
+        return answerGraphVertex;
       } catch (err) {
         return throwError({
           status: throwError.Errors.EStatuses.BAD_REQUEST,

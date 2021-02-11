@@ -66,21 +66,21 @@ input MutationDeleteAnswerInput {
 }
 
 type Mutation {
-  createAnswer(input: MutationCreateAnswerInput!): Answer
-  updateAnswer(input: MutationUpdateAnswerInput!): Answer
-  deleteAnswer(input: MutationDeleteAnswerInput!): Answer
-  createClosure(input: MutationCreateClosureInput!): Closure
-  updateClosure(input: MutationUpdateClosureInput!): Closure
-  deleteClosure(input: MutationDeleteClosureInput!): Closure
+  createAnswer(input: MutationCreateAnswerInput!): GraphVertex
+  updateAnswer(input: MutationUpdateAnswerInput!): GraphVertex
+  deleteAnswer(input: MutationDeleteAnswerInput!): GraphVertex
+  createClosure(input: MutationCreateClosureInput!): GraphVertex
+  updateClosure(input: MutationUpdateClosureInput!): GraphVertex
+  deleteClosure(input: MutationDeleteClosureInput!): GraphVertex
   createGraphEdge(input: MutationCreateGraphEdgeInput!): GraphEdge
   updateGraphEdge(input: MutationUpdateGraphEdgeInput!): GraphEdge
   deleteGraphEdge(input: MutationDeleteGraphEdgeInput!): GraphEdge
   createSelfSubscription(input: MutationCreateSelfSubscriptionInput!, details: MutationCreateSelfSubscriptionDetails!, card: MutationCreateSelfSubscriptionCard!, address: MutationCreateSelfSubscriptionAddress!): Subscription
   updateSelfSubscription(input: MutationUpdateSelfSubscriptionInput!, details: MutationCreateSelfSubscriptionDetails!, card: MutationCreateSelfSubscriptionCard!, address: MutationCreateSelfSubscriptionAddress!): Subscription
   cancelSelfSubscription(input: MutationCancelSelfSubscriptionInput!): Subscription
-  createQuestion(input: MutationCreateQuestionInput!): Question
-  updateQuestion(input: MutationUpdateQuestionInput!): Question
-  deleteQuestion(input: MutationDeleteQuestionInput!): Question
+  createQuestion(input: MutationCreateQuestionInput!): GraphVertex
+  updateQuestion(input: MutationUpdateQuestionInput!): GraphVertex
+  deleteQuestion(input: MutationDeleteQuestionInput!): GraphVertex
   createResult(input: MutationCreateResultInput!): Result
   updateResult(input: MutationUpdateResultInput!): Result
   deleteResult(input: MutationDeleteResultInput!): Result
@@ -88,9 +88,9 @@ type Mutation {
   updateSurvey(input: MutationUpdateSurveyInput!): Survey
   deleteSurvey(input: MutationDeleteSurveyInput!): Survey
   defaultAuthentication(input: MutationDefaultAuthenticationInput!): User
-  createWelcomeScreen(input: MutationCreateWelcomeScreenInput!): WelcomeScreen
-  updateWelcomeScreen(input: MutationUpdateWelcomeScreenInput!): WelcomeScreen
-  deleteWelcomeScreen(input: MutationDeleteWelcomeScreenInput!): WelcomeScreen
+  createWelcomeScreen(input: MutationCreateWelcomeScreenInput!): GraphVertex
+  updateWelcomeScreen(input: MutationUpdateWelcomeScreenInput!): GraphVertex
+  deleteWelcomeScreen(input: MutationDeleteWelcomeScreenInput!): GraphVertex
 }
 
 type Closure {
@@ -295,6 +295,7 @@ type Subscription {
   createdAt: Date!
   updatedAt: Date!
   userId: ID!
+  planId: ID!
   externalId: String!
   externalCustomerId: String!
   currentPeriodEnd: Date!
@@ -425,9 +426,6 @@ type Result {
 }
 
 input ResultDataInput {
-  uuid: ID!
-  createdAt: Date!
-  updatedAt: Date!
   questionId: ID!
   answer: JSONObject!
 }

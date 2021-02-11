@@ -46,8 +46,8 @@ input  MutationDeleteAnswerInput {
 }
 
 type Mutation {
-  createAnswer(input: MutationCreateAnswerInput!): Answer
-  updateAnswer(input: MutationUpdateAnswerInput!): Answer
-  deleteAnswer(input: MutationDeleteAnswerInput!): Answer
+  createAnswer(input: MutationCreateAnswerInput!): GraphVertex
+  updateAnswer(input: MutationUpdateAnswerInput!): GraphVertex
+  deleteAnswer(input: MutationDeleteAnswerInput!): GraphVertex
 }
 `;

@@ -10,7 +10,7 @@ import { BaseSchema } from '../base';
 import { QuestionDocument } from './types';
 
 export const questionSchema = new BaseSchema<QuestionDocument>(
-    {
+  {
     surveyId: {
       type: Schema.Types.String,
       required: true,

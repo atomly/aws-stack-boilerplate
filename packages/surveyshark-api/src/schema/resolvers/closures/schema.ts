@@ -43,8 +43,8 @@ input  MutationDeleteClosureInput {
 }
 
 type Mutation {
-  createClosure(input: MutationCreateClosureInput!): Closure
-  updateClosure(input: MutationUpdateClosureInput!): Closure
-  deleteClosure(input: MutationDeleteClosureInput!): Closure
+  createClosure(input: MutationCreateClosureInput!): GraphVertex
+  updateClosure(input: MutationUpdateClosureInput!): GraphVertex
+  deleteClosure(input: MutationDeleteClosureInput!): GraphVertex
 }
 `;
