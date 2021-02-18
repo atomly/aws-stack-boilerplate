@@ -7,15 +7,15 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [atomly](#atomly)
-  - [Packages](#packages)
-  - [Installation](#installation)
-  - [Commiting code changes](#commiting-code-changes)
-  - [Versioning a package](#versioning-a-package)
-  - [Creating a new package](#creating-a-new-package)
-  - [Add a dependency](#add-a-dependency)
-  - [Building](#building)
-  - [EOL](#eol)
+- [TODOs](#todos)
+- [Packages](#packages)
+- [Installation](#installation)
+- [Commiting code changes](#commiting-code-changes)
+- [Versioning a package](#versioning-a-package)
+- [Creating a new package](#creating-a-new-package)
+- [Add a dependency](#add-a-dependency)
+- [Building](#building)
+- [EOL](#eol)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -31,6 +31,7 @@
 - [@atomly/template-api](https://github.com/atomly/template/tree/master/packages/template-api "@atomly/template-api package homepage")
 - [@atomly/template-collections-lib](https://github.com/atomly/template/tree/master/packages/template-collections-lib "@atomly/template-collections-lib package homepage")
 - [@atomly/template-services](https://github.com/atomly/template/tree/master/packages/template-services "@atomly/template-services package homepage")
+- [@atomly/template-payments-lib](https://github.com/atomly/template/tree/master/packages/template-stripe-lib "@atomly/template-payments-lib package homepage")
 
 <!-- END custom generated Lerna Packages please keep comment here to allow auto update -->
 
