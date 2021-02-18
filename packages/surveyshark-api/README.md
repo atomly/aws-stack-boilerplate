@@ -1,3 +1,0 @@
-# `@atomly/surveyshark`
-
-> TODO: description

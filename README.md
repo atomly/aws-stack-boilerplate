@@ -16,19 +16,21 @@
   - [Add a dependency](#add-a-dependency)
   - [Building](#building)
   - [EOL](#eol)
-  - [TODOs](#todos)
-  - [Non-MVP TODOs](#non-mvp-todos)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## TODOs
+
+- [ ] Update/improve collections and improve the `template-api` (GraphQL API) and `template-services` (REST API).
 
 ## Packages
 
 <!-- START custom generated Lerna Packages please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN `npm run doc` TO UPDATE -->
 
-- [@atomly/surveyshark-api](https://github.com/atomly/surveyshark/tree/master/packages/surveyshark-api "@atomly/surveyshark-api package homepage")
-- [@atomly/surveyshark-collections-lib](https://github.com/atomly/surveyshark/tree/master/packages/surveyshark-collections-lib "@atomly/surveyshark-collections-lib package homepage")
-- [@atomly/surveyshark-services](https://github.com/atomly/surveyshark/tree/master/packages/surveyshark-services "@atomly/surveyshark-services package homepage")
+- [@atomly/template-api](https://github.com/atomly/template/tree/master/packages/template-api "@atomly/template-api package homepage")
+- [@atomly/template-collections-lib](https://github.com/atomly/template/tree/master/packages/template-collections-lib "@atomly/template-collections-lib package homepage")
+- [@atomly/template-services](https://github.com/atomly/template/tree/master/packages/template-services "@atomly/template-services package homepage")
 
 <!-- END custom generated Lerna Packages please keep comment here to allow auto update -->
 
@@ -77,20 +79,3 @@ See [`@lerna/run`](https://github.com/lerna/lerna/tree/master/commands/run) for 
 This monorepo uses `LF` line endings **only**. If your local copy of this repository is using `CRLF` line endings, follow this answer:
 
 [Force LF eol in git repo and working copy](https://stackoverflow.com/a/42135910/10246377).
-
-## TODOs
-
-- [x] Finish delete resolvers. The respective vertices and edges of the deleted documents should be deleted.
-- [x] Finish update resolvers. Use `findOneAndUpdate` and also mix the input argument with the found document.
-- [x] Implement graph edge mutation resolver to connect graph vertices.
-- [x] Implement validate resolver for the survey graphs.
-- [x] Implement result query resolvers.
-- [x] Implement QR codes generator lambda function to fetch survey submission pages.
-- [x] Implement export results lambda function.
-- [ ] Implement payments with Stripe API.
-- [ ] Add validation, authorization, and authentication of user session cookies.
-
-## Non-MVP TODOs
-
-- [ ] Add transactions to all create mutation resolvers.
-- [ ] Use graph edges weight to measure how many times users go through certain parts of the graph.

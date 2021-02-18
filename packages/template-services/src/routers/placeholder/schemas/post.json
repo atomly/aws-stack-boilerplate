@@ -1,0 +1,17 @@
+{
+  "$id": "file://packages/template-services/src/routers/placeholder/schemas/post.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "placeholder POST request body schema.",
+  "type": "object",
+  "definitions": {
+    "placeholder": {
+      "type": "string"
+    }
+  },
+  "required": ["placeholder"],
+  "properties": {
+    "placeholder": {
+      "$ref": "#/definitions/placeholder"
+    }
+  }
+}

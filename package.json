@@ -1,11 +1,11 @@
 {
   "name": "atomly",
   "version": "1.0.0",
-  "description": "SurveyShark API.",
-  "homepage": "https://github.com/atomly/surveyshark/tree/master",
+  "description": "Template API.",
+  "homepage": "https://github.com/atomly/template/tree/master",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/atomly/surveyshark.git"
+    "url": "git+https://github.com/atomly/template.git"
   },
   "license": "ISC",
   "author": "Robert Molina <rmolinamir@gmail.com>",

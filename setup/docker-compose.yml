@@ -1,7 +1,7 @@
 version: '3'
 services:
-  atomly_surveyshark_redis:
-    container_name: atomly_surveyshark_redis
+  template_redis:
+    container_name: template_redis
     image: redis
     ports:
       - "${REDIS_CONTAINER_PORT}"
@@ -12,7 +12,7 @@ services:
   #   ports:
   #     - 27017:27017
   #   entrypoint: [ "mongod", "--bind_ip_all", "--replSet", "rs0" ]
-  # atomly_surveyshark_mongo_client:
+  # atomly_template_mongo_client:
   #   image: mongo
   #   depends_on:
   #     - atomly_mongodb

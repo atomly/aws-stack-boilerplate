@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.settings.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./",
+    "skipLibCheck": true
+  },
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "references": [
+    { "path": "../template-collections-lib" }
+  ]
+}
