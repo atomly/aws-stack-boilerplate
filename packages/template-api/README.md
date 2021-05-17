@@ -1,3 +1,0 @@
-# `@atomly/template`
-
-> TODO: description

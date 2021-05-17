@@ -1,11 +1,11 @@
 {
-  "name": "atomly",
-  "version": "1.0.0",
-  "description": "Template API.",
-  "homepage": "https://github.com/atomly/template/tree/master",
+  "name": "@atomly/aws-stack-boilerplate",
+  "version": "2.0.0",
+  "description": "Boilerplate for multiple possible services.",
+  "homepage": "https://github.com/atomly/aws-stack-boilerplate/tree/master",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/atomly/template.git"
+    "url": "git+https://github.com/atomly/aws-stack-boilerplate.git"
   },
   "license": "ISC",
   "author": "Robert Molina <rmolinamir@gmail.com>",
@@ -55,6 +55,6 @@
     }
   },
   "bugs": {
-    "url": "https://github.com/atomly/atomly/issues"
+    "url": "https://github.com/atomly/aws-stack-boilerplate/issues"
   }
 }

@@ -1,0 +1,34 @@
+{
+  "name": "@atomly/aws-localstack-lambda-boilerplate",
+  "version": "1.0.0",
+  "description": "aws-localstack-lambda-boilerplate",
+  "keywords": [
+    "aws-localstack-lambda-boilerplate"
+  ],
+  "author": "Robert Molina <rmolinamir@gmail.com>",
+  "homepage": "https://github.com/atomly/aws-stack-boilerplate/tree/master/tree/master/packages/aws-localstack-lambda-boilerplate#readme",
+  "license": "ISC",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atomly/aws-stack-boilerplate.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "sls:deploy:local": "sls deploy --stage local",
+    "sls:info:local": "sls info --stage local",
+    "sls:invoke:local": "sls invoke --stage local -f invoke_hello -l"
+  },
+  "bugs": {
+    "url": "https://github.com/atomly/aws-stack-boilerplate/issues"
+  },
+  "dependencies": {
+    "serverless-localstack": "~0.4.32"
+  }
+}

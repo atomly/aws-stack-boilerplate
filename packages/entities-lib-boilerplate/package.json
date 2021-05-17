@@ -1,0 +1,57 @@
+{
+  "name": "@atomly/entities-lib-boilerplate",
+  "private": "true",
+  "version": "1.0.0",
+  "description": "MongoDB collections boilerplate.",
+  "keywords": [],
+  "author": "Robert Molina <rmolinamir@gmail.com>",
+  "homepage": "https://github.com/atomly/entities-lib-boilerplate#readme",
+  "license": "ISC",
+  "main": "dist/src/index",
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atomly/entities-lib-boilerplate.git"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "npx jest --runInBand",
+    "test:watch": "npx jest --watch --runInBand",
+    "watch": "tsc -b -w"
+  },
+  "dependencies": {
+    "@atomly/mongoose-sdk": "^1.0.4-alpha.1",
+    "mongoose": "^5.10.5",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/faker": "^5.1.0",
+    "@types/jest": "^26.0.13",
+    "@types/jest-dev-server": "^4.2.0",
+    "@types/mongoose": "^5.7.36",
+    "@types/node": "^14.10.1",
+    "@types/uuid": "^8.3.0",
+    "@types/ws": "^7.2.6",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
+    "eslint": "^7.9.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jest": "^24.0.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "faker": "^5.1.0",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.1",
+    "ts-jest": "^26.3.0",
+    "ts-node": "9.0.0",
+    "ts-node-dev": "^1.0.0-pre.62",
+    "typescript": "4.0.2"
+  },
+  "engines": {
+    "node": ">=8.10.0"
+  },
+  "bugs": {
+    "url": "https://github.com/atomly/entities-lib-boilerplate/issues"
+  }
+}

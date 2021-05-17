@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "./packages",
+    "composite": true,
     "target": "ES2019",
     "module": "commonjs",
     "lib": [
@@ -13,7 +14,6 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "composite": true,
     "sourceMap": true,
     "moduleResolution": "node",
     "removeComments": false,

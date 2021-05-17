@@ -10,6 +10,10 @@
 - [TODOs](#todos)
 - [Packages](#packages)
 - [Installation](#installation)
+- [Developing Locally with LocalStack](#developing-locally-with-localstack)
+  - [What is LocalStack?](#what-is-localstack)
+  - [Benefits of Using LocalStack](#benefits-of-using-localstack)
+  - [Installing LocalStack](#installing-localstack)
 - [Commiting code changes](#commiting-code-changes)
 - [Versioning a package](#versioning-a-package)
 - [Creating a new package](#creating-a-new-package)
@@ -21,17 +25,18 @@
 
 ## TODOs
 
-- [ ] Update/improve collections and improve the `template-api` (GraphQL API) and `template-services` (REST API).
+- [ ] Update/improve collections and improve the `template-api` (GraphQL API) and `template-services` (REST API) as well as rename them to be more self explaining.
 
 ## Packages
 
 <!-- START custom generated Lerna Packages please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN `npm run doc` TO UPDATE -->
 
-- [@atomly/template-api](https://github.com/atomly/template/tree/master/packages/template-api "@atomly/template-api package homepage")
-- [@atomly/template-collections-lib](https://github.com/atomly/template/tree/master/packages/template-collections-lib "@atomly/template-collections-lib package homepage")
-- [@atomly/template-services](https://github.com/atomly/template/tree/master/packages/template-services "@atomly/template-services package homepage")
-- [@atomly/template-payments-lib](https://github.com/atomly/template/tree/master/packages/template-stripe-lib "@atomly/template-payments-lib package homepage")
+- [@atomly/aws-stack-boilerplate](https://github.com/atomly/aws-stack-boilerplate/tree/master/packages/api-graphql-boilerplate "@atomly/aws-stack-boilerplate package homepage")
+- [@atomly/api-rest-boilerplate](https://github.com/atomly/aws-stack-boilerplate/tree/master/packages/api-rest-boilerplate "@atomly/api-rest-boilerplate package homepage")
+- [@atomly/aws-localstack-lambda-boilerplate](https://github.com/atomly/aws-stack-boilerplate/tree/master/packages/aws-localstack-lambda-boilerplate "@atomly/aws-localstack-lambda-boilerplate package homepage")
+- [@atomly/entities-lib-boilerplate](https://github.com/atomly/aws-stack-boilerplate/tree/master/packages/entities-lib-boilerplate "@atomly/entities-lib-boilerplate package homepage")
+- [@atomly/stripe-lib-boilerplate](https://github.com/atomly/aws-stack-boilerplate/tree/master/packages/stripe-lib-boilerplate "@atomly/stripe-lib-boilerplate package homepage")
 
 <!-- END custom generated Lerna Packages please keep comment here to allow auto update -->
 
@@ -43,6 +48,34 @@ git clone git@github.com:atomly/atomly.git
 npm install
 npm run bootstrap
 ```
+
+## Developing Locally with LocalStack
+
+### What is LocalStack?
+
+[LocalStack](https://github.com/localstack/localstack) provides an easy-to-use test/mocking framework for developing Cloud applications. This means you can test **AWS cloud** resources locally on your machine.
+
+> Note: [LocalStack](https://github.com/localstack/localstack) **only supports** AWS cloud stack
+
+**LocalStack** spins up the following **core Cloud APIs** on your local machine:
+
+- ACM, API Gateway, CloudFormation, CloudWatch
+- CloudWatch Logs, DynamoDB, DynamoDB Streams
+- EC2, Elasticsearch Service, EventBridge (CloudWatch Events)
+- Firehose, IAM, Kinesis, KMS, Lambda, Redshift
+- Route53, S3, SecretsManager, SES, SNS
+- SQS, SSM, StepFunctions, STS
+
+### Benefits of Using LocalStack
+
+- Reduce Cost
+- Test AWS Cloud Resource Locally
+- Learn AWS Cloud Resource Locally
+- Debug Locally
+
+### Installing LocalStack
+
+[Click here to read about installing LocalStack and using it with Serverless](https://github.com/atomly/aws-stack-boilerplate/tree/master/tree/master/packages/aws-localstack-lambda-boilerplate#readme).
 
 ## Commiting code changes
 

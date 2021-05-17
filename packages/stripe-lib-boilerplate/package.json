@@ -1,0 +1,60 @@
+{
+  "name": "@atomly/stripe-lib-boilerplate",
+  "version": "1.0.0",
+  "description": "Template Stripe API integration library.",
+  "keywords": [],
+  "author": "Robert Molina <rmolinamir@gmail.com>",
+  "homepage": "https://github.com/atomly/template#readme",
+  "license": "ISC",
+  "main": "dist/src/index",
+  "files": [
+    "src"
+  ],
+  "bin": {
+    "stripe": "dist/src/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atomly/template.git"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "start": "ts-node-dev --respawn ./src/index.ts",
+    "test": "npx jest --runInBand",
+    "test:watch": "npx jest --watch --runInBand",
+    "watch": "tsc -b -w"
+  },
+  "dependencies": {
+    "@atomly/config-loader": "^1.0.1-alpha.0",
+    "@atomly/entities-lib-boilerplate": "^1.0.0",
+    "dotenv": "^8.2.0",
+    "reflect-metadata": "^0.1.13",
+    "stripe": "^8.102.0",
+    "yargs": "^16.0.3"
+  },
+  "devDependencies": {
+    "@types/faker": "^5.1.0",
+    "@types/jest": "^26.0.13",
+    "@types/jest-dev-server": "^4.2.0",
+    "@types/node": "^14.10.1",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
+    "eslint": "^7.9.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jest": "^24.0.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "faker": "^5.1.0",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.1",
+    "ts-jest": "^26.3.0",
+    "ts-node": "9.0.0",
+    "ts-node-dev": "^1.0.0-pre.62",
+    "typescript": "4.0.2"
+  },
+  "engines": {
+    "node": ">=8.10.0"
+  },
+  "bugs": {
+    "url": "https://github.com/atomly/template/issues"
+  }
+}

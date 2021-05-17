@@ -12,6 +12,11 @@
   ]
  */
 
+// const fs = require('fs');
+// const path = require('path');
+
+const prettierOptions = require('./.prettierrc.js');
+
 module.exports = {
   root: true,
   /**
@@ -22,23 +27,32 @@ module.exports = {
    * code as if it were regular JavaScript.
    */
   parser: '@typescript-eslint/parser',
-  parserOptions: { // Parser options: https://miro.medium.com/max/1640/1*HRABdfNr2DHpNfrgpjqO0Q.png
-      ecmaVersion: 10,
-      project: './tsconfig.json',
-      sourceType: 'module',
-      ecmaFeatures: {
-        "modules": true
-      }
+  parserOptions: {
+    // Parser options: https://miro.medium.com/max/1640/1*HRABdfNr2DHpNfrgpjqO0Q.png
+    ecmaVersion: 10,
+    sourceType: 'module',
+    ecmaFeatures: {
+      modules: true,
+    },
+    /**
+     * NOTE:
+     * You can create a separate TypeScript config file (tsconfig.eslint.json)
+     * intended for eslint configuration. That file extends tsconfig configuration
+     * and setups include key for files that have to be linted.
+     *
+     * This solves errors such as:
+     *    Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+     *    - The file does not match your project config: tests\**\index.ts.
+     *    - The file must be included in at least one of the projects provided
+     */
+    project: ['./tsconfig.eslint.json'],
   },
   /**
    * plugins: ['@typescript-eslint'] tells ESLint to load the plugin package you
    * installed (@typescript-eslint/eslint-plugin). This allows you to use the rules
    * within your codebase.
    */
-  plugins: [
-    '@typescript-eslint',
-    'jest',
-  ],
+  plugins: ['@typescript-eslint', 'prettier', 'jest'],
   env: {
     es6: true,
     node: true,
@@ -57,7 +71,9 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended', // A plugin that contains a bunch of ESLint rules that are TypeScript specific.
-    'prettier/@typescript-eslint', // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
+    'eslint-config-prettier', // Disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
+    'react-app',
+    'prettier',
     'plugin:jest/recommended',
   ],
   rules: {
@@ -67,7 +83,6 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
     '@typescript-eslint/explicit-function-return-type': 'error',
     '@typescript-eslint/no-explicit-any': 'error',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-throw-literal': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
@@ -76,10 +91,7 @@ module.exports = {
     '@typescript-eslint/prefer-optional-chain': 'error',
     '@typescript-eslint/unbound-method': 'off',
     'no-empty-function': 'off', // replaced by @typescript-eslint/no-empty-function
-    '@typescript-eslint/no-empty-function': [
-      'error',
-      { allow: ['arrowFunctions'] },
-    ],
+    '@typescript-eslint/no-empty-function': ['error', { allow: ['arrowFunctions'] }],
     '@typescript-eslint/no-empty-interface': 'off',
     '@typescript-eslint/interface-name-prefix': 'off',
     //
@@ -94,19 +106,17 @@ module.exports = {
     //
     // More imports below
     //
+    'prettier/prettier': ['error', prettierOptions],
   },
   overrides: [
     // all test files
     {
-      files: [
-        '**/*.test.ts',
-      ],
+      files: ['**/*.test.ts'],
       env: {
         'jest/globals': true,
       },
       rules: {
         // 'eslint-plugin/no-identical-tests': 'error',
-        // 'jest/no-test-callback': 'off',
         'jest/no-disabled-tests': 'warn',
         'jest/no-focused-tests': 'error',
         'jest/no-alias-methods': 'error',
@@ -120,6 +130,11 @@ module.exports = {
         'jest/prefer-spy-on': 'error',
         'jest/valid-expect': 'error',
       },
+    },
+    // prettier TSX files (e.g. React)
+    {
+      files: ['**/*.tsx'],
+      rules: { 'prettier/prettier': ['warn', prettierOptions] },
     },
     // tools and tests
     {

@@ -1,0 +1,32 @@
+service: aws-localstack-lambda
+
+plugins:
+  - serverless-localstack
+
+custom:
+  localstack:
+    debug: true
+    stages: # list of stages for which the plugin should be enabled
+      - local
+      - dev
+    host: http://localhost  # (default) optional - LocalStack host to connect to
+    edgePort: 4566  # (default) optional - LocalStack edge port to connect to
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+functions:
+  # Invoked through Serverless invoke CLI:
+  invoke_hello:
+    handler: src/handler.hello
+
+  # Invoked through LocalStack API Gateway:
+  http_hello:
+    handler: src/handler.hello
+    events:
+    - http:
+        path: hello
+        method: get
